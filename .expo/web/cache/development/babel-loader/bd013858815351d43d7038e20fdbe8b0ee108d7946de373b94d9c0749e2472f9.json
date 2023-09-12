@@ -1,0 +1,63 @@
+{
+    "ast": null,
+    "code": "import View from \"react-native-web/dist/exports/View\";\nimport TextInput from \"react-native-web/dist/exports/TextInput\";\nimport StyleSheet from \"react-native-web/dist/exports/StyleSheet\";\nimport { MaterialCommunityIcons, EvilIcons } from \"@expo/vector-icons\";\nimport { jsx as _jsx } from \"react/jsx-runtime\";\nimport { jsxs as _jsxs } from \"react/jsx-runtime\";\nimport { Fragment as _Fragment } from \"react/jsx-runtime\";\nexport default function Header() {\n  return _jsx(_Fragment, {\n    children: _jsxs(View, {\n      style: styles.container,\n      children: [_jsxs(View, {\n        style: styles.contentLeft,\n        children: [_jsx(EvilIcons, {\n          name: \"search\",\n          style: styles.iconSearch,\n          size: 24,\n          color: \"#8793ab\"\n        }), _jsx(TextInput, {\n          style: styles.input,\n          placeholder: \"Shopee Mall\",\n          placeholderTextColor: \"#ee2c4a\"\n        }), _jsx(MaterialCommunityIcons, {\n          name: \"camera-enhance-outline\",\n          size: 24,\n          style: styles.iconCamera,\n          color: \"#8793ab\"\n        })]\n      }), _jsxs(View, {\n        style: styles.contentRight,\n        children: [_jsx(MaterialCommunityIcons, {\n          name: \"cart-outline\",\n          size: 24,\n          color: \"#ffffff\"\n        }), _jsx(MaterialCommunityIcons, {\n          name: \"message-text-clock-outline\",\n          size: 24,\n          color: \"#ffffff\"\n        })]\n      })]\n    })\n  });\n}\nvar styles = StyleSheet.create({\n  container: {\n    width: \"100%\",\n    height: 110,\n    backgroundColor: \"#ee4d2d\",\n    flexDirection: \"row\",\n    alignItems: \"center\",\n    justifyContent: \"space-between\"\n  },\n  contentLeft: {\n    flex: 4,\n    paddingLeft: 10\n  },\n  input: {\n    paddingLeft: 40,\n    position: \"relative\",\n    marginTop: 40,\n    height: 40,\n    backgroundColor: \"#fff\",\n    fontWeight: \"500\",\n    fontSize: 16,\n    borderRadius: 2\n  },\n  iconSearch: {\n    position: \"absolute\",\n    top: 50,\n    left: 20,\n    zIndex: 10\n  },\n  iconCamera: {\n    position: \"absolute\",\n    top: 48,\n    right: 20\n  },\n  contentRight: {\n    marginTop: 40,\n    flex: 1,\n    alignItems: \"center\",\n    justifyContent: \"space-around\",\n    flexDirection: \"row\"\n  }\n});",
+    "map": {
+        "version": 3,
+        "names": [
+            "MaterialCommunityIcons",
+            "EvilIcons",
+            "jsx",
+            "_jsx",
+            "jsxs",
+            "_jsxs",
+            "Fragment",
+            "_Fragment",
+            "Header",
+            "children",
+            "View",
+            "style",
+            "styles",
+            "container",
+            "contentLeft",
+            "name",
+            "iconSearch",
+            "size",
+            "color",
+            "TextInput",
+            "input",
+            "placeholder",
+            "placeholderTextColor",
+            "iconCamera",
+            "contentRight",
+            "StyleSheet",
+            "create",
+            "width",
+            "height",
+            "backgroundColor",
+            "flexDirection",
+            "alignItems",
+            "justifyContent",
+            "flex",
+            "paddingLeft",
+            "position",
+            "marginTop",
+            "fontWeight",
+            "fontSize",
+            "borderRadius",
+            "top",
+            "left",
+            "zIndex",
+            "right"
+        ],
+        "sources": [
+            "E:/React_Native_EXPO/client/Mall/Header/Header.js"
+        ],
+        "sourcesContent": [
+            "import { View, TextInput, StyleSheet } from \"react-native\";\r\nimport { MaterialCommunityIcons, EvilIcons } from \"@expo/vector-icons\";\r\nexport default function Header() {\r\n  return (\r\n    <>\r\n      <View style={styles.container}>\r\n        <View style={styles.contentLeft}>\r\n          <EvilIcons\r\n            name=\"search\"\r\n            style={styles.iconSearch}\r\n            size={24}\r\n            color=\"#8793ab\"\r\n          />\r\n          <TextInput\r\n            style={styles.input}\r\n            placeholder=\"Shopee Mall\"\r\n            placeholderTextColor=\"#ee2c4a\"\r\n          />\r\n          <MaterialCommunityIcons\r\n            name=\"camera-enhance-outline\"\r\n            size={24}\r\n            style={styles.iconCamera}\r\n            color=\"#8793ab\"\r\n          />\r\n        </View>\r\n        <View style={styles.contentRight}>\r\n          <MaterialCommunityIcons\r\n            name=\"cart-outline\"\r\n            size={24}\r\n            color=\"#ffffff\"\r\n          />\r\n          <MaterialCommunityIcons\r\n            name=\"message-text-clock-outline\"\r\n            size={24}\r\n            color=\"#ffffff\"\r\n          />\r\n        </View>\r\n      </View>\r\n    </>\r\n  );\r\n}\r\n\r\nconst styles = StyleSheet.create({\r\n  container: {\r\n    width: \"100%\",\r\n    height: 110,\r\n    backgroundColor: \"#ee4d2d\",\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n    justifyContent: \"space-between\",\r\n  },\r\n  contentLeft: {\r\n    flex: 4,\r\n    paddingLeft: 10,\r\n  },\r\n  input: {\r\n    paddingLeft: 40,\r\n    position: \"relative\",\r\n    marginTop: 40,\r\n    height: 40,\r\n    backgroundColor: \"#fff\",\r\n    fontWeight: \"500\",\r\n    fontSize: 16,\r\n    borderRadius: 2,\r\n  },\r\n  iconSearch: {\r\n    position: \"absolute\",\r\n    top: 50,\r\n    left: 20,\r\n    zIndex: 10,\r\n  },\r\n  iconCamera: {\r\n    position: \"absolute\",\r\n    top: 48,\r\n    right: 20,\r\n  },\r\n  //   hmmm\r\n  contentRight: {\r\n    // marginLeft: 10,\r\n    marginTop: 40,\r\n    flex: 1,\r\n    alignItems: \"center\",\r\n    justifyContent: \"space-around\",\r\n    flexDirection: \"row\",\r\n  },\r\n});\r\n"
+        ],
+        "mappings": ";;;AACA,SAASA,sBAAsB,EAAEC,SAAS,QAAQ,oBAAoB;AAAC,SAAAC,GAAA,IAAAC,IAAA;AAAA,SAAAC,IAAA,IAAAC,KAAA;AAAA,SAAAC,QAAA,IAAAC,SAAA;AACvE,eAAe,SAASC,MAAMA,CAAA,EAAG;EAC/B,OACEL,IAAA,CAAAI,SAAA;IAAAE,QAAA,EACEJ,KAAA,CAACK,IAAI;MAACC,KAAK,EAAEC,MAAM,CAACC,SAAU;MAAAJ,QAAA,GAC5BJ,KAAA,CAACK,IAAI;QAACC,KAAK,EAAEC,MAAM,CAACE,WAAY;QAAAL,QAAA,GAC9BN,IAAA,CAACF,SAAS;UACRc,IAAI,EAAC,QAAQ;UACbJ,KAAK,EAAEC,MAAM,CAACI,UAAW;UACzBC,IAAI,EAAE,EAAG;UACTC,KAAK,EAAC;QAAS,CAChB,CAAC,EACFf,IAAA,CAACgB,SAAS;UACRR,KAAK,EAAEC,MAAM,CAACQ,KAAM;UACpBC,WAAW,EAAC,aAAa;UACzBC,oBAAoB,EAAC;QAAS,CAC/B,CAAC,EACFnB,IAAA,CAACH,sBAAsB;UACrBe,IAAI,EAAC,wBAAwB;UAC7BE,IAAI,EAAE,EAAG;UACTN,KAAK,EAAEC,MAAM,CAACW,UAAW;UACzBL,KAAK,EAAC;QAAS,CAChB,CAAC;MAAA,CACE,CAAC,EACPb,KAAA,CAACK,IAAI;QAACC,KAAK,EAAEC,MAAM,CAACY,YAAa;QAAAf,QAAA,GAC/BN,IAAA,CAACH,sBAAsB;UACrBe,IAAI,EAAC,cAAc;UACnBE,IAAI,EAAE,EAAG;UACTC,KAAK,EAAC;QAAS,CAChB,CAAC,EACFf,IAAA,CAACH,sBAAsB;UACrBe,IAAI,EAAC,4BAA4B;UACjCE,IAAI,EAAE,EAAG;UACTC,KAAK,EAAC;QAAS,CAChB,CAAC;MAAA,CACE,CAAC;IAAA,CACH;EAAC,CACP,CAAC;AAEP;AAEA,IAAMN,MAAM,GAAGa,UAAU,CAACC,MAAM,CAAC;EAC/Bb,SAAS,EAAE;IACTc,KAAK,EAAE,MAAM;IACbC,MAAM,EAAE,GAAG;IACXC,eAAe,EAAE,SAAS;IAC1BC,aAAa,EAAE,KAAK;IACpBC,UAAU,EAAE,QAAQ;IACpBC,cAAc,EAAE;EAClB,CAAC;EACDlB,WAAW,EAAE;IACXmB,IAAI,EAAE,CAAC;IACPC,WAAW,EAAE;EACf,CAAC;EACDd,KAAK,EAAE;IACLc,WAAW,EAAE,EAAE;IACfC,QAAQ,EAAE,UAAU;IACpBC,SAAS,EAAE,EAAE;IACbR,MAAM,EAAE,EAAE;IACVC,eAAe,EAAE,MAAM;IACvBQ,UAAU,EAAE,KAAK;IACjBC,QAAQ,EAAE,EAAE;IACZC,YAAY,EAAE;EAChB,CAAC;EACDvB,UAAU,EAAE;IACVmB,QAAQ,EAAE,UAAU;IACpBK,GAAG,EAAE,EAAE;IACPC,IAAI,EAAE,EAAE;IACRC,MAAM,EAAE;EACV,CAAC;EACDnB,UAAU,EAAE;IACVY,QAAQ,EAAE,UAAU;IACpBK,GAAG,EAAE,EAAE;IACPG,KAAK,EAAE;EACT,CAAC;EAEDnB,YAAY,EAAE;IAEZY,SAAS,EAAE,EAAE;IACbH,IAAI,EAAE,CAAC;IACPF,UAAU,EAAE,QAAQ;IACpBC,cAAc,EAAE,cAAc;IAC9BF,aAAa,EAAE;EACjB;AACF,CAAC,CAAC"
+    },
+    "metadata": {},
+    "sourceType": "module",
+    "externalDependencies": []
+}

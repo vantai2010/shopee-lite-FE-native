@@ -1,0 +1,58 @@
+{
+    "ast": null,
+    "code": "import React from \"react\";\nimport StyleSheet from \"react-native-web/dist/exports/StyleSheet\";\nimport Text from \"react-native-web/dist/exports/Text\";\nimport View from \"react-native-web/dist/exports/View\";\nimport ScrollView from \"react-native-web/dist/exports/ScrollView\";\nimport Image from \"react-native-web/dist/exports/Image\";\nimport FlatList from \"react-native-web/dist/exports/FlatList\";\nimport { AntDesign } from \"react-native-web/dist/index\";\nimport { jsx as _jsx } from \"react/jsx-runtime\";\nimport { Fragment as _Fragment } from \"react/jsx-runtime\";\nvar dataFake = [{\n  image: 1,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 2,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 3,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 4,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 5,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 6,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 7,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 8,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 9,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}, {\n  image: 10,\n  image: \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\"\n}];\nvar numColumns = Math.ceil(dataFake.length / 2);\nexport default function SlidingMenu() {\n  return _jsx(_Fragment, {\n    children: _jsx(View, {\n      style: styles.container,\n      children: _jsx(ScrollView, {\n        showsVerticalScrollIndicator: false,\n        showsHorizontalScrollIndicator: false,\n        horizontal: true,\n        contentContainerStyle: {\n          paddingVertical: 5\n        },\n        children: _jsx(FlatList, {\n          data: dataFake,\n          keyExtractor: function keyExtractor(item) {\n            return item.screen;\n          },\n          showsVerticalScrollIndicator: false,\n          showsHorizontalScrollIndicator: false,\n          numColumns: numColumns,\n          renderItem: function renderItem(_ref) {\n            var item = _ref.item;\n            return _jsx(View, {\n              children: _jsx(Image, {\n                style: {\n                  width: 200,\n                  height: 200\n                },\n                source: {\n                  uri: item.image\n                }\n              })\n            });\n          }\n        })\n      })\n    })\n  });\n}\nvar styles = StyleSheet.create({\n  container: {}\n});",
+    "map": {
+        "version": 3,
+        "names": [
+            "React",
+            "StyleSheet",
+            "Text",
+            "View",
+            "ScrollView",
+            "Image",
+            "FlatList",
+            "AntDesign",
+            "jsx",
+            "_jsx",
+            "Fragment",
+            "_Fragment",
+            "dataFake",
+            "image",
+            "numColumns",
+            "Math",
+            "ceil",
+            "length",
+            "SlidingMenu",
+            "children",
+            "style",
+            "styles",
+            "container",
+            "showsVerticalScrollIndicator",
+            "showsHorizontalScrollIndicator",
+            "horizontal",
+            "contentContainerStyle",
+            "paddingVertical",
+            "data",
+            "keyExtractor",
+            "item",
+            "screen",
+            "renderItem",
+            "_ref",
+            "width",
+            "height",
+            "source",
+            "uri",
+            "create"
+        ],
+        "sources": [
+            "E:/React_Native_EXPO/client/Mall/SlidingMail/SlidingMail.js"
+        ],
+        "sourcesContent": [
+            "import React from \"react\";\r\nimport {\r\n  StyleSheet,\r\n  Text,\r\n  View,\r\n  ScrollView,\r\n  Image,\r\n  FlatList,\r\n  AntDesign,\r\n} from \"react-native\";\r\nconst dataFake = [\r\n  {\r\n    image: 1,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 2,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 3,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 4,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 5,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 6,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 7,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 8,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 9,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  {\r\n    image: 10,\r\n    image:\r\n      \"https://anhgaixinh.vn/wp-content/uploads/2022/08/7_hinh-gai-xinh-cute-de-thuong-nhat-viet-nam.jpg\",\r\n  },\r\n  // Các mục dữ liệu khác\r\n];\r\nconst numColumns = Math.ceil(dataFake.length / 2);\r\nexport default function SlidingMenu() {\r\n  return (\r\n    <>\r\n      <View style={styles.container}>\r\n        <ScrollView\r\n          showsVerticalScrollIndicator={false}\r\n          showsHorizontalScrollIndicator={false}\r\n          horizontal\r\n          contentContainerStyle={{ paddingVertical: 5 }}\r\n        >\r\n          <FlatList\r\n            data={dataFake}\r\n            keyExtractor={(item) => item.screen}\r\n            showsVerticalScrollIndicator={false}\r\n            showsHorizontalScrollIndicator={false}\r\n            numColumns={numColumns}\r\n            renderItem={({ item }) => (\r\n              <View>\r\n                <Image\r\n                  style={{ width: 200, height: 200 }}\r\n                  source={{ uri: item.image }}\r\n                />\r\n              </View>\r\n            )}\r\n          />\r\n        </ScrollView>\r\n      </View>\r\n    </>\r\n  );\r\n}\r\nconst styles = StyleSheet.create({\r\n  container: {\r\n    // marginTop: 50,\r\n  },\r\n});\r\n"
+        ],
+        "mappings": "AAAA,OAAOA,KAAK,MAAM,OAAO;AAAC,OAAAC,UAAA;AAAA,OAAAC,IAAA;AAAA,OAAAC,IAAA;AAAA,OAAAC,UAAA;AAAA,OAAAC,KAAA;AAAA,OAAAC,QAAA;AAAA,SAQxBC,SAAS;AAAA,SAAAC,GAAA,IAAAC,IAAA;AAAA,SAAAC,QAAA,IAAAC,SAAA;AAEX,IAAMC,QAAQ,GAAG,CACf;EACEC,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,CAAC;EACRA,KAAK,EACH;AACJ,CAAC,EACD;EACEA,KAAK,EAAE,EAAE;EACTA,KAAK,EACH;AACJ,CAAC,CAEF;AACD,IAAMC,UAAU,GAAGC,IAAI,CAACC,IAAI,CAACJ,QAAQ,CAACK,MAAM,GAAG,CAAC,CAAC;AACjD,eAAe,SAASC,WAAWA,CAAA,EAAG;EACpC,OACET,IAAA,CAAAE,SAAA;IAAAQ,QAAA,EACEV,IAAA,CAACN,IAAI;MAACiB,KAAK,EAAEC,MAAM,CAACC,SAAU;MAAAH,QAAA,EAC5BV,IAAA,CAACL,UAAU;QACTmB,4BAA4B,EAAE,KAAM;QACpCC,8BAA8B,EAAE,KAAM;QACtCC,UAAU;QACVC,qBAAqB,EAAE;UAAEC,eAAe,EAAE;QAAE,CAAE;QAAAR,QAAA,EAE9CV,IAAA,CAACH,QAAQ;UACPsB,IAAI,EAAEhB,QAAS;UACfiB,YAAY,EAAE,SAAAA,aAACC,IAAI;YAAA,OAAKA,IAAI,CAACC,MAAM;UAAA,CAAC;UACpCR,4BAA4B,EAAE,KAAM;UACpCC,8BAA8B,EAAE,KAAM;UACtCV,UAAU,EAAEA,UAAW;UACvBkB,UAAU,EAAE,SAAAA,WAAAC,IAAA;YAAA,IAAGH,IAAI,GAAAG,IAAA,CAAJH,IAAI;YAAA,OACjBrB,IAAA,CAACN,IAAI;cAAAgB,QAAA,EACHV,IAAA,CAACJ,KAAK;gBACJe,KAAK,EAAE;kBAAEc,KAAK,EAAE,GAAG;kBAAEC,MAAM,EAAE;gBAAI,CAAE;gBACnCC,MAAM,EAAE;kBAAEC,GAAG,EAAEP,IAAI,CAACjB;gBAAM;cAAE,CAC7B;YAAC,CACE,CAAC;UAAA;QACP,CACH;MAAC,CACQ;IAAC,CACT;EAAC,CACP,CAAC;AAEP;AACA,IAAMQ,MAAM,GAAGpB,UAAU,CAACqC,MAAM,CAAC;EAC/BhB,SAAS,EAAE,CAEX;AACF,CAAC,CAAC"
+    },
+    "metadata": {},
+    "sourceType": "module",
+    "externalDependencies": []
+}

@@ -1,0 +1,30 @@
+{
+    "ast": null,
+    "code": "import SlidingMenu from \"./SlidingMail/SlidingMail\";\nimport Header from \"./Header/Header\";\nimport MenuList from \"./SlidingMail/MenuList\";\nimport { jsx as _jsx } from \"react/jsx-runtime\";\nimport { Fragment as _Fragment } from \"react/jsx-runtime\";\nimport { jsxs as _jsxs } from \"react/jsx-runtime\";\nexport default function Information() {\n  return _jsxs(_Fragment, {\n    children: [_jsx(Header, {}), _jsx(MenuList, {}), _jsx(SlidingMenu, {})]\n  });\n}",
+    "map": {
+        "version": 3,
+        "names": [
+            "SlidingMenu",
+            "Header",
+            "MenuList",
+            "jsx",
+            "_jsx",
+            "Fragment",
+            "_Fragment",
+            "jsxs",
+            "_jsxs",
+            "Information",
+            "children"
+        ],
+        "sources": [
+            "E:/React_Native_EXPO/client/Mall/Mall.js"
+        ],
+        "sourcesContent": [
+            "import SlidingMenu from \"./SlidingMail/SlidingMail\";\r\nimport Header from \"./Header/Header\";\r\nimport MenuList from \"./SlidingMail/MenuList\";\r\nexport default function Information() {\r\n  return (\r\n    <>\r\n      <Header />\r\n      <MenuList />\r\n      <SlidingMenu />\r\n    </>\r\n  );\r\n}\r\n"
+        ],
+        "mappings": "AAAA,OAAOA,WAAW;AAClB,OAAOC,MAAM;AACb,OAAOC,QAAQ;AAA+B,SAAAC,GAAA,IAAAC,IAAA;AAAA,SAAAC,QAAA,IAAAC,SAAA;AAAA,SAAAC,IAAA,IAAAC,KAAA;AAC9C,eAAe,SAASC,WAAWA,CAAA,EAAG;EACpC,OACED,KAAA,CAAAF,SAAA;IAAAI,QAAA,GACEN,IAAA,CAACH,MAAM,IAAE,CAAC,EACVG,IAAA,CAACF,QAAQ,IAAE,CAAC,EACZE,IAAA,CAACJ,WAAW,IAAE,CAAC;EAAA,CACf,CAAC;AAEP"
+    },
+    "metadata": {},
+    "sourceType": "module",
+    "externalDependencies": []
+}
