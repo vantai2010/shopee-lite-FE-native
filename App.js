@@ -1,9 +1,10 @@
 import React from "react";
 import Mall from "./Screen/Mall/Mall";
-import Header from "./Components/Header/Header";
-import { ScrollView } from "react-native";
 import Identity from "./Screen/Identity/Identity";
 import Information from "./Screen/Information/Information";
+import Setting from "./Screen/Identity/Setting/Setting";
+import Setprofile from "./Screen/Identity/Setprofile/Setprofile";
+import Cart from "./Screen/Identity/Cart/Cart"
 import Footer from "./Components/Footer/Footer";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -20,6 +21,9 @@ export default function App() {
           <Stack.Screen name={namePage.HOME} component={Mall} />
           <Stack.Screen name={namePage.INFORMATION} component={Information} />
           <Stack.Screen name={namePage.IDENTITY} component={Identity} />
+          <Stack.Screen name={namePage.SETTING} component={Setting} />
+          <Stack.Screen name={namePage.SETPROFILE} component={Setprofile} />
+          <Stack.Screen name={namePage.CART} component={Cart} />
         </Stack.Navigator>
         <Footer />
       </NavigationContainer>
