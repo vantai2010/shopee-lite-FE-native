@@ -4,5 +4,6 @@ export default namePage = {
     IDENTITY: "Identity",
     SETTING: "Setting",
     SETPROFILE:"Setprofile",
-    CART:"Cart"
+    CART:"Cart",
+    REGISTER:"Register"
 }

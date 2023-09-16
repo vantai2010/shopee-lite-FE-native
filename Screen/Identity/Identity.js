@@ -413,7 +413,6 @@ const styles = StyleSheet.create({
     },
     header: {
         height: 120,
-        marginTop: 20,
         backgroundColor: '#ee4d2d',
         flexDirection: 'row',
         justifyContent: 'space-between'
