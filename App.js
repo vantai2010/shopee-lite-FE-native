@@ -18,7 +18,7 @@ export default function App() {
     <>
       {/* <Header /> */}
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={namePage.REGISTER}>
+        <Stack.Navigator initialRouteName={namePage.HOME}>
           <Stack.Screen name={namePage.HOME} component={Mall} />
           <Stack.Screen name={namePage.INFORMATION} component={Information} />
           <Stack.Screen name={namePage.IDENTITY} component={Identity} />
