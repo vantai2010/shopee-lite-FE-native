@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useState } from 'react';
@@ -7,37 +7,55 @@ import { EvilIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
+import fontSize from '../../ultil/constant/fontSize';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import color from '../../ultil/constant/color';
 
-export default function App() {
+
+export default function Mess() {
+
+  const navigation = useNavigation();
+
+  const handleNavigate = (namePage) => {
+    return navigation.navigate(namePage);
+  };
+
 
   const [text, setText] = useState('');
   
   return (
     
-    <View style={{flex: 1}}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0} // Điều chỉnh vị trí đẩy lên
+    >
+
+      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
 
         <View style={styles.container}>
 
             <View style ={styles.header}>
-              <TouchableOpacity style={styles.icon1_header}> 
-                <AntDesign name="arrowleft" size={24} color="black" />
+              <TouchableOpacity style={styles.icon1_header} onPress={() => handleNavigate(namePage.CHAT)}> 
+                <AntDesign name="arrowleft" size={24} color="black"/>
               </TouchableOpacity>
               <View style={styles.content_header}>
 
-                <TouchableOpacity style={styles.image_chat}>
+                <TouchableOpacity style={styles.image_chat} onPress={() => handleNavigate(namePage.SETPROFILE)}>
                   <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                 </TouchableOpacity>
 
                 <View style={styles.box_header}> 
                   <View style={styles.likeAndName}>
                       <View style={styles.status_header}>
-                        <Text style={{fontSize: 10, backgroundColor: '#fd5e32'}}>
+                        <Text style={{fontSize: fontSize.h4, backgroundColor: color.THEME, color: 'white'}}>
                           Yêu thích+
                         </Text>
                       </View>
 
-                      <TouchableOpacity style={styles.name_header}>
-                        <Text style={styles.text_name_header}>
+                      <TouchableOpacity style={styles.name_header} onPress={() => handleNavigate(namePage.SETPROFILE)}>
+                        <Text style={{fontSize: fontSize.h2}} >
                             @datStore.TheBest
                         </Text>
                       </TouchableOpacity>
@@ -45,7 +63,7 @@ export default function App() {
                   </View>
 
                     <View style={styles.time_header}>
-                      <Text style={{fontSize: '12', color: '#787878'}}>
+                      <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
                           Active 23 minutes ago
                       </Text>
                     </View>
@@ -66,21 +84,22 @@ export default function App() {
                       <View style={styles.img_header_content}>
                         <Image style={styles.img_product} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                       </View>
+                      
                       <View style={styles.info_content}>
                         <View style={styles.code_info} >
-                          <Text style={{fontSize: 12}}>
+                          <Text style={{fontSize: fontSize.h3}}>
                               Mã đơn hàng: 19247312
                           </Text>
                         </View>
 
                         <View style={styles.total_info} >
-                          <Text style={{fontSize: 12}}>
+                          <Text style={{fontSize: fontSize.h3}}>
                               Tổng đơn hàng: 999.999Đ
                           </Text>
                         </View>
 
                         <View style={styles.result_info} >
-                          <Text style={{color:'#fd5e32', fontSize:13}}>
+                          <Text style={{color:'#fd5e32', fontSize: fontSize.h3}}>
                               Thành công
                           </Text>
                         </View>
@@ -98,12 +117,12 @@ export default function App() {
               <TouchableOpacity style={styles.chat}>
                   <View style={styles.box_mess}>
                     <View style={styles.text_box_mess}>
-                      <Text>
+                      <Text style={{fontSize: fontSize.h2}}>
                       Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) 
                       </Text>
                     </View>
                     <View style={styles.date_box_mess}>
-                      <Text style={{fontSize: '12', color: '#787878'}}>
+                      <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
                         20:57
                       </Text>
                     </View>
@@ -119,12 +138,12 @@ export default function App() {
               <TouchableOpacity style={styles.chat}>
                   <View style={styles.box_mess}>
                     <View style={styles.text_box_mess}>
-                      <Text>
+                      <Text style={{fontSize: fontSize.h2}}>
                       Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) 
                       </Text>
                     </View>
                     <View style={styles.date_box_mess}>
-                      <Text style={{fontSize: '12', color: '#787878'}}>
+                      <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
                         20:57
                       </Text>
                     </View>
@@ -135,12 +154,12 @@ export default function App() {
               <TouchableOpacity style={styles.chat}>
                   <View style={styles.box_mess}>
                     <View style={styles.text_box_mess}>
-                      <Text>
+                      <Text style={{fontSize: fontSize.h2}}>
                       Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) 
                       </Text>
                     </View>
                     <View style={styles.date_box_mess}>
-                      <Text style={{fontSize: '12', color: '#787878'}}>
+                      <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
                         20:57
                       </Text>
                     </View>
@@ -155,12 +174,12 @@ export default function App() {
               <TouchableOpacity style={styles.rechat}>
                   <View style={styles.rebox_mess}>
                     <View style={styles.retext_box_mess}>
-                      <Text>
+                      <Text style={{fontSize: fontSize.h2}}>
                       Bạn cứ cho mình món đồ đắt nhất ở đây nhé! Càng đắt càng tốt
                       </Text>
                     </View>
                     <View style={styles.redate_box_mess}>
-                      <Text style={{fontSize: '12', color: '#787878'}}>
+                      <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
                         20:57
                       </Text>
                     </View>
@@ -171,19 +190,15 @@ export default function App() {
 
               </View>
             </ScrollView>
-
-             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
               
-             <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-        
-
-            <View style={styles.footer}>
+              <View style={styles.footer} >
+              
               <TouchableOpacity style={styles.footer_add}>
               <Ionicons name="add-circle-outline" size={30} color="black" />
               </TouchableOpacity>
               <View style={styles.content_footer}>
-                  <View style={styles.text_footer}>
+                <View style={styles.text_footer}>
+                  
                   <TextInput
                       style={styles.input}
                       placeholder="Search" 
@@ -194,18 +209,18 @@ export default function App() {
                       <TouchableOpacity style={styles.icon_footer}>
                       <FontAwesome5 name="smile" size={24} color="black" />
                       </TouchableOpacity>
+                  
                   </View>
+
               </View>
 
             </View>
-
-         </TouchableWithoutFeedback> 
-    </KeyboardAvoidingView> 
-
-
-            <StatusBar style="auto" />
+  
+        <StatusBar style="auto" />
         </View>
-    </View>
+
+        {/* </TouchableWithoutFeedback> */}
+    </KeyboardAvoidingView>
   
 
   );
@@ -321,7 +336,8 @@ const styles = StyleSheet.create({
 
   },
   text_date_chat: {
-    color: '#787878'
+    color: '#787878',
+    fontSize: fontSize.h3
   },
   chat: {
     padding: 10
@@ -335,6 +351,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30
   },
 text_box_mess:{
+  
 
 },
 date_box_mess: {
@@ -361,8 +378,10 @@ redate_box_mess: {
 
 },
 footer: {
-  height: 80,
-  flexDirection: 'row'
+  // bottom: 0 ,
+  flexDirection: 'row',
+  paddingVertical: 20,
+  // position: 'absolute'
 },
 text_footer:{
   justifyContent: 'center',
@@ -390,13 +409,7 @@ icon_footer: {
 },
 input: {
   flex: 4.5,
-  
-  
-  
 },
-
-
- 
 });
 
 

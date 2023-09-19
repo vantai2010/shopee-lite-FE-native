@@ -7,6 +7,10 @@ import Setprofile from "./Screen/Identity/Setprofile/Setprofile";
 import Cart from "./Screen/Identity/Cart/Cart";
 import Register from "./Screen/Identity/Register/Register"
 import Footer from "./Components/Footer/Footer";
+import Chat from "./Screen/Chat/Chat";
+import Mess from "./Screen/Chat/Mess";
+import Login from "./Screen/Authenticate/login"
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import namePage from "./ultil/constant/namePage";
@@ -26,6 +30,11 @@ export default function App() {
           <Stack.Screen name={namePage.SETPROFILE} component={Setprofile} />
           <Stack.Screen name={namePage.CART} component={Cart} />
           <Stack.Screen name={namePage.REGISTER} component={Register} />
+          <Stack.Screen name={namePage.CHAT} component={Chat} />
+          <Stack.Screen name={namePage.MESS} component={Mess} />
+          <Stack.Screen name={namePage.LOGIN} component={Login} />
+
+
         </Stack.Navigator>
         <Footer />
       </NavigationContainer>

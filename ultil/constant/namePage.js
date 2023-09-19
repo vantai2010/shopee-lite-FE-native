@@ -5,5 +5,8 @@ export default namePage = {
     SETTING: "Setting",
     SETPROFILE:"Setprofile",
     CART:"Cart",
-    REGISTER:"Register"
+    REGISTER:"Register",
+    CHAT: "Chat",
+    MESS: "Mess",
+    LOGIN: "Login"
 }

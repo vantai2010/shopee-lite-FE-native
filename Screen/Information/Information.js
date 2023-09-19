@@ -9,35 +9,54 @@ import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import colors from "../../ultil/constant/color"
+import fontSize from '../../ultil/constant/fontSize';
+import { useState } from 'react';
+import { useNavigation } from "@react-navigation/native";
+import Chat from '../Chat/Chat';
+import UI from './UI';
+
+
 
 
 
 export default function Information() {
+
+    const navigation = useNavigation();
+
+  const handleNavigate = (namePage) => {
+    return navigation.navigate(namePage);
+  };
+
+
+    const [isLogin, setIsLogin] = useState(true)
     return (
         <>
             <ScrollView>
 
-                <View style={styles.container}>
+            {isLogin ? 
+            
+            <View style={styles.container}>
                     <View style={styles.Header}>
                         <View style={styles.Text}>
-                            <Text style={styles.HeaderText}>Thông báo</Text>
+                            
+                            <Text style={styles.HeaderText}>Thông báo</Text>    
                         </View>
 
                         <View style={styles.icon}>
                             <TouchableOpacity>
-                                <FontAwesome5 style={styles.icHeader} name="shopping-cart" size={24} color="white" />
+                                <FontAwesome5 style={styles.icHeader} name="shopping-cart" size={24} color="white" onPress={() => handleNavigate(namePage.CART)}/>
 
                             </TouchableOpacity>
                             <TouchableOpacity>
-                                <Ionicons style={styles.icHeader} name="chatbox-ellipses" size={24} color="white" />
+                                <Ionicons style={styles.icHeader} name="chatbox-ellipses" size={24} color="white" onPress={() => handleNavigate(namePage.CHAT)} />
 
                             </TouchableOpacity>
                         </View>
 
                     </View>
 
-
+                   
                     <View style={styles.Noti}>
 
                         <TouchableOpacity style={styles.all}>
@@ -46,7 +65,7 @@ export default function Information() {
 
                             </View>
                             <View style={styles.container_Noti}>
-                                <Text>
+                                <Text style={styles.Text_container_Noti}>
                                     Khuyến mãi
                                 </Text>
                                 <Text style={styles.Noti_Text}>
@@ -76,7 +95,7 @@ export default function Information() {
 
                             </View>
                             <View style={styles.container_Noti}>
-                                <Text>
+                                <Text style={styles.Text_container_Noti}>
                                     Live & Video
                                 </Text>
                                 <Text style={styles.Noti_Text}>
@@ -105,7 +124,7 @@ export default function Information() {
 
                             </View>
                             <View style={styles.container_Noti}>
-                                <Text>
+                                <Text style={styles.Text_container_Noti}>
                                     Thông tin tài chính
                                 </Text>
                                 <Text style={styles.Noti_Text}>
@@ -133,7 +152,7 @@ export default function Information() {
                                 <Feather name="shopping-bag" size={24} color="#ee4d2d" />
                             </View>
                             <View style={styles.container_Noti}>
-                                <Text>
+                                <Text style={styles.Text_container_Noti}>
                                     Cập nhật Shopee
                                 </Text>
                                 <Text style={styles.Noti_Text}>
@@ -161,7 +180,7 @@ export default function Information() {
 
                             </View>
                             <View style={styles.container_Noti}>
-                                <Text>
+                                <Text style={styles.Text_container_Noti}>
                                     Giải thưởng Shopee
                                 </Text>
                                 <Text style={styles.Noti_Text}>
@@ -420,9 +439,10 @@ export default function Information() {
 
                     <StatusBar style="auto" />
                 </View>
+
+            : <UI /> }
+
             </ScrollView>
-
-
 
         </>
 
@@ -438,28 +458,29 @@ const styles = StyleSheet.create({
     },
 
     Header: {
-        // flex: 1,
-        backgroundColor: Colors.THEME,
+
+        backgroundColor: colors.THEME,
         flexDirection: 'row',
         height: 105,
+
     },
     Text: {
         flex: 2,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         marginTop: 40,
-        marginLeft: 90
+        marginLeft: 90,
+        alignItems: 'center'
 
     },
     HeaderText: {
         textAlign: 'center',
-        fontSize: 17,
-        color: 'white'
+        fontSize: fontSize.h1,
+        color: 'white',
+        
     },
     icon: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        alignItems: 'center',
         marginTop: 40
     },
     icHeader: {
@@ -495,27 +516,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         right: 0,
-        backgroundColor: '#ee4d2d',
+        backgroundColor: colors.THEME,
         borderRadius: 50,
     },
     Noti_Text: {
         color: 'grey',
-        fontSize: 13
+        fontSize: fontSize.h3
     },
     Ctn_See_All: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    Text_container_Noti:{
+        fontSize: fontSize.h2
+    },
     Update: {
-        padding: 10
+        padding: 10,
+        fontSize: fontSize.h2
     },
     SeeAll: {
         padding: 10,
     },
     TextSeeAll: {
 
-        fontSize: 11,
-        color: 'red'
+        fontSize: fontSize.h3,
+        color: colors.THEME
     },
     Content_Container: {
         backgroundColor: 'white',
@@ -540,7 +565,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     Text1: {
-        fontSize: 15,
+        fontSize: fontSize.h2,
         paddingBottom: 5,
         paddingTop: 5
     },
@@ -549,14 +574,15 @@ const styles = StyleSheet.create({
 
     },
     Text2: {
-        fontSize: 12,
+        fontSize: fontSize.h3,
         color: 'grey'
     },
     TextTime: {
-        fontSize: 10,
+        fontSize: fontSize.h3,
         paddingBottom: 5,
         paddingTop: 5,
-        color: '#ccc'
+        color: 'grey',
+        opacity: 0.6
     },
     Icon_Content: {
 

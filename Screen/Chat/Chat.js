@@ -1,12 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, Button } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { EvilIcons } from '@expo/vector-icons';
+import { Link, useNavigation } from "@react-navigation/native";
+import fontSize from '../../ultil/constant/fontSize';
+import color from '../../ultil/constant/color';
 
 
-export default function App() {
+
+export default function Chat() {
+  const navigation = useNavigation();
+
+  const handleNavigate = (namePage) => {
+    return navigation.navigate(namePage);
+  };
+
 
   const [text, setText] = useState('');
   
@@ -17,8 +27,10 @@ export default function App() {
               
               <View style={styles.header_container}>
                 
-                  <TouchableOpacity style={styles.icon_header}>
-                    <AntDesign name="arrowleft" size={24} color="black" />
+                  <TouchableOpacity style={styles.icon_header} onPress={() => handleNavigate(namePage.INFORMATION)} >
+                    
+                    <AntDesign name="arrowleft" size={24} color="black"  />
+
                   </TouchableOpacity>
 
                 
@@ -47,11 +59,12 @@ export default function App() {
                   <ScrollView>  
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
-                        <View style={styles.box_content}>
+                        <View style={styles.box_content} >
+                          
                             <View style={styles.header_content}>
                                 <View style={styles.name_chat}>
                                     <Text style={styles.text_name_chat } >
@@ -76,7 +89,7 @@ export default function App() {
                                     </Text>
                                 </View>
                             </View>
-                        </View>
+                        </View >
                         
                       </TouchableOpacity>
 
@@ -84,7 +97,7 @@ export default function App() {
                   
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -121,7 +134,7 @@ export default function App() {
 
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -157,7 +170,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -193,7 +206,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -229,7 +242,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -265,7 +278,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -301,7 +314,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -337,7 +350,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -373,7 +386,7 @@ export default function App() {
                   </View>
 
                   <View style={styles.padding_content}>
-                      <TouchableOpacity style={styles.content}>
+                      <TouchableOpacity style={styles.content} onPress={() => handleNavigate(namePage.MESS)}>
                         <View style={styles.image_chat}>
                           <Image style={styles.Image_Content} source='https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG'/>
                         </View>
@@ -477,15 +490,13 @@ const styles = StyleSheet.create({
     
   },
   text_header:{
-    fontSize: 20,
+    fontSize: fontSize.h1
 
   },
   icon_header:{
   position: 'absolute',
-  top: '25%',
+  top: '20%',
   padding: 10
-    
-
     
   },
   content_container: {
@@ -533,13 +544,17 @@ const styles = StyleSheet.create({
 
   },
   text_content_chat:{
-    color: '#6f6f6f'
+    color: '#6f6f6f',
+    fontSize: fontSize.h3,
+    paddingVertical: 5
   },
   text_name_chat: {
-    fontWeight: '700'
+    fontWeight: '700',
+    fontSize: fontSize.h2
+
   },
   text_date_chat:{
-    fontSize: '12',
+    fontSize: fontSize.h3,
     color: 'grey'
   },
   number_chat:{
