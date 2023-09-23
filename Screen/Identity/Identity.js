@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     ScrollView,
     Text,
     View,
     Image,
     StyleSheet,
+    Button,  
+    TouchableOpacity
 } from 'react-native';
-import { TouchableOpacity } from 'react-native';
 import { AntDesign, MaterialCommunityIcons, Entypo ,Ionicons,FontAwesome, FontAwesome5, SimpleLineIcons,Feather,MaterialIcons  } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import namePage from '../../ultil/constant/namePage';
@@ -15,6 +16,7 @@ import namePage from '../../ultil/constant/namePage';
 function Identity() {
 
     const navigation = useNavigation()
+    const [isLogin, setIsLogin] = useState(true)
 
     const handleNavigate = (namePage) => {
         return navigation.navigate(namePage)
@@ -24,35 +26,62 @@ function Identity() {
 
         <ScrollView style={styles.container}>
 
-            <TouchableOpacity onPress={() => handleNavigate(namePage.SETPROFILE)}>
-                <View style={styles.header}>
-                    <View style={styles.headerContent}>
-                        <TouchableOpacity onPress={() => handleNavigate(namePage.SETPROFILE)}>
-                            <Image style={styles.avatar} source={require('../../Image/background10.png')} />
-                        </TouchableOpacity>
-                        <View style={{ marginLeft: 10 }}>
-                            <TouchableOpacity >
-                                <Text style={styles.nameAccount} onPress={() => handleNavigate(namePage.SETPROFILE)}>Lehuyhoang</Text>
+            {isLogin 
+                ? 
+                <TouchableOpacity onPress={() => handleNavigate(namePage.SETPROFILE)}>
+                    <View style={styles.header}>
+                        <View style={styles.headerContent}>
+                            <TouchableOpacity onPress={() => handleNavigate(namePage.SETPROFILE)}>
+                                <Image style={styles.avatar} source={require('../../Image/background10.png')} />
                             </TouchableOpacity>
-                            <Text style={styles.role}>Thành viên</Text>
-                            <View style={styles.rowSpaceBetween}>
-                                <Text style={{ color: '#fff', fontSize: 12 }}>Người theo dõi 0</Text>
-                                <Text style={{ marginLeft: 10, color: '#fff', fontSize: 12 }}>Đang theo dõi 0</Text>
+                            <View style={{ marginLeft: 10 }}>
+                                <TouchableOpacity >
+                                    <Text style={styles.nameAccount} onPress={() => handleNavigate(namePage.SETPROFILE)}>Lehuyhoang</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.role}>Thành viên</Text>
+                                <View style={styles.rowSpaceBetween}>
+                                    <Text style={{ color: '#fff', fontSize: 12 }}>Người theo dõi 0</Text>
+                                    <Text style={{ marginLeft: 10, color: '#fff', fontSize: 12 }}>Đang theo dõi 0</Text>
+                                </View>
                             </View>
                         </View>
 
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <TouchableOpacity onPress={()=> handleNavigate(namePage.SETTING)}>
+                                <AntDesign name="setting" size={24}  style={{color:'#fff', padding:8, }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=> handleNavigate(namePage.CART)}>
+                                <Feather name="shopping-cart" size={24}  style={{color:'#fff', padding:8}} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                </TouchableOpacity>
+                :
+                <View style={{backgroundColor: '#ee4d2d', height:100}}>            
+                    <View style={{flexDirection:'row', justifyContent:'flex-end', flex:1}}>
                         <TouchableOpacity onPress={()=> handleNavigate(namePage.SETTING)}>
                             <AntDesign name="setting" size={24}  style={{color:'#fff', padding:8}} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=> handleNavigate(namePage.CART)}>
+                        <TouchableOpacity >
                             <Feather name="shopping-cart" size={24}  style={{color:'#fff', padding:8}} />
                         </TouchableOpacity>
                     </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <TouchableOpacity>
+                            <MaterialCommunityIcons name="account" size={50} color="white"/>
+                        </TouchableOpacity>
+                        <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+                            <TouchableOpacity style={{backgroundColor:'#fff', padding:10, height:40}}>
+                                <Text style={{textAlign:'center', fontSize:16,color:'#ee4d2d' }}>Đăng ký</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{borderWidth:1, borderColor:'#fff', height:40, marginHorizontal:10, padding:10}}>
+                                <Text style={{textAlign:'center', fontSize:16,color:'#fff', }}>Đăng ký</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>   
                 </View>
-            </TouchableOpacity>
+            }
+
 
             <View style={styles.body}>
                 <View style={styles.margin10fff}>
@@ -81,7 +110,7 @@ function Identity() {
                             <Text style={styles.fontsizeColor}>50%</Text>
                         </View>
                     </View>
-                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}}>
+                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomWidth:1,borderBottomColor: 'rgba(0,0,0,.05)' }}>
                         <View style={styles.rowFlexStartBottom}>
                             <FontAwesome name="mobile-phone" size={24} style={{fontSize:24, color:'#0abea2', marginRight:10, lineHeight:28}} />
                             <Text style={{lineHeight:28}}>Đơn Nạp thẻ và Dịch vụ</Text>
@@ -100,32 +129,37 @@ function Identity() {
                             </View>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.rowSpaceBetween14}>
-                        <TouchableOpacity>
-                            <View style={styles.alignItemCenter}>
-                                <SimpleLineIcons name="envelope-letter" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}} />
-                                <Text style={styles.fontsizeMarginTopColor}>Chờ xác nhận</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={styles.alignItemCenter}>
-                                <Feather name="package" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}}/>
-                                <Text style={styles.fontsizeMarginTopColor}>Chờ lấy hàng</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
+                    {isLogin 
+                        ?
+                        <View style={styles.rowSpaceBetween14}>
+                            <TouchableOpacity>
                                 <View style={styles.alignItemCenter}>
-                                    <MaterialCommunityIcons name="truck-fast-outline" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}} />
-                                    <Text style={styles.fontsizeMarginTopColor}>Đang giao</Text>
+                                    <SimpleLineIcons name="envelope-letter" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}} />
+                                    <Text style={styles.fontsizeMarginTopColor}>Chờ xác nhận</Text>
                                 </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={styles.alignItemCenter}>
-                                <MaterialCommunityIcons name="star-circle-outline" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}} />
-                                <Text style={styles.fontsizeMarginTopColor}>Đánh giá</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={styles.alignItemCenter}>
+                                    <Feather name="package" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}}/>
+                                    <Text style={styles.fontsizeMarginTopColor}>Chờ lấy hàng</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                    <View style={styles.alignItemCenter}>
+                                        <MaterialCommunityIcons name="truck-fast-outline" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}} />
+                                        <Text style={styles.fontsizeMarginTopColor}>Đang giao</Text>
+                                    </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={styles.alignItemCenter}>
+                                    <MaterialCommunityIcons name="star-circle-outline" size={24} style={{marginBottom:10,color:'rgba(0,0,0,.5)'}} />
+                                    <Text style={styles.fontsizeMarginTopColor}>Đánh giá</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <></>
+                    }
                 </View>
 
                 <View style={styles.margin10fff}>
@@ -165,122 +199,129 @@ function Identity() {
                         </TouchableOpacity>
                     </View>
                 </View>
+                
+                {isLogin
+                    ?
+                    <View>
+                        <View style={styles.margin10fff}>
+                            <TouchableOpacity>
+                                <View style={styles.spaceBetween}>
+                                    <View style={styles.rowFlexStart}>
+                                        <SimpleLineIcons name="handbag" size={24} style={{color:'#edb50f', marginRight:10, lineHeight:28}} />
+                                        <Text style={{lineHeight:28}}>Mua lại</Text>
+                                    </View>
+                                    <View style={styles.rowFlexEnd}>
+                                        <Text style={styles.fontsizeColor08}>Xem thêm sản phẩm</Text>
+                                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', lineHeight:28}} />
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                            <View style={{ padding: 14 }}>
+                                <ScrollView horizontal >
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={styles.scrollItem}>
+                                            <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
+                                            <Text style={styles.note}>Shop bạn đã mua</Text>
+                                            <View style={styles.rowSpaceBetween}>
+                                                <Text style={styles.price}>đ78.000</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
 
-                <View style={styles.margin10fff}>
-                    <TouchableOpacity>
-                        <View style={styles.spaceBetween}>
-                            <View style={styles.rowFlexStart}>
-                                <SimpleLineIcons name="handbag" size={24} style={{color:'#edb50f', marginRight:10, lineHeight:28}} />
-                                <Text style={{lineHeight:28}}>Mua lại</Text>
-                            </View>
-                            <View style={styles.rowFlexEnd}>
-                                <Text style={styles.fontsizeColor08}>Xem thêm sản phẩm</Text>
-                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', lineHeight:28}} />
+                                </ScrollView>
                             </View>
                         </View>
-                    </TouchableOpacity>
-                    <View style={{ padding: 14 }}>
-                        <ScrollView horizontal >
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.scrollItem}>
-                                    <Image style={styles.imageWidthHeight} resizeMode='contain' source={require("../../Image/background10.png")} />
-                                    <Text style={styles.note}>Shop bạn đã mua</Text>
-                                    <View style={styles.rowSpaceBetween}>
-                                        <Text style={styles.price}>đ78.000</Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
 
-                        </ScrollView>
+                        <View style={styles.margin10fff}>
+                            <TouchableOpacity>
+                                <View style={styles.rowSpaceBetween14}>
+                                    <View style={styles.rowFlexStart}>
+                                        <MaterialIcons name="storefront" size={24} style={{color: '#ee4d2d', marginRight:10, lineHeight:28}} />
+                                        <Text style={{ color: '#ee4d2d', lineHeight:28 }}>Bắt đầu bán</Text>
+                                    </View>
+                                    <View style={styles.rowFlexEnd}>
+                                        <Text style={{ color: 'rgba(0,0,0,.4)', fontSize: 12 , lineHeight:28}}>Đăng ký miễn phí</Text>
+                                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', lineHeight:28}} />
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-
-                <View style={styles.margin10fff}>
-                    <TouchableOpacity>
-                        <View style={styles.rowSpaceBetween14}>
-                            <View style={styles.rowFlexStart}>
-                                <MaterialIcons name="storefront" size={24} style={{color: '#ee4d2d', marginRight:10, lineHeight:28}} />
-                                <Text style={{ color: '#ee4d2d', lineHeight:28 }}>Bắt đầu bán</Text>
-                            </View>
-                            <View style={styles.rowFlexEnd}>
-                                <Text style={{ color: 'rgba(0,0,0,.4)', fontSize: 12 , lineHeight:28}}>Đăng ký miễn phí</Text>
-                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', lineHeight:28}} />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                    :
+                    <></>
+                }
 
                 <View style={styles.margin10fff}>
                     <TouchableOpacity>
@@ -376,21 +417,21 @@ function Identity() {
                 </View>
 
                 <View style={styles.margin10fff}>
-                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}}>
+                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomWidth:1,borderBottomColor: 'rgba(0,0,0,.05)'}}>
                         <View style={styles.rowFlexStart14}>
                             <Ionicons name="md-person-outline" size={24} style={{color:'#044dbf', marginRight:10, lineHeight:28}} />
                             <Text style={{lineHeight:28}}>Thiết lập tài khoản</Text>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}}>
+                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomWidth:1,borderBottomColor: 'rgba(0,0,0,.05)'}}>
                         <View style={styles.rowFlexStart14}>
                             <MaterialIcons name="contact-support" size={24} style={{color:'#0abea2', marginRight:10, lineHeight:28}} />
                             <Text style={{lineHeight:28}}>Trung tâm hỗ trợ</Text>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}}>
+                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomWidth:1,borderBottomColor: 'rgba(0,0,0,.05)'}}>
                         <View style={styles.rowFlexStart14}>
                             <AntDesign name="customerservice" size={24}  style={{color: '#ee4d2d', marginRight:10, lineHeight:28}}/>
                             <Text style={{lineHeight:28}}>Trò Chuyện Với Shopee</Text>

@@ -8,5 +8,5 @@ export default namePage = {
     REGISTER:"Register",
     CHAT: "Chat",
     MESS: "Mess",
-    LOGIN: "Login"
+    LOGIN: "Login",
 }
