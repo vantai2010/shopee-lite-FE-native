@@ -5,14 +5,17 @@ import Information from "./Screen/Information/Information";
 import Setting from "./Screen/Identity/Setting/Setting";
 import Setprofile from "./Screen/Identity/Setprofile/Setprofile";
 import Cart from "./Screen/Identity/Cart/Cart";
-import Register from "./Screen/Identity/Register/Register"
+import Register from "./Screen/Identity/Register/Register";
 import Footer from "./Components/Footer/Footer";
 import Chat from "./Screen/Chat/Chat";
 import Mess from "./Screen/Chat/Mess";
-import Login from "./Screen/Authenticate/login"
+import Login from "./Screen/Authenticate/Login";
+import ForgotPassword from "./Screen/Authenticate/Forgot/ForgotPassword";
+import Verification from "./Screen/Authenticate/Forgot/Verification";
+import ResetPassword from "./Screen/Authenticate/Forgot/ResetPassword";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import namePage from "./ultil/constant/namePage";
 
 const Stack = createStackNavigator();
@@ -33,8 +36,9 @@ export default function App() {
           <Stack.Screen name={namePage.CHAT} component={Chat} />
           <Stack.Screen name={namePage.MESS} component={Mess} />
           <Stack.Screen name={namePage.LOGIN} component={Login} />
-
-
+          <Stack.Screen name={namePage.FORGOT} component={ForgotPassword} />
+          <Stack.Screen name={namePage.VERIFICATION} component={Verification} />
+          <Stack.Screen name={namePage.RESET} component={ResetPassword} />
         </Stack.Navigator>
         <Footer />
       </NavigationContainer>

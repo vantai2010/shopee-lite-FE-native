@@ -10,36 +10,44 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-const LoginScreen = () => {
+const ResetPassword = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const [retypePassword, setRetypePassword] = useState(false);
+  const [againPassword, setAgainPassword] = useState("");
+
+  const togglePasswordVisibility = (type) => {
+    if (type === "newPassword") {
+      setShowPassword(!showPassword);
+    } else {
+      setRetypePassword(!retypePassword);
+    }
   };
 
-  const handleForgotPassword = () => {
-    navigation.navigate("Forgot");
+  const handleConfirm = () => {
+    if (password === againPassword) {
+      navigation.navigate("Login");
+      alert("Thành công !");
+    } else {
+      alert("Thất bại !");
+    }
   };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.header}>Đăng nhập</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email hoặc số điện thoại"
-        />
+        <Text style={styles.header}>Đặt lại mật khẩu</Text>
         <View style={styles.inputShow}>
           <TextInput
             style={styles.input}
-            placeholder="Mật khẩu"
+            placeholder="Nhập mật khẩu mới..."
             secureTextEntry={!showPassword}
             value={password}
             onChangeText={(text) => setPassword(text)}
           />
           <TouchableOpacity
             style={styles.iconShow}
-            onPress={togglePasswordVisibility}
+            onPress={() => togglePasswordVisibility("newPassword")}
           >
             <Feather
               name={showPassword ? "eye" : "eye-off"}
@@ -48,27 +56,27 @@ const LoginScreen = () => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.forgotPassword}>
-          <TouchableOpacity>
-            <Text>Bạn chưa có tài khoản?</Text>
+        <View style={styles.inputShow}>
+          <TextInput
+            style={styles.input}
+            placeholder="Nhập lại mật khẩu..."
+            secureTextEntry={!retypePassword}
+            value={againPassword}
+            onChangeText={(text) => setAgainPassword(text)}
+          />
+          <TouchableOpacity
+            style={styles.iconShow}
+            onPress={togglePasswordVisibility}
+          >
+            <Feather
+              name={retypePassword ? "eye" : "eye-off"}
+              size={23}
+              color="gray"
+            />
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleForgotPassword}>
-            <Text>Quên mật khẩu?</Text>
-          </TouchableOpacity>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>Đăng nhập</Text>
-        </TouchableOpacity>
-        <View style={styles.orContainer}>
-          <View style={styles.orLine}></View>
-          <Text style={styles.orText}>HOẶC</Text>
-          <View style={styles.orLine}></View>
         </View>
-        <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialButtonText}>Đăng nhập bằng Facebook</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialButtonText}>Đăng nhập bằng Google</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={handleConfirm}>
+          <Text style={styles.loginButtonText}>Xác nhận</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -92,7 +100,9 @@ const styles = StyleSheet.create({
     color: "#ff5b25",
     textAlign: "center",
   },
-  inputShow: {},
+  inputShow: {
+    marginTop: 10,
+  },
   iconShow: {
     position: "absolute",
     top: 8,
@@ -101,7 +111,8 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     borderColor: "gray",
-    borderWidth: 1,
+    borderWidth: 0,
+    borderBottomWidth: 1,
     marginBottom: 12,
     paddingLeft: 8,
   },
@@ -111,6 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   loginButton: {
+    marginTop: 10,
     backgroundColor: "#ff6f61",
     borderRadius: 4,
     padding: 12,
@@ -148,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ResetPassword;
