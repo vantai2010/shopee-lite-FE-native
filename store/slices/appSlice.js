@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import keyMap from '../../utils/constant/keyMap'
-import { handleLoginService, handleRegisterService } from '../../service/appService'
+import { handleLoginService, handleRegisterInformations, handleRegisterService } from '../../service/appService'
 
 export const fetchLoginThunk = createAsyncThunk('app/fetchLoginThunk', async (data) => {
     try {
@@ -24,6 +24,16 @@ export const fetchRegisterThunk = createAsyncThunk('app/fetchRegisterThunk', asy
     }
 })
 
+
+export const fetchRegisterInformationThunk = createAsyncThunk('app/fetchRegisterInformationThunk', async (data) => {
+    try {
+        let response = await handleRegisterInformations(data)
+        return response
+
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 const initialState = {
     language: keyMap.VI,
@@ -59,6 +69,15 @@ export const appSlice = createSlice({
             state.isLoading = false
         },
         [fetchRegisterThunk.rejected]: (state, action) => {
+            state.isLoading = false
+        },
+        [fetchRegisterInformationThunk.pending]: (state, action) => {
+            state.isLoading = true
+        },
+        [fetchRegisterInformationThunk.fulfilled]: (state, action) => {
+            state.isLoading = false
+        },
+        [fetchRegisterInformationThunk.rejected]: (state, action) => {
             state.isLoading = false
         },
     }

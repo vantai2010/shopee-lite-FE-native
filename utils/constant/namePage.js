@@ -6,10 +6,11 @@ export default namePage = {
   SETPROFILE: "Setprofile",
   CART: "Cart",
   REGISTER: "Register",
+  REGISTER_INFORMATION: "RegisterInformation",
   CHAT: "Chat",
   MESS: "Mess",
   LOGIN: "Login",
-  FORGOT: "Forgot",
+  FORGOT_PASSWORD: "Forgot_password",
   VERIFICATION: "Verification",
   RESET: "Reset",
 };

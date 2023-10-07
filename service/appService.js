@@ -7,3 +7,7 @@ export const handleLoginService = (data) => {
 export const handleRegisterService = (data) => {
     return customAxios.post("/api/register", data)
 }
+
+export const handleRegisterInformations = (data) => {
+    return customAxios.post("/api//register-information", data)
+}

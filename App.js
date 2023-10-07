@@ -5,7 +5,7 @@ import Information from "./Screen/Information/Information";
 import Setting from "./Screen/Identity/Setting/Setting";
 import Setprofile from "./Screen/Identity/Setprofile/Setprofile";
 import Cart from "./Screen/Identity/Cart/Cart";
-import Register from "./Screen/Identity/Register/Register";
+import RegisterInformation from "./Screen/Identity/Register/RegisterInformation";
 import Footer from "./Components/Footer/Footer";
 import Chat from "./Screen/Chat/Chat";
 import Mess from "./Screen/Chat/Mess";
@@ -19,6 +19,7 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import namePage from "./utils/constant/namePage";
+import Register from "./Screen/Authenticate/Register";
 
 const Stack = createStackNavigator();
 
@@ -28,71 +29,20 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={namePage.HOME}>
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.HOME}
-              component={Mall}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.INFORMATION}
-              component={Information}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.IDENTITY}
-              component={Identity}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.SETTING}
-              component={Setting}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.SETPROFILE}
-              component={Setprofile}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.CART}
-              component={Cart}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.REGISTER}
-              component={Register}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.CHAT}
-              component={Chat}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.MESS}
-              component={Mess}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.LOGIN}
-              component={Login}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.FORGOT}
-              component={ForgotPassword}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.VERIFICATION}
-              component={Verification}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.RESET}
-              component={ResetPassword}
-            />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.HOME} component={Mall} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.INFORMATION} component={Information} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.IDENTITY} component={Identity} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.SETTING} component={Setting} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.SETPROFILE} component={Setprofile} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.CART} component={Cart} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.REGISTER_INFORMATION} component={RegisterInformation} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.CHAT} component={Chat} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.MESS} component={Mess} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.LOGIN} component={Login} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.REGISTER} component={Register} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.FORGOT_PASSWORD} component={ForgotPassword} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.VERIFICATION} component={Verification} />
+            <Stack.Screen options={{ headerShown: false }} name={namePage.RESET} component={ResetPassword} />
           </Stack.Navigator>
           <Footer />
         </NavigationContainer>
