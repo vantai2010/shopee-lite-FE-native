@@ -1,1 +1,21 @@
-{"ast":null,"code":"export default colors = {\n  THEME: '#ee4d2d'\n};","map":{"version":3,"names":["colors","THEME"],"sources":["/Users/hoang/Documents/Đa nền tảng/ShopeeLite/shopee-lite-FE-native/ultil/constant/color.js"],"sourcesContent":["export default colors = {\n    THEME: '#ee4d2d',\n}"],"mappings":"AAAA,eAAeA,MAAM,GAAG;EACpBC,KAAK,EAAE;AACX,CAAC"},"metadata":{},"sourceType":"module","externalDependencies":[]}
+{
+    "ast": null,
+    "code": "export default colors = {\n  THEME: '#ee4d2d'\n};",
+    "map": {
+        "version": 3,
+        "names": [
+            "colors",
+            "THEME"
+        ],
+        "sources": [
+            "/Users/hoang/Documents/Đa nền tảng/ShopeeLite/shopee-lite-FE-native/utils/constant/color.js"
+        ],
+        "sourcesContent": [
+            "export default colors = {\n    THEME: '#ee4d2d',\n}"
+        ],
+        "mappings": "AAAA,eAAeA,MAAM,GAAG;EACpBC,KAAK,EAAE;AACX,CAAC"
+    },
+    "metadata": {},
+    "sourceType": "module",
+    "externalDependencies": []
+}

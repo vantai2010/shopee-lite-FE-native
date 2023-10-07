@@ -1,1 +1,23 @@
-{"ast":null,"code":"export default namePage = {\n  HOME: \"Home\",\n  INFORMATION: \"Information\",\n  IDENTITY: \"Identity\"\n};","map":{"version":3,"names":["namePage","HOME","INFORMATION","IDENTITY"],"sources":["D:/các dự án cá nhân/react-native/shopee/client/ultil/constant/namePage.js"],"sourcesContent":["export default namePage = {\r\n    HOME: \"Home\",\r\n    INFORMATION: \"Information\",\r\n    IDENTITY: \"Identity\",\r\n}"],"mappings":"AAAA,eAAeA,QAAQ,GAAG;EACtBC,IAAI,EAAE,MAAM;EACZC,WAAW,EAAE,aAAa;EAC1BC,QAAQ,EAAE;AACd,CAAC"},"metadata":{},"sourceType":"module","externalDependencies":[]}
+{
+    "ast": null,
+    "code": "export default namePage = {\n  HOME: \"Home\",\n  INFORMATION: \"Information\",\n  IDENTITY: \"Identity\"\n};",
+    "map": {
+        "version": 3,
+        "names": [
+            "namePage",
+            "HOME",
+            "INFORMATION",
+            "IDENTITY"
+        ],
+        "sources": [
+            "D:/các dự án cá nhân/react-native/shopee/client/utils/constant/namePage.js"
+        ],
+        "sourcesContent": [
+            "export default namePage = {\r\n    HOME: \"Home\",\r\n    INFORMATION: \"Information\",\r\n    IDENTITY: \"Identity\",\r\n}"
+        ],
+        "mappings": "AAAA,eAAeA,QAAQ,GAAG;EACtBC,IAAI,EAAE,MAAM;EACZC,WAAW,EAAE,aAAa;EAC1BC,QAAQ,EAAE;AACd,CAAC"
+    },
+    "metadata": {},
+    "sourceType": "module",
+    "externalDependencies": []
+}

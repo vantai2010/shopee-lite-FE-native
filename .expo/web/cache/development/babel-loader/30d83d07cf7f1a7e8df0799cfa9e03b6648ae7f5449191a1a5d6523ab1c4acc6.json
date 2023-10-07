@@ -1,1 +1,30 @@
-{"ast":null,"code":"export default namePage = {\n  HOME: \"Home\",\n  INFORMATION: \"Information\",\n  IDENTITY: \"Identity\",\n  SETTING: \"Setting\",\n  SETPROFILE: \"Setprofile\",\n  CART: \"Cart\",\n  REGISTER: \"Register\",\n  CHAT: \"Chat\",\n  MESS: \"Mess\",\n  LOGIN: \"Login\"\n};","map":{"version":3,"names":["namePage","HOME","INFORMATION","IDENTITY","SETTING","SETPROFILE","CART","REGISTER","CHAT","MESS","LOGIN"],"sources":["/Users/hoang/Documents/Đa nền tảng/ShopeeLite/shopee-lite-FE-native/ultil/constant/namePage.js"],"sourcesContent":["export default namePage = {\n    HOME: \"Home\",\n    INFORMATION: \"Information\",\n    IDENTITY: \"Identity\",\n    SETTING: \"Setting\",\n    SETPROFILE:\"Setprofile\",\n    CART:\"Cart\",\n    REGISTER:\"Register\",\n    CHAT: \"Chat\",\n    MESS: \"Mess\",\n    LOGIN: \"Login\"\n}"],"mappings":"AAAA,eAAeA,QAAQ,GAAG;EACtBC,IAAI,EAAE,MAAM;EACZC,WAAW,EAAE,aAAa;EAC1BC,QAAQ,EAAE,UAAU;EACpBC,OAAO,EAAE,SAAS;EAClBC,UAAU,EAAC,YAAY;EACvBC,IAAI,EAAC,MAAM;EACXC,QAAQ,EAAC,UAAU;EACnBC,IAAI,EAAE,MAAM;EACZC,IAAI,EAAE,MAAM;EACZC,KAAK,EAAE;AACX,CAAC"},"metadata":{},"sourceType":"module","externalDependencies":[]}
+{
+    "ast": null,
+    "code": "export default namePage = {\n  HOME: \"Home\",\n  INFORMATION: \"Information\",\n  IDENTITY: \"Identity\",\n  SETTING: \"Setting\",\n  SETPROFILE: \"Setprofile\",\n  CART: \"Cart\",\n  REGISTER: \"Register\",\n  CHAT: \"Chat\",\n  MESS: \"Mess\",\n  LOGIN: \"Login\"\n};",
+    "map": {
+        "version": 3,
+        "names": [
+            "namePage",
+            "HOME",
+            "INFORMATION",
+            "IDENTITY",
+            "SETTING",
+            "SETPROFILE",
+            "CART",
+            "REGISTER",
+            "CHAT",
+            "MESS",
+            "LOGIN"
+        ],
+        "sources": [
+            "/Users/hoang/Documents/Đa nền tảng/ShopeeLite/shopee-lite-FE-native/utils/constant/namePage.js"
+        ],
+        "sourcesContent": [
+            "export default namePage = {\n    HOME: \"Home\",\n    INFORMATION: \"Information\",\n    IDENTITY: \"Identity\",\n    SETTING: \"Setting\",\n    SETPROFILE:\"Setprofile\",\n    CART:\"Cart\",\n    REGISTER:\"Register\",\n    CHAT: \"Chat\",\n    MESS: \"Mess\",\n    LOGIN: \"Login\"\n}"
+        ],
+        "mappings": "AAAA,eAAeA,QAAQ,GAAG;EACtBC,IAAI,EAAE,MAAM;EACZC,WAAW,EAAE,aAAa;EAC1BC,QAAQ,EAAE,UAAU;EACpBC,OAAO,EAAE,SAAS;EAClBC,UAAU,EAAC,YAAY;EACvBC,IAAI,EAAC,MAAM;EACXC,QAAQ,EAAC,UAAU;EACnBC,IAAI,EAAE,MAAM;EACZC,IAAI,EAAE,MAAM;EACZC,KAAK,EAAE;AACX,CAAC"
+    },
+    "metadata": {},
+    "sourceType": "module",
+    "externalDependencies": []
+}

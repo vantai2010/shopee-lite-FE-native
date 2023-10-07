@@ -4,7 +4,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import namePage from "../../ultil/constant/namePage";
+import namePage from "../../utils/constant/namePage";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Footer() {

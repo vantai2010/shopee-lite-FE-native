@@ -16,7 +16,7 @@ import ResetPassword from "./Screen/Authenticate/Forgot/ResetPassword";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import namePage from "./ultil/constant/namePage";
+import namePage from "./utils/constant/namePage";
 
 const Stack = createStackNavigator();
 
