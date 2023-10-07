@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+
 const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");

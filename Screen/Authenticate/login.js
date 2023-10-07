@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
