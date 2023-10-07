@@ -26,19 +26,19 @@ export default function App() {
       {/* <Header /> */}
       <NavigationContainer>
         <Stack.Navigator initialRouteName={namePage.HOME}>
-          <Stack.Screen name={namePage.HOME} component={Mall} />
-          <Stack.Screen name={namePage.INFORMATION} component={Information} />
-          <Stack.Screen name={namePage.IDENTITY} component={Identity} />
-          <Stack.Screen name={namePage.SETTING} component={Setting} />
-          <Stack.Screen name={namePage.SETPROFILE} component={Setprofile} />
-          <Stack.Screen name={namePage.CART} component={Cart} />
-          <Stack.Screen name={namePage.REGISTER} component={Register} />
-          <Stack.Screen name={namePage.CHAT} component={Chat} />
-          <Stack.Screen name={namePage.MESS} component={Mess} />
-          <Stack.Screen name={namePage.LOGIN} component={Login} />
-          <Stack.Screen name={namePage.FORGOT} component={ForgotPassword} />
-          <Stack.Screen name={namePage.VERIFICATION} component={Verification} />
-          <Stack.Screen name={namePage.RESET} component={ResetPassword} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.HOME} component={Mall} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.INFORMATION} component={Information} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.IDENTITY} component={Identity} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.SETTING} component={Setting} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.SETPROFILE} component={Setprofile} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.CART} component={Cart} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.REGISTER} component={Register} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.CHAT} component={Chat} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.MESS} component={Mess} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.LOGIN} component={Login} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.FORGOT} component={ForgotPassword} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.VERIFICATION} component={Verification} />
+          <Stack.Screen options={{ headerShown: false }} name={namePage.RESET} component={ResetPassword} />
         </Stack.Navigator>
         <Footer />
       </NavigationContainer>
