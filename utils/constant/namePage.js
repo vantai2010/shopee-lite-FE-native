@@ -1,6 +1,7 @@
 export default namePage = {
   HOME: "Home",
   INFORMATION: "Information",
+  PRODUCTDETAILS: "Productdetails",
   IDENTITY: "Identity",
   SETTING: "Setting",
   SETPROFILE: "Setprofile",
@@ -13,4 +14,10 @@ export default namePage = {
   FORGOT_PASSWORD: "Forgot_password",
   VERIFICATION: "Verification",
   RESET: "Reset",
+  MODAL: "Modal",
+  PAY: "Pay",
+  PAYMETHOD: "Paymethod",
+  CHOOSEBANK: "Choosebank",
+  AGENCY: "Agency",
+  SHIPPER: "Shipper",
 };

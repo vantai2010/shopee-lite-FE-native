@@ -5,8 +5,10 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
+import namePage from "../../../utils/constant/namePage";
 import bg7 from "../../../Image/background7.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 export default function Product() {
@@ -73,6 +75,10 @@ export default function Product() {
     },
   ];
   const numColumns = Math.ceil(products.length / 2);
+  const navigation = useNavigation();
+  const handleDetailsProduct = () => {
+    navigation.navigate(namePage.PRODUCTDETAILS);
+  };
 
   return (
     <>
@@ -87,7 +93,11 @@ export default function Product() {
           showsHorizontalScrollIndicator={false}
           numColumns={2}
           renderItem={({ item }) => (
-            <View style={styles.InformationItem} key={item.nameProduct}>
+            <TouchableOpacity
+              style={styles.InformationItem}
+              key={item.nameProduct}
+              onPress={handleDetailsProduct}
+            >
               <View style={styles.imageProduct}>
                 <Image style={styles.imageSale} source={bg7} />
                 <View style={styles.triangle}></View>
@@ -116,7 +126,7 @@ export default function Product() {
                 <AntDesign name="enviromento" size={15} color="gray" />
                 <Text style={{ color: "gray" }}>{item.address}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       </View>

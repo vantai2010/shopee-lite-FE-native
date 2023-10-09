@@ -10,20 +10,18 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import fontSize from "../../ultil/constant/fontSize";
-
 import { useDispatch, useSelector } from "react-redux";
-import keyMap from "../../ultil/constant/keyMap";
+import keyMap from "../../utils/constant/keyMap";
 import { fetchLoginThunk } from "../../store/slices/appSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { useNavigation } from "@react-navigation/native";
 import namePage from "../../utils/constant/namePage";
 
-const LoginScreen = () => {
+import fontSize from "../../utils/constant/fontSize";
 
-  const language = useSelector(state => state.app.language)
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
+const LoginScreen = () => {
+  const language = useSelector((state) => state.app.language);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [inputForm, setInputForm] = useState({
@@ -33,8 +31,8 @@ const LoginScreen = () => {
 
   const [errMess, setErrMess] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -43,53 +41,69 @@ const LoginScreen = () => {
   const handleOnchangeText = (type, text) => {
     setInputForm({
       ...inputForm,
-      [type]: text
-    })
-  }
+      [type]: text,
+    });
+  };
 
   const handleLogin = () => {
-    let { email, password } = inputForm
+    let { email, password } = inputForm;
     if (!email) {
       setErrMess({
-        email: language === keyMap.EN ? "Please fill out this field" : "Vui lòng điền trường này",
-        password: ""
-      })
-      return
+        email:
+          language === keyMap.EN
+            ? "Please fill out this field"
+            : "Vui lòng điền trường này",
+        password: "",
+      });
+      return;
     }
     if (!password) {
       setErrMess({
         email: "",
-        password: language === keyMap.EN ? "Please fill out this field" : "Vui lòng điền trường này"
-      })
-      return
+        password:
+          language === keyMap.EN
+            ? "Please fill out this field"
+            : "Vui lòng điền trường này",
+      });
+      return;
     }
-    if (/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:\.[A-Za-z]{2,})?$/.test(email)) {
-      setErrMess({
-        email: language === keyMap.EN ? "This field must be email" : "Trường này phải là email",
-        password: ""
-      })
-      return
-    }
+    // if (
+    //   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:\.[A-Za-z]{2,})?$/.test(
+    //     email
+    //   )
+    // ) {
+    //   setErrMess({
+    //     email:
+    //       language === keyMap.EN
+    //         ? "This field must be email"
+    //         : "Trường này phải là email",
+    //     password: "",
+    //   });
+    //   return;
+    // }
 
-    let response = dispatch(fetchLoginThunk({ email, password }))
-    let data = unwrapResult(response)
+    let response = dispatch(fetchLoginThunk({ email, password }));
+    let data = unwrapResult(response);
     if (data && data.errCode === 0) {
-      navigation.navigate(namePage.HOME)
+      navigation.navigate(namePage.HOME);
     } else {
       setErrMess({
         email: "",
-        password: language === keyMap.EN ? "There was an error during the login process" : "Có lỗi trong quá trình đăng nhập"
-      })
+        password:
+          language === keyMap.EN
+            ? "There was an error during the login process"
+            : "Có lỗi trong quá trình đăng nhập",
+      });
     }
-
-  }
+  };
 
   const handleForgotPassword = () => {
     navigation.navigate(namePage.FORGOT_PASSWORD);
   };
-
+  const handleCreateAccount = () => {
+    navigation.navigate(namePage.REGISTER);
+  };
   return (
-
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>
         <Text style={styles.header}>Đăng nhập</Text>
@@ -99,7 +113,11 @@ const LoginScreen = () => {
           onChangeText={(text) => handleOnchangeText("email", text)}
           placeholder="Email hoặc số điện thoại"
         />
-        {errMess.email && <Text style={{ color: "red", fontSize: fontSize.h3 }}>{errMess.email}</Text>}
+        {errMess.email && (
+          <Text style={{ color: "red", fontSize: fontSize.h3 }}>
+            {errMess.email}
+          </Text>
+        )}
         <View style={styles.inputShow}>
           <TextInput
             style={styles.input}
@@ -108,7 +126,11 @@ const LoginScreen = () => {
             value={inputForm.password}
             onChangeText={(text) => handleOnchangeText("password", text)}
           />
-          {errMess.password && <Text style={{ color: "red", fontSize: fontSize.h3 }}>{errMess.password}</Text>}
+          {errMess.password && (
+            <Text style={{ color: "red", fontSize: fontSize.h3 }}>
+              {errMess.password}
+            </Text>
+          )}
           <TouchableOpacity
             style={styles.iconShow}
             onPress={togglePasswordVisibility}
@@ -121,7 +143,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.forgotPassword}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleCreateAccount}>
             <Text>Bạn chưa có tài khoản?</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleForgotPassword}>
