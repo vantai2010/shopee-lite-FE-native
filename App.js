@@ -25,6 +25,10 @@ import PayMethod from "./Screen/Pay/PayMethod";
 import ChooseBank from "./Screen/Pay/ChooseBank";
 import Agency from "./Screen/Agency/Agency";
 import Shipper from "./Screen/Shipper/Shipper";
+import Alleva from "./Screen/Evaluate/AllEva";
+import Evaluate from "./Screen/Evaluate/Evaluate";
+import Shop from "./Screen/Shop/Shop";
+import Recommen from "./Screen/Shop/Recommen";
 
 const Stack = createStackNavigator();
 
@@ -131,8 +135,28 @@ export default function App() {
             />
             <Stack.Screen
               options={{ headerShown: false }}
+              name={namePage.EVALUATE}
+              component={Evaluate}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name={namePage.ALLEVA}
+              component={Alleva}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
               name={namePage.RESET}
               component={ResetPassword}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name={namePage.SHOP}
+              component={Shop}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name={namePage.RECOMMEN}
+              component={Recommen}
             />
           </Stack.Navigator>
           <Footer />

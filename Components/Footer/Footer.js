@@ -26,7 +26,7 @@ export default function Footer() {
             <Text style={styles.TextFooter}>Home</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleNavigate(namePage.HOME)}>
+        <TouchableOpacity onPress={() => handleNavigate(namePage.SHOP)}>
           <View style={styles.Footer_Button}>
             <View style={styles.positionMail}>
               <Text style={styles.textPositionMail}>9</Text>
@@ -35,7 +35,7 @@ export default function Footer() {
             <Text style={styles.TextFooter}>Mall</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleNavigate(namePage.HOME)}>
+        <TouchableOpacity onPress={() => handleNavigate(namePage.SHIPPER)}>
           <View style={styles.Footer_Button}>
             <View style={styles.positionLive}>
               <Text style={styles.textPositionLive}>9</Text>
@@ -44,7 +44,7 @@ export default function Footer() {
             <Text style={styles.TextFooter}>Live</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleNavigate(namePage.HOME)}>
+        <TouchableOpacity onPress={() => handleNavigate(namePage.SETTING)}>
           <View style={styles.Footer_Button}>
             <View style={styles.positionVideo}>
               <Text style={styles.textPositionVideo}>9</Text>

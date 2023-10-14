@@ -20,4 +20,9 @@ export default namePage = {
   CHOOSEBANK: "Choosebank",
   AGENCY: "Agency",
   SHIPPER: "Shipper",
+  ALLEVA: "AllEva",
+  EVALUATE: "Evaluate",
+  SHOP: "Shop",
+  PRODUCTDETAILS: "ProductDetails",
+  RECOMMEN: "Recommen",
 };

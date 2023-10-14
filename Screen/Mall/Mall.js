@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 import SlidingMenu from "./SlidingMall/SlidingMall";
 import MenuList from "./MenuList/MenuList";
 import Introduction from "./Introduce/Introduce";
@@ -14,6 +14,11 @@ export default function Mall() {
         <SlidingMenu />
         <Introduction />
         <Category />
+        <View style={{ paddingTop: 20, paddingHorizontal: 5 }}>
+          <Text style={{ fontSize: 20, fontWeight: "500", color: "red" }}>
+            Gợi ý hôm nay
+          </Text>
+        </View>
         <Product />
       </ScrollView>
     </>

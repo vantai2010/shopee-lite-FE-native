@@ -15,10 +15,10 @@ import { Image } from "expo-image";
 import { useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { Link, useNavigation } from "@react-navigation/native";
-import fontSize from "../../ultil/constant/fontSize";
-import color from "../../ultil/constant/color";
+import fontSize from "../../utils/constant/fontSize";
+import color from "../../utils/constant/color";
 import { FontAwesome } from "@expo/vector-icons";
-import namePage from "../../ultil/constant/namePage";
+import namePage from "../../utils/constant/namePage";
 
 const DimensionsWidth = Dimensions.get("screen").width;
 const DimensionsHeight = Dimensions.get("screen").height;

@@ -11,6 +11,9 @@ import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
 import bg7 from "../../../Image/background7.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
+import { getProductService } from "../../../service/appService";
+import { useState, useEffect } from "react";
+
 export default function Product() {
   const products = [
     {
@@ -83,9 +86,6 @@ export default function Product() {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.suggest}>
-          <Text style={styles.textSuggest}>Gợi ý hôm nay</Text>
-        </View>
         <FlatList
           data={products}
           keyExtractor={(item) => item.id}
@@ -135,19 +135,11 @@ export default function Product() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-  },
-  suggest: {
-    paddingTop: 20,
-    paddingHorizontal: 5,
-  },
-  textSuggest: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "red",
-  },
+  // container: {
+  //   flex: 1,
+  //   width: "100%",
+  // },
+
   InformationItem: {
     width: "50%",
     margin: 5,
@@ -156,6 +148,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e8e8e8",
     paddingBottom: 5,
+    backgroundColor: "white",
   },
   imageProduct: {
     width: "100%",

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const customAxios = axios.create({
   baseURL: "http://192.168.42.110:5000",
-  timeout: 10000,
+  // timeout: 10000,
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer YOUR_ACCESS_TOKEN",

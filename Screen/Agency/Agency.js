@@ -11,6 +11,8 @@ import { AntDesign } from "@expo/vector-icons";
 import fontSize from "../../utils/constant/fontSize";
 import Vi from "../../utils/language/vi";
 import bg7 from "../../Image/background11.png";
+import Avata from "../Avatar/Avata";
+
 const productsData = [
   { id: "1", name: "Sản phẩm 1", price: 100, status: "Đang giao" },
   { id: "2", name: "Sản phẩm 3", price: 200, status: "Đang chờ xác nhận" },
@@ -108,9 +110,11 @@ const Agency = () => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image
-          style={{ width: 70, height: 70, borderRadius: 50 }}
-          source={bg7}
+        <Avata
+          avatarUrl={
+            "https://cdn.oneesports.vn/cdn-data/sites/4/2022/03/fo4-beckham-team-color.jpg"
+          }
+          style={{ width: "100%", height: "100%" }}
         />
         <View style={{ marginLeft: 10 }}>
           <Text style={{ fontSize: fontSize.h2, fontWeight: "600" }}>

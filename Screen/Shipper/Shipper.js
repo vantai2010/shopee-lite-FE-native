@@ -10,6 +10,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import bg7 from "../../Image/background11.png";
 import fontSize from "../../utils/constant/fontSize";
+import Avata from "../Avatar/Avata";
 
 const ordersData = [
   { id: 1, orderNumber: "SHOPEE123", status: "Đang Giao Hàng" },
@@ -82,9 +83,11 @@ const Shipper = () => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image
-          style={{ width: 70, height: 70, borderRadius: 50 }}
-          source={bg7}
+        <Avata
+          avatarUrl={
+            "https://cdn.oneesports.vn/cdn-data/sites/4/2022/03/fo4-beckham-team-color.jpg"
+          }
+          style={{ width: "100%", height: "100%" }}
         />
         <View style={{ marginLeft: 10 }}>
           <Text style={{ fontSize: fontSize.h2, fontWeight: "600" }}>

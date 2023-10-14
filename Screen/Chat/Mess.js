@@ -25,6 +25,42 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import color from "../../utils/constant/color";
 import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
+const dataChat = [
+  {
+    id: 0,
+    sender: "send",
+    content:
+      "Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) ",
+    time: "20:57",
+  },
+  {
+    id: 1,
+    sender: "send",
+    content:
+      "Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) ",
+    time: "20:57",
+  },
+  {
+    id: 2,
+    sender: "send",
+    content:
+      "Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) ",
+    time: "20:57",
+  },
+  {
+    id: 3,
+    sender: "receive",
+    content: "slkdas ",
+    time: "20:57",
+  },
+  {
+    id: 4,
+    sender: "receive",
+    content: "ksdka ",
+    time: "20:57",
+  },
+];
+
 export default function Mess() {
   const navigation = useNavigation();
 
@@ -35,218 +71,197 @@ export default function Mess() {
   const [text, setText] = useState("");
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0} // Điều chỉnh vị trí đẩy lên
-    >
-      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.icon1_header}
-            onPress={() => handleNavigate(namePage.CHAT)}
-          >
-            <AntDesign name="arrowleft" size={24} color="black" />
-          </TouchableOpacity>
-          <View style={styles.content_header}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
             <TouchableOpacity
-              style={styles.image_chat}
-              onPress={() => handleNavigate(namePage.SETPROFILE)}
+              style={styles.icon1_header}
+              onPress={() => handleNavigate(namePage.CHAT)}
             >
-              <Image
-                style={styles.Image_Content}
-                source="https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG"
-              />
+              <AntDesign name="arrowleft" size={24} color="black" />
             </TouchableOpacity>
+            <View style={styles.content_header}>
+              <TouchableOpacity
+                style={styles.image_chat}
+                onPress={() => handleNavigate(namePage.AGENCY)}
+              >
+                <Image
+                  style={styles.Image_Content}
+                  source="https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG"
+                />
+              </TouchableOpacity>
 
-            <View style={styles.box_header}>
-              <View style={styles.likeAndName}>
-                <View style={styles.status_header}>
-                  <Text
-                    style={{
-                      fontSize: fontSize.h4,
-                      backgroundColor: color.THEME,
-                      color: "white",
-                    }}
+              <View style={styles.box_header}>
+                <View style={styles.likeAndName}>
+                  <View style={styles.status_header}>
+                    <Text
+                      style={{
+                        fontSize: fontSize.h4,
+                        backgroundColor: color.THEME,
+                        color: "white",
+                      }}
+                    >
+                      <TextFormatted id="mess.like" />
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    style={styles.name_header}
+                    onPress={() => handleNavigate(namePage.SETPROFILE)}
                   >
-                    <TextFormatted id="notification.like" />
-                  </Text>
+                    <Text style={{ fontSize: fontSize.h2 }}>
+                      @datStore.TheBest
+                    </Text>
+                  </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity
-                  style={styles.name_header}
-                  onPress={() => handleNavigate(namePage.SETPROFILE)}
-                >
-                  <Text style={{ fontSize: fontSize.h2 }}>
-                    @datStore.TheBest
+                <View style={styles.time_header}>
+                  <Text style={{ fontSize: fontSize.h3, color: "#787878" }}>
+                    <TextFormatted id="mess.online" />
                   </Text>
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity style={styles.icon2_header}>
+              <MaterialCommunityIcons
+                name="dots-horizontal-circle"
+                size={24}
+                color="black"
+              />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={styles.container_content}>
+            <View style={styles.content}>
+              <TouchableOpacity style={{ padding: 10 }}>
+                <View style={styles.header_content}>
+                  <View style={styles.img_header_content}>
+                    <Image
+                      style={styles.img_product}
+                      source="https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG"
+                    />
+                  </View>
+
+                  <View style={styles.info_content}>
+                    <View style={styles.code_info}>
+                      <Text style={{ fontSize: fontSize.h3 }}>
+                        <TextFormatted id="mess.code" />
+                      </Text>
+                      <Text style={{ fontSize: fontSize.h3 }}>19247312</Text>
+                    </View>
+
+                    <View style={styles.total_info}>
+                      <Text style={{ fontSize: fontSize.h3 }}>
+                        <TextFormatted id="mess.totalOrder" />
+                      </Text>
+                      <Text style={{ fontSize: fontSize.h3 }}>999.999Đ</Text>
+                    </View>
+
+                    <View style={styles.result_info}>
+                      <Text style={{ color: "#fd5e32", fontSize: fontSize.h3 }}>
+                        <TextFormatted id="mess.result" />
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+
+              {/* <View style={[styles.chat, dataChat.sender === 'send' ? styles.box_mess : styles.rebox_mess]}> */}
+              {dataChat.map((mess) => {
+                return (
+                  <View key={mess.id}>
+                    <View style={styles.date_chat}>
+                      <Text style={styles.text_date_chat}>08 thg 2 2022</Text>
+                    </View>
+
+                    <TouchableOpacity style={styles.box_mess}>
+                      <View style={styles.text_box_mess}>
+                        <Text style={{ fontSize: fontSize.h2 }}>
+                          {mess.content}
+                        </Text>
+                      </View>
+                      <View style={styles.date_box_mess}>
+                        <Text
+                          style={{ fontSize: fontSize.h3, color: "#787878" }}
+                        >
+                          {mess.time}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    <View style={styles.date_chat}>
+                      <Text style={styles.text_date_chat}>08 thg 2 2022</Text>
+                    </View>
+
+                    <TouchableOpacity style={styles.rechat}>
+                      <View style={styles.rebox_mess}>
+                        <View style={styles.retext_box_mess}>
+                          <Text style={{ fontSize: fontSize.h2 }}>
+                            {mess.content}
+                          </Text>
+                        </View>
+                        <View style={styles.redate_box_mess}>
+                          <Text
+                            style={{ fontSize: fontSize.h3, color: "#787878" }}
+                          >
+                            {mess.time}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
+              {/* </View> */}
+
+              {/* <TouchableOpacity style={styles.rechat}>
+                    <View style={styles.rebox_mess}>
+                      <View style={styles.retext_box_mess}>
+                        <Text style={{fontSize: fontSize.h2}}>
+                        Bạn cứ cho mình món đồ đắt nhất ở đây nhé! Càng đắt càng tốt
+                        </Text>
+                      </View>
+                      <View style={styles.redate_box_mess}>
+                        <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
+                          20:57
+                        </Text>
+                      </View>
+
+                    </View>
+
+                </TouchableOpacity> */}
+            </View>
+          </ScrollView>
+
+          <View style={styles.footer}>
+            <TouchableOpacity style={styles.footer_add}>
+              <Ionicons name="add-circle-outline" size={30} color="black" />
+            </TouchableOpacity>
+            <View style={styles.content_footer}>
+              <View style={styles.text_footer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Search"
+                  onChangeText={(value) => setText(value)}
+                  value={text}
+                />
+
+                <TouchableOpacity style={styles.icon_footer}>
+                  <FontAwesome5 name="smile" size={24} color="black" />
                 </TouchableOpacity>
               </View>
-
-              <View style={styles.time_header}>
-                <Text style={{ fontSize: fontSize.h3, color: "#787878" }}>
-                  Active 23 minutes ago
-                </Text>
-              </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.icon2_header}>
-            <MaterialCommunityIcons
-              name="dots-horizontal-circle"
-              size={24}
-              color="black"
-            />
-          </TouchableOpacity>
+
+          <StatusBar style="auto" />
         </View>
-
-        <ScrollView style={styles.container_content}>
-          <View style={styles.content}>
-            <TouchableOpacity style={{ padding: 10 }}>
-              <View style={styles.header_content}>
-                <View style={styles.img_header_content}>
-                  <Image
-                    style={styles.img_product}
-                    source="https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG"
-                  />
-                </View>
-
-                <View style={styles.info_content}>
-                  <View style={styles.code_info}>
-                    <Text style={{ fontSize: fontSize.h3 }}>
-                      Mã đơn hàng: 19247312
-                    </Text>
-                  </View>
-
-                  <View style={styles.total_info}>
-                    <Text style={{ fontSize: fontSize.h3 }}>
-                      Tổng đơn hàng: 999.999Đ
-                    </Text>
-                  </View>
-
-                  <View style={styles.result_info}>
-                    <Text style={{ color: "#fd5e32", fontSize: fontSize.h3 }}>
-                      Thành công
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <View style={styles.date_chat}>
-              <Text style={styles.text_date_chat}>08 thg 2 2022</Text>
-            </View>
-
-            <TouchableOpacity style={styles.chat}>
-              <View style={styles.box_mess}>
-                <View style={styles.text_box_mess}>
-                  <Text style={{ fontSize: fontSize.h2 }}>
-                    Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ
-                    mới Century Club cùng nhiều siêu phẩm khác với vòng quay
-                    FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn
-                    sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò.
-                    Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu
-                    ngay siêu quà BTB 80 (+8)
-                  </Text>
-                </View>
-                <View style={styles.date_box_mess}>
-                  <Text style={{ fontSize: fontSize.h3, color: "#787878" }}>
-                    20:57
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <View style={styles.date_chat}>
-              <Text style={styles.text_date_chat}>08 thg 2 2022</Text>
-            </View>
-
-            <TouchableOpacity style={styles.chat}>
-              <View style={styles.box_mess}>
-                <View style={styles.text_box_mess}>
-                  <Text style={{ fontSize: fontSize.h2 }}>
-                    Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ
-                    mới Century Club cùng nhiều siêu phẩm khác với vòng quay
-                    FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn
-                    sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò.
-                    Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu
-                    ngay siêu quà BTB 80 (+8)
-                  </Text>
-                </View>
-                <View style={styles.date_box_mess}>
-                  <Text style={{ fontSize: fontSize.h3, color: "#787878" }}>
-                    20:57
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.chat}>
-              <View style={styles.box_mess}>
-                <View style={styles.text_box_mess}>
-                  <Text style={{ fontSize: fontSize.h2 }}>
-                    Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ
-                    mới Century Club cùng nhiều siêu phẩm khác với vòng quay
-                    FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn
-                    sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò.
-                    Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu
-                    ngay siêu quà BTB 80 (+8)
-                  </Text>
-                </View>
-                <View style={styles.date_box_mess}>
-                  <Text style={{ fontSize: fontSize.h3, color: "#787878" }}>
-                    20:57
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <View style={styles.date_chat}>
-              <Text style={styles.text_date_chat}>09 thg 2 2022</Text>
-            </View>
-
-            <TouchableOpacity style={styles.rechat}>
-              <View style={styles.rebox_mess}>
-                <View style={styles.retext_box_mess}>
-                  <Text style={{ fontSize: fontSize.h2 }}>
-                    Bạn cứ cho mình món đồ đắt nhất ở đây nhé! Càng đắt càng tốt
-                  </Text>
-                </View>
-                <View style={styles.redate_box_mess}>
-                  <Text style={{ fontSize: fontSize.h3, color: "#787878" }}>
-                    20:57
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.footer_add}>
-            <Ionicons name="add-circle-outline" size={30} color="black" />
-          </TouchableOpacity>
-          <View style={styles.content_footer}>
-            <View style={styles.text_footer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Search"
-                onChangeText={(value) => setText(value)}
-                value={text}
-              />
-
-              <TouchableOpacity style={styles.icon_footer}>
-                <FontAwesome5 name="smile" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <StatusBar style="auto" />
-      </View>
-
-      {/* </TouchableWithoutFeedback> */}
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -334,9 +349,11 @@ const styles = StyleSheet.create({
   },
   code_info: {
     paddingVertical: 3,
+    flexDirection: "row",
   },
   total_info: {
     paddingVertical: 3,
+    flexDirection: "row",
   },
   result_info: {
     paddingVertical: 3,
@@ -375,7 +392,7 @@ const styles = StyleSheet.create({
   rebox_mess: {
     maxWidth: "85%",
     padding: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,

@@ -5,6 +5,8 @@ import Transport from "./Transport/Transport";
 import Describe from "./Describe/Describe";
 import InfromationPro from "./Describe/InformationPro";
 import NavMenu from "./NavMenu/NavMenu";
+import Evaluate from "../Evaluate/Evaluate";
+
 export default function ProductDetails() {
   return (
     <>
@@ -14,6 +16,7 @@ export default function ProductDetails() {
         <Transport />
         <Describe />
         <InfromationPro />
+        <Evaluate />
       </ScrollView>
       <NavMenu />
     </>

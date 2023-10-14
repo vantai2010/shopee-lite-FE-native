@@ -34,8 +34,8 @@ export default class SwiperComponent extends Component {
           style={styles.wrapper}
           showsButtons={false}
           showsPagination={false}
-          autoplay={false}
-          autoplayTimeout={3}
+          autoplay={true}
+          autoplayTimeout={1}
           scrollEnabled
         >
           <View style={styles.slide1}>
