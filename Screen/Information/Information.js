@@ -22,6 +22,7 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Chat from "../Chat/Chat";
 import UI from "./UI";
+import namePage from "../../utils/constant/namePage";
 import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 const item = [
@@ -240,9 +241,10 @@ export default function Information() {
             </View>
 
             <View style={styles.Content_Container}>
-              <TouchableOpacity>
+              
                 {item.map((noti) => {
                   return (
+                    <TouchableOpacity onPress={() => handleNavigate(namePage.ROWINFORMATION)}>
                     <View style={styles.Content} key={noti.id}>
                       <View style={styles.Image}>
                         <Image
@@ -263,9 +265,10 @@ export default function Information() {
                         </View>
                       </View>
                     </View>
+                    </TouchableOpacity>
                   );
                 })}
-              </TouchableOpacity>
+              
             </View>
 
             <StatusBar style="auto" />
