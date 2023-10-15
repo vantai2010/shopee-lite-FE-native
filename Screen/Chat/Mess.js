@@ -112,7 +112,7 @@ export default function Mess() {
 
                   <TouchableOpacity
                     style={styles.name_header}
-                    onPress={() => handleNavigate(namePage.SETPROFILE)}
+                    onPress={() => handleNavigate(namePage.SHOP)}
                   >
                     <Text style={{ fontSize: fontSize.h2 }}>
                       @datStore.TheBest

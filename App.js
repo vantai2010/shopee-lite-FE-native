@@ -29,6 +29,7 @@ import Alleva from "./Screen/Evaluate/AllEva";
 import Evaluate from "./Screen/Evaluate/Evaluate";
 import Shop from "./Screen/Shop/Shop";
 import Recommen from "./Screen/Shop/Recommen";
+import RowInformation from "./Screen/Information/Rowinformation/Rowinformation";
 
 const Stack = createStackNavigator();
 
@@ -72,6 +73,11 @@ export default function App() {
               options={{ headerShown: false }}
               name={namePage.PRODUCTDETAILS}
               component={ProductDetails}
+            />
+            <Stack.Screen
+              options={{ headerShown: true }}
+              name={namePage.ROWINFORMATION}
+              component={RowInformation}
             />
             <Stack.Screen
               options={{ headerShown: false }}

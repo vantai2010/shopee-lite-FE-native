@@ -25,4 +25,5 @@ export default namePage = {
   SHOP: "Shop",
   PRODUCTDETAILS: "ProductDetails",
   RECOMMEN: "Recommen",
+  ROWINFORMATION: "Row_information",
 };
