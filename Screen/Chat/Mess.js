@@ -138,7 +138,10 @@ export default function Mess() {
 
           <ScrollView style={styles.container_content}>
             <View style={styles.content}>
-              <TouchableOpacity style={{ padding: 10 }}>
+              <TouchableOpacity
+                style={{ padding: 10 }}
+                onPress={() => handleNavigate(namePage.ROWINFORMATION)}
+              >
                 <View style={styles.header_content}>
                   <View style={styles.img_header_content}>
                     <Image

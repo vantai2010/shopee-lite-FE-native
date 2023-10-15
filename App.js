@@ -14,6 +14,7 @@ import ForgotPassword from "./Screen/Authenticate/Forgot/ForgotPassword";
 import Verification from "./Screen/Authenticate/Forgot/Verification";
 import ResetPassword from "./Screen/Authenticate/Forgot/ResetPassword";
 import ProductDetails from "./Screen/ProductDetails/ProductDetails";
+import RowInformation from "./Screen/Information/Rowinformation/Rowinformation";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 import Pay from "./Screen/Pay/Pay";
@@ -25,11 +26,7 @@ import PayMethod from "./Screen/Pay/PayMethod";
 import ChooseBank from "./Screen/Pay/ChooseBank";
 import Agency from "./Screen/Agency/Agency";
 import Shipper from "./Screen/Shipper/Shipper";
-import Alleva from "./Screen/Evaluate/AllEva";
-import Evaluate from "./Screen/Evaluate/Evaluate";
 import Shop from "./Screen/Shop/Shop";
-import Recommen from "./Screen/Shop/Recommen";
-import RowInformation from "./Screen/Information/Rowinformation/Rowinformation";
 
 const Stack = createStackNavigator();
 
@@ -73,11 +70,6 @@ export default function App() {
               options={{ headerShown: false }}
               name={namePage.PRODUCTDETAILS}
               component={ProductDetails}
-            />
-            <Stack.Screen
-              options={{ headerShown: true }}
-              name={namePage.ROWINFORMATION}
-              component={RowInformation}
             />
             <Stack.Screen
               options={{ headerShown: false }}
@@ -141,28 +133,18 @@ export default function App() {
             />
             <Stack.Screen
               options={{ headerShown: false }}
-              name={namePage.EVALUATE}
-              component={Evaluate}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.ALLEVA}
-              component={Alleva}
-            />
-            <Stack.Screen
-              options={{ headerShown: false }}
               name={namePage.RESET}
               component={ResetPassword}
             />
             <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.SHOP}
-              component={Shop}
+              options={{ headerShown: true }}
+              name={namePage.ROWINFORMATION}
+              component={RowInformation}
             />
             <Stack.Screen
-              options={{ headerShown: false }}
-              name={namePage.RECOMMEN}
-              component={Recommen}
+              options={{ headerShown: true }}
+              name={namePage.SHOP}
+              component={Shop}
             />
           </Stack.Navigator>
           <Footer />

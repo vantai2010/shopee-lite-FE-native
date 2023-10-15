@@ -22,8 +22,8 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Chat from "../Chat/Chat";
 import UI from "./UI";
-import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 import namePage from "../../utils/constant/namePage";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 const item = [
   {
@@ -241,36 +241,34 @@ export default function Information() {
             </View>
 
             <View style={styles.Content_Container}>
-              <TouchableOpacity>
-                {item.map((noti) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => handleNavigate(namePage.ROWINFORMATION)}
-                    >
-                      <View style={styles.Content} key={noti.id}>
-                        <View style={styles.Image}>
-                          <Image
-                            style={styles.Image_Content}
-                            source={noti.image}
-                          />
+              {item.map((noti) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => handleNavigate(namePage.ROWINFORMATION)}
+                  >
+                    <View style={styles.Content} key={noti.id}>
+                      <View style={styles.Image}>
+                        <Image
+                          style={styles.Image_Content}
+                          source={noti.image}
+                        />
+                      </View>
+                      <View style={styles.TextContent}>
+                        <View style={styles.Results}>
+                          <Text style={styles.Text1}>{noti.title}</Text>
                         </View>
-                        <View style={styles.TextContent}>
-                          <View style={styles.Results}>
-                            <Text style={styles.Text1}>{noti.title}</Text>
-                          </View>
-                          <View style={styles.Info}>
-                            <Text style={styles.Text2}>{noti.discription}</Text>
-                          </View>
+                        <View style={styles.Info}>
+                          <Text style={styles.Text2}>{noti.discription}</Text>
+                        </View>
 
-                          <View style={styles.Time}>
-                            <Text style={styles.TextTime}>{noti.date}</Text>
-                          </View>
+                        <View style={styles.Time}>
+                          <Text style={styles.TextTime}>{noti.date}</Text>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </TouchableOpacity>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
 
             <StatusBar style="auto" />

@@ -13,8 +13,14 @@ import {
   AntDesign,
   Entypo,
 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RowInformation() {
+  const navigation = useNavigation();
+
+  const handleNavigate = (namePage) => {
+    return navigation.navigate(namePage);
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -75,14 +81,17 @@ export default function RowInformation() {
           }}
         >
           <Text>Devan Silver</Text>
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <TouchableOpacity
+            style={{ flexDirection: "row", justifyContent: "flex-end" }}
+            onPress={() => handleNavigate(namePage.SHOP)}
+          >
             <Text style={{ fontWeight: 300 }}>Xem Shop</Text>
             <MaterialIcons
               name="keyboard-arrow-right"
               size={24}
               style={{ color: "rgba(0, 0, 0, .4)", lineHeight: 20 }}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         <View
           style={{
