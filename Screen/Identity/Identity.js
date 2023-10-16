@@ -22,10 +22,11 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../utils/constant/namePage";
+import { useSelector } from "react-redux";
 
 function Identity() {
   const navigation = useNavigation();
-  const [isLogin, setIsLogin] = useState(true);
+  const isLogin = useSelector(state => state.app.isLogin)
 
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage);
@@ -135,6 +136,7 @@ function Identity() {
               >
                 <TouchableOpacity
                   style={{ backgroundColor: "#fff", padding: 10, height: 40 }}
+                  onPress={() => navigation.navigate(namePage.LOGIN)}
                 >
                   <Text
                     style={{
@@ -143,7 +145,7 @@ function Identity() {
                       color: "#ee4d2d",
                     }}
                   >
-                    Đăng ký
+                    Đăng nhập
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -154,6 +156,7 @@ function Identity() {
                     marginHorizontal: 10,
                     padding: 10,
                   }}
+                  onPress={() => navigation.navigate(namePage.REGISTER)}
                 >
                   <Text
                     style={{ textAlign: "center", fontSize: 16, color: "#fff" }}
@@ -333,7 +336,7 @@ function Identity() {
                     style={{ color: "#ee4d2d", marginBottom: 10 }}
                   />
                   <Text style={styles.fontsizeMarginBottom}>Ví ShopeePay</Text>
-                  <Text style={{ fontSize: 10, color: "rgba(0,0,0,.😎" }}>
+                  <Text style={{ fontSize: 10, color: "rgba(0,0,0,.6)" }}>
                     Sử dụng ngay
                   </Text>
                 </View>

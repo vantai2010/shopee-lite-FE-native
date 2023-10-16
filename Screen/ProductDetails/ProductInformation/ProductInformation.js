@@ -6,14 +6,15 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-export default function ProductInformation() {
+export default function ProductInformation({ product }) {
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.contentUp}>
           <View style={styles.contentUpLeft}>
             <View style={styles.nameProduct}>
-              <Text>Áo Kiểu Croptop COLOMBIA Tay Ngắn Cổ Khoét U</Text>
+              <Text>{product.name}</Text>
             </View>
           </View>
           <View style={styles.contentUpRight}>
@@ -25,7 +26,7 @@ export default function ProductInformation() {
         </View>
 
         <View style={styles.contentCenter}>
-          <Text style={styles.price}>Giá: 159.000đ</Text>
+          <Text style={styles.price}>Giá: {product.price}đ</Text>
           <View style={styles.love}>
             <Text style={{ color: "#ffffff" }}>Yêu Thích + </Text>
           </View>
@@ -40,9 +41,9 @@ export default function ProductInformation() {
             <Entypo name="star" size={20} color="#ffce3d" />
           </View>
           <View style={{ paddingLeft: 55 }}>
-            <Text>Đã bán : 1k8</Text>
+            <Text>Đã bán : {product.bought}</Text>
           </View>
-          <View style={styles.iconShare}>
+          {/* <View style={styles.iconShare}>
             <AntDesign name="hearto" size={24} color="gray" />
             <MaterialCommunityIcons
               style={{ paddingLeft: 20 }}
@@ -50,7 +51,7 @@ export default function ProductInformation() {
               size={24}
               color="gray"
             />
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.voucher}>

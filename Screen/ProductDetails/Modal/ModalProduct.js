@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -14,14 +14,25 @@ import fontSize from "../../../utils/constant/fontSize";
 import Vi from "../../../utils/language/vi";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
+import { useSelector } from "react-redux";
+import keyMap from "../../../utils/constant/keyMap";
+import moment from "moment"
+import { pushPorductToCartService } from "../../../service/appService";
 
-const ModalProduct = ({ isVisible, onClose }) => {
+const ModalProduct = ({ isVisible, title, onClose, handle, product }) => {
+  const language = useSelector(state => state.app.language)
+  const isLogin = useSelector(state => state.app.isLogin)
   const navigation = useNavigation();
-  const [selected, setSelected] = useState("");
-  const handleSelected = (type) => {
-    setSelected(type);
+  const [typeSelected, setTypeSelected] = useState("");
+  const [quantityOfType, setQuantityOfType] = useState(null)
+  const idTypeSelected = useRef()
+
+  const handleSelected = (item) => {
+    setTypeSelected(item.type + item.size);
+    setQuantityOfType(item.quantity)
+    idTypeSelected.current = item.id
   };
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const decreaseQuantity = () => {
     if (quantity >= 1) {
@@ -33,9 +44,38 @@ const ModalProduct = ({ isVisible, onClose }) => {
     setQuantity(quantity + 1);
   };
 
-  const handleBuyProduct = () => {
-    navigation.navigate(namePage.PAY);
+  const handleBuyProduct = async () => {
+    if (!isLogin) {
+      return alert(language === keyMap.EN ? 'You are not logged in' : "Bạn chưa đăng nhập")
+    }
+    if (quantity <= 0) {
+      return alert(language === keyMap.EN ? "Please select product quantity" : "Vui lòng chọn số lượng sản phẩm")
+    }
+    if (!idTypeSelected.current) {
+      return alert(language === keyMap.EN ? "Please select product type" : "Vui lòng chọn loại sản phẩm")
+    }
+    if (title === "Them ngay") {
+      let response = await pushPorductToCartService({
+        productId: product.id,
+        productTypeId: idTypeSelected.current,
+        quantity: quantity,
+        supplierId: product.supplierId,
+        statusId: keyMap.TRONGGIO,
+        totalPaid: product.price,
+        time: moment().format('DD/MM/YYYY')
+      })
+
+      if (response && response.errCode === 0) {
+        navigation.navigate(namePage.CART);
+      } else {
+        alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      }
+
+    }
+
+
   };
+
   return (
     <Modal
       isVisible={isVisible}
@@ -54,13 +94,13 @@ const ModalProduct = ({ isVisible, onClose }) => {
               <Image source={bg10} style={{ width: 100, height: 100 }} />
             </View>
             <View style={{ paddingLeft: 10 }}>
-              <Text style={{ fontSize: fontSize.h2 }}>120.000Đ</Text>
+              <Text style={{ fontSize: fontSize.h2 }}>{product.price}Đ</Text>
               <Text style={{ color: "#ff7337", fontSize: fontSize.h2 }}>
-                Kho: 1120
+                Kho: {quantityOfType}
               </Text>
             </View>
           </View>
-          <TouchableOpacity onPress={onClose} style={styles.content}>
+          <TouchableOpacity onPress={handle} style={styles.content}>
             <AntDesign name="close" size={24} color="#ff7337" />
           </TouchableOpacity>
         </View>
@@ -76,48 +116,29 @@ const ModalProduct = ({ isVisible, onClose }) => {
               justifyContent: "space-between",
             }}
           >
-            <TouchableOpacity
-              style={[
-                styles.itemOption,
-                selected === "Màu vàng" ? styles.selected : null,
-              ]}
-              onPress={() => handleSelected("Màu vàng")}
-            >
-              <Image style={{ width: 25, height: 25 }} source={bg10} />
-              <Text>Màu vàng</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.itemOption,
-                selected === "Màu xanh" ? styles.selected : null,
-              ]}
-              onPress={() => handleSelected("Màu xanh")}
-            >
-              <Image style={{ width: 25, height: 25 }} source={bg10} />
-              <Text>Màu xanh</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.itemOption,
-                selected === "Màu đỏ" ? styles.selected : null,
-              ]}
-              onPress={() => handleSelected("Màu đỏ")}
-            >
-              <Image style={{ width: 25, height: 25 }} source={bg10} />
-              <Text>Màu đỏ</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.itemOption,
-                selected === "Màu hồng" ? styles.selected : null,
-              ]}
-              onPress={() => handleSelected("Màu hồng")}
-            >
-              <Image style={{ width: 25, height: 25 }} source={bg10} />
-              <Text>Màu hồng</Text>
-            </TouchableOpacity>
+            {
+              product.productTypeData && product.productTypeData?.map(item => {
+                return (
+                  <TouchableOpacity
+                    key={item.type + item.size}
+                    style={[
+                      styles.itemOption,
+                      typeSelected === item.type + item.size ? styles.typeSelected : null,
+                    ]}
+                    onPress={() => handleSelected(item)}
+                  >
+                    {/* <Image style={{ width: 25, height: 25 }} source={bg10} /> */}
+                    <Text>{item.type + "-size: " + item.size}</Text>
+                  </TouchableOpacity>
+                )
+              })
+            }
+
           </View>
         </View>
+
+
+
         <View style={styles.contentBottom}>
           <View
             style={{
@@ -140,7 +161,7 @@ const ModalProduct = ({ isVisible, onClose }) => {
             onPress={handleBuyProduct}
           >
             <Text style={{ textAlign: "center", color: "#ffffff" }}>
-              Mua ngay
+              {title}
             </Text>
           </TouchableOpacity>
         </View>
@@ -162,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  selected: {
+  typeSelected: {
     borderWidth: 1,
     borderColor: "#ff7337",
   },

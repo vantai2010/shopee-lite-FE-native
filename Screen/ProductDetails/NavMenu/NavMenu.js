@@ -7,19 +7,26 @@ import ModalNotification from "../Modal/ModalNotification";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
 
-export default function NavMenu() {
+export default function NavMenu({ product }) {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-  const [isModalVisibleCart, setModalVisibleCart] = useState(false);
-  const [notification, setNotification] = useState("");
+  const [title, setTitle] = useState("");
+  const handleModalProduct = (item) => {
+    if (item === "cart") {
+      setTitle("Them ngay")
+      setModalVisible(!isModalVisible);
+    }
+    if (item === "buy") {
+      setTitle("Mua ngay")
+      setModalVisible(!isModalVisible);
+    }
+  };
 
-  const handleBuy = () => {
-    setModalVisible(!isModalVisible);
-  };
-  const handleCart = () => {
-    setModalVisibleCart(!isModalVisibleCart);
-    setNotification("Thêm vào giỏ hàng thành công !");
-  };
+  const handleClose = () => {
+    setModalVisible(false)
+
+  }
+
   const handleMess = () => {
     navigation.navigate(namePage.MESS);
   };
@@ -30,19 +37,14 @@ export default function NavMenu() {
           <FontAwesome name="wechat" size={30} color="red" />
           <Text style={styles.menuItemText}>Chat ngay</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleCart} style={styles.menuItem}>
+        <TouchableOpacity onPress={() => handleModalProduct("cart")} style={styles.menuItem}>
           <AntDesign name="shoppingcart" size={30} color="red" />
           <Text style={styles.menuItemText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buyNow} onPress={handleBuy}>
+        <TouchableOpacity style={styles.buyNow} onPress={() => handleModalProduct("buy")}>
           <Text style={styles.buyNowText}>Mua ngay</Text>
         </TouchableOpacity>
-        <ModalProduct isVisible={isModalVisible} onClose={handleBuy} />
-        <ModalNotification
-          isVisible={isModalVisibleCart}
-          message={notification}
-          onClose={handleCart}
-        />
+        <ModalProduct isVisible={isModalVisible} title={title} onClose={handleModalProduct} handle={handleClose} product={product} />
       </View>
     </>
   );

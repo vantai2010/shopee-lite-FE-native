@@ -13,74 +13,93 @@ import bg7 from "../../../Image/background7.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { getProductService } from "../../../service/appService";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux"
+import keyMap from "../../../utils/constant/keyMap";
+import environment from "../../../utils/constant/environment";
+
 
 export default function Product() {
-  const products = [
-    {
-      id: 1,
-      nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-      image:
-        "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-      price: "159.000đ",
-      sold: "385",
-      sale: "-39%",
-      address: "Hà Nội",
-    },
-    {
-      id: 2,
-      nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-      image:
-        "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-      price: "159.000đ",
-      sold: "385",
-      sale: "-39%",
-      address: "Hà Nội",
-    },
-    {
-      id: 3,
-      nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-      image:
-        "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-      price: "159.000đ",
-      sold: "385",
-      sale: "-39%",
-      address: "Hà Nội",
-    },
-    {
-      id: 4,
-      nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-      image:
-        "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-      price: "159.000đ",
-      sold: "385",
-      sale: "-39%",
-      address: "Hà Nội",
-    },
-    {
-      id: 5,
-      nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-      image:
-        "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-      price: "159.000đ",
-      sold: "385",
-      sale: "-39%",
-      address: "Hà Nội",
-    },
-    {
-      id: 6,
-      nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-      image:
-        "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-      price: "159.000đ",
-      sold: "385",
-      sale: "-39%",
-      address: "Hà Nội",
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: 1,
+  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
+  //     image:
+  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
+  //     price: "159.000đ",
+  //     sold: "385",
+  //     sale: "-39%",
+  //     address: "Hà Nội",
+  //   },
+  //   {
+  //     id: 2,
+  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
+  //     image:
+  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
+  //     price: "159.000đ",
+  //     sold: "385",
+  //     sale: "-39%",
+  //     address: "Hà Nội",
+  //   },
+  //   {
+  //     id: 3,
+  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
+  //     image:
+  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
+  //     price: "159.000đ",
+  //     sold: "385",
+  //     sale: "-39%",
+  //     address: "Hà Nội",
+  //   },
+  //   {
+  //     id: 4,
+  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
+  //     image:
+  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
+  //     price: "159.000đ",
+  //     sold: "385",
+  //     sale: "-39%",
+  //     address: "Hà Nội",
+  //   },
+  //   {
+  //     id: 5,
+  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
+  //     image:
+  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
+  //     price: "159.000đ",
+  //     sold: "385",
+  //     sale: "-39%",
+  //     address: "Hà Nội",
+  //   },
+  //   {
+  //     id: 6,
+  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
+  //     image:
+  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
+  //     price: "159.000đ",
+  //     sold: "385",
+  //     sale: "-39%",
+  //     address: "Hà Nội",
+  //   },
+  // ];
+  const language = useSelector(state => state.app.language)
+  const [products, setProducts] = useState([])
+  const getListProducts = async () => {
+    let response = await getProductService()
+    if (response && response.errCode === 0) {
+      setProducts(response.data)
+    } else {
+      alert(language === keyMap.EN ? response?.messageEN : response?.messageVI)
+    }
+  }
+
+  useEffect(() => {
+    getListProducts()
+  }, [])
+
   const numColumns = Math.ceil(products.length / 2);
   const navigation = useNavigation();
-  const handleDetailsProduct = () => {
-    navigation.navigate(namePage.PRODUCTDETAILS);
+  const handleDetailsProduct = (productId) => {
+    navigation.navigate(namePage.PRODUCTDETAILS, { productId: productId });
   };
 
   return (
@@ -96,7 +115,7 @@ export default function Product() {
             <TouchableOpacity
               style={styles.InformationItem}
               key={item.nameProduct}
-              onPress={handleDetailsProduct}
+              onPress={() => handleDetailsProduct(item.id)}
             >
               <View style={styles.imageProduct}>
                 <Image style={styles.imageSale} source={bg7} />
@@ -105,9 +124,9 @@ export default function Product() {
                   <Text style={styles.textSale}>{item.sale}</Text>
                 </View>
                 <View style={styles.triangleUp}></View>
-                <Image style={styles.image} source={{ uri: item.image }} />
+                <Image style={styles.image} source={{ uri: environment.BASE_URL_BE_IMG + item.image[0] }} />
                 <Text style={styles.mail}>Mall</Text>
-                <Text style={styles.textProduct}>{item.nameProduct}</Text>
+                <Text style={styles.textProduct}>{item.name}</Text>
               </View>
 
               <Text style={styles.textPrice}>Giá: {item.price}</Text>
@@ -120,12 +139,12 @@ export default function Product() {
                   <Entypo name="star" size={24} color="#ffce3d" />
                   <Entypo name="star" size={24} color="#ffce3d" />
                 </View>
-                <Text style={styles.textProduct}>Đã bán: {item.sold}</Text>
+                <Text style={styles.textProduct}>Đã bán: {item.bought}</Text>
               </View>
-              <View style={styles.address}>
+              {/* <View style={styles.address}>
                 <AntDesign name="enviromento" size={15} color="gray" />
                 <Text style={{ color: "gray" }}>{item.address}</Text>
-              </View>
+              </View> */}
             </TouchableOpacity>
           )}
         />

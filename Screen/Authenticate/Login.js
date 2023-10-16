@@ -15,8 +15,9 @@ import keyMap from "../../utils/constant/keyMap";
 import { fetchLoginThunk } from "../../store/slices/appSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import namePage from "../../utils/constant/namePage";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import fontSize from "../../utils/constant/fontSize";
+import environment from "../../utils/constant/environment";
 
 const LoginScreen = () => {
   const language = useSelector((state) => state.app.language);
@@ -45,7 +46,7 @@ const LoginScreen = () => {
     });
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let { email, password } = inputForm;
     if (!email) {
       setErrMess({
@@ -82,17 +83,19 @@ const LoginScreen = () => {
     //   return;
     // }
 
-    let response = dispatch(fetchLoginThunk({ email, password }));
+    let response = await dispatch(fetchLoginThunk({ email, password }));
     let data = unwrapResult(response);
+    // console.log("dada", data);
     if (data && data.errCode === 0) {
+      AsyncStorage.setItem(environment.KEY_TOKEN_STORE, data.token)
       navigation.navigate(namePage.HOME);
     } else {
       setErrMess({
         email: "",
         password:
           language === keyMap.EN
-            ? "There was an error during the login process"
-            : "Có lỗi trong quá trình đăng nhập",
+            ? data.messageEN
+            : data.messageVI,
       });
     }
   };

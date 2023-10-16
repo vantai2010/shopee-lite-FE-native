@@ -39,6 +39,7 @@ const initialState = {
     language: keyMap.VI,
     isLoading: false,
     isLogin: false,
+    token: null,
     userData: {}
 }
 
@@ -57,10 +58,14 @@ export const appSlice = createSlice({
         [fetchLoginThunk.fulfilled]: (state, action) => {
             state.isLoading = false
             state.userData = action.payload.data
+            state.token = action.payload.token
+            state.isLogin = true
         },
         [fetchLoginThunk.rejected]: (state, action) => {
             state.isLoading = false
             state.userData = {}
+            state.isLogin = false
+            state.token = null
         },
         [fetchRegisterThunk.pending]: (state, action) => {
             state.isLoading = true

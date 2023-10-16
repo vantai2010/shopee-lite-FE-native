@@ -81,53 +81,59 @@ const item = [
   },
 ];
 
-const transformStar = (numberStar) => {
-  if (numberStar === 5) {
-    return [1, 1, 1, 1, 1];
-  }
-  if (numberStar === 4) {
-    return [1, 1, 1, 1, 0];
-  }
-  if (numberStar === 3) {
-    return [1, 1, 1, 0, 0];
-  }
-  if (numberStar === 2) {
-    return [1, 1, 0, 0, 0];
-  }
-  if (numberStar === 1) {
-    return [1, 0, 0, 0, 0];
-  }
-};
-const renderStar = (item) => {
-  if (item === 1) {
-    return (
-      <View>
-        <FontAwesome
-          name="star"
-          size={13}
-          color="#ffad27"
-          style={{ paddingHorizontal: 2 }}
-        />
-      </View>
-    );
-  } else if (item > 0 && item < 1) {
-    return <FontAwesome name="star-half-empty" size={13} color="#ffad27" />;
-  } else {
-    return (
-      <View>
-        <FontAwesome name="star-o" size={13} color="#ffad27" />
-      </View>
-    );
-  }
-};
 
-export default function Evaluate() {
+export default function Evaluate({ product }) {
   const [star, setStar] = useState([1, 1, 1, 1, 0.5]);
 
   const navigation = useNavigation();
 
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage);
+  };
+
+
+  const transformStar = (numberStar) => {
+    if (numberStar === 5) {
+      return [1, 1, 1, 1, 1];
+    }
+    if (numberStar === 4) {
+      return [1, 1, 1, 1, 0];
+    }
+    if (numberStar === 3) {
+      return [1, 1, 1, 0, 0];
+    }
+    if (numberStar === 2) {
+      return [1, 1, 0, 0, 0];
+    }
+    if (numberStar === 1) {
+      return [1, 0, 0, 0, 0];
+    }
+    if (numberStar === 0) {
+      return [0, 0, 0, 0, 0];
+    }
+  };
+
+  const renderStar = (item) => {
+    if (item === 1) {
+      return (
+        <View>
+          <FontAwesome
+            name="star"
+            size={13}
+            color="#ffad27"
+            style={{ paddingHorizontal: 2 }}
+          />
+        </View>
+      );
+    } else if (item > 0 && item < 1) {
+      return <FontAwesome name="star-half-empty" size={13} color="#ffad27" />;
+    } else {
+      return (
+        <View>
+          <FontAwesome name="star-o" size={13} color="#ffad27" />
+        </View>
+      );
+    }
   };
 
   return (
@@ -152,7 +158,7 @@ export default function Evaluate() {
               </View>
 
               <View style={styles.review}>
-                <Text style={{ fontSize: fontSize.h3 }}>(860 đánh giá)</Text>
+                <Text style={{ fontSize: fontSize.h3 }}>({product.productReviewData?.length} đánh giá)</Text>
               </View>
             </View>
           </View>
