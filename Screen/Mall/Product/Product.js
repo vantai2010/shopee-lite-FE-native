@@ -10,77 +10,16 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
 import bg7 from "../../../Image/background7.png";
+import { FontAwesome } from "@expo/vector-icons";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { getProductService } from "../../../service/appService";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux"
 import keyMap from "../../../utils/constant/keyMap";
 import environment from "../../../utils/constant/environment";
-
+import handleFormatMoney from "../../../utils/formatMoney"
 
 export default function Product() {
-  // const products = [
-  //   {
-  //     id: 1,
-  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-  //     image:
-  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-  //     price: "159.000đ",
-  //     sold: "385",
-  //     sale: "-39%",
-  //     address: "Hà Nội",
-  //   },
-  //   {
-  //     id: 2,
-  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-  //     image:
-  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-  //     price: "159.000đ",
-  //     sold: "385",
-  //     sale: "-39%",
-  //     address: "Hà Nội",
-  //   },
-  //   {
-  //     id: 3,
-  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-  //     image:
-  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-  //     price: "159.000đ",
-  //     sold: "385",
-  //     sale: "-39%",
-  //     address: "Hà Nội",
-  //   },
-  //   {
-  //     id: 4,
-  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-  //     image:
-  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-  //     price: "159.000đ",
-  //     sold: "385",
-  //     sale: "-39%",
-  //     address: "Hà Nội",
-  //   },
-  //   {
-  //     id: 5,
-  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-  //     image:
-  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-  //     price: "159.000đ",
-  //     sold: "385",
-  //     sale: "-39%",
-  //     address: "Hà Nội",
-  //   },
-  //   {
-  //     id: 6,
-  //     nameProduct: "Điện thoại samsung Galaxy Z Flip 4(8G/12G)",
-  //     image:
-  //       "https://salt.tikicdn.com/cache/368x368/ts/product/6a/be/a4/eed46980c01c6332b513831e13dd14cf.jpg.webp",
-  //     price: "159.000đ",
-  //     sold: "385",
-  //     sale: "-39%",
-  //     address: "Hà Nội",
-  //   },
-  // ];
   const language = useSelector(state => state.app.language)
   const [products, setProducts] = useState([])
   const getListProducts = async () => {
@@ -96,10 +35,68 @@ export default function Product() {
     getListProducts()
   }, [])
 
+
+  // useEffect(() => {
+  //   function splitDecimal(number) {
+  //     if (!number) return
+  //     const integerPart = Math.floor(number);
+  //     const fractionalPart = number - integerPart;
+  //     return { integer: integerPart, fractional: fractionalPart };
+  //   }
+  //   let arrProducts = []
+  //   if (products.length > 0) {
+  //     arrProducts = products.map(product => {
+  //       let arr = []
+  //       if (product.star) {
+  //         const { integer, fractional } = splitDecimal(product.star);
+  //         let integerRating = integer
+  //         let addFractional = false
+  //         for (let i = 0; i < 5; i++) {
+  //           if (integerRating > 0) {
+  //             arr.push(1)
+  //           } else if (integerRating === 0 && addFractional === false) {
+  //             arr.push(fractional)
+  //             addFractional = true
+  //           } else {
+  //             arr.push(0)
+  //           }
+  //           integerRating = integerRating - 1
+  //         }
+  //       }
+  //       return { ...product, star: arr.length > 0 ? arr : [0, 0, 0, 0, 0] }
+  //     })
+  //   }
+
+  //   setProducts(arrProducts)
+  // }, [products])
+
   const numColumns = Math.ceil(products.length / 2);
   const navigation = useNavigation();
   const handleDetailsProduct = (productId) => {
     navigation.navigate(namePage.PRODUCTDETAILS, { productId: productId });
+  };
+
+  const renderStar = (item) => {
+    if (item === 1) {
+      return (
+        <View key={item + Math.random(0, 1)}>
+          <FontAwesome
+            name="star"
+            size={20}
+            color="#ffad27"
+            style={{ paddingHorizontal: 2 }}
+          />
+        </View>
+      );
+    } else if (item > 0 && item < 1) {
+      return <FontAwesome key={item + Math.random(0, 1)} name="star-half-empty" size={20} color="#ffad27" />;
+    } else {
+      return (
+        <View key={item + Math.random(0, 1)}>
+          <FontAwesome name="star-o" size={20} color="#ffad27" />
+        </View>
+      );
+    }
   };
 
   return (
@@ -129,15 +126,21 @@ export default function Product() {
                 <Text style={styles.textProduct}>{item.name}</Text>
               </View>
 
-              <Text style={styles.textPrice}>Giá: {item.price}</Text>
+              <Text style={styles.textPrice}>Giá: {handleFormatMoney(item.price)}</Text>
 
               <View style={{ paddingHorizontal: 5 }}>
                 <View style={styles.starRate}>
+                  {
+                    item.star &&
+                    item.star.map((item) => {
+                      return renderStar(item);
+                    })}
+
+                  {/* <Entypo name="star" size={24} color="#ffce3d" />
                   <Entypo name="star" size={24} color="#ffce3d" />
                   <Entypo name="star" size={24} color="#ffce3d" />
                   <Entypo name="star" size={24} color="#ffce3d" />
-                  <Entypo name="star" size={24} color="#ffce3d" />
-                  <Entypo name="star" size={24} color="#ffce3d" />
+                  <Entypo name="star" size={24} color="#ffce3d" /> */}
                 </View>
                 <Text style={styles.textProduct}>Đã bán: {item.bought}</Text>
               </View>

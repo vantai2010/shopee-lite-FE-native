@@ -9,6 +9,7 @@ export default function Mall() {
   return (
     <>
       <ScrollView>
+
         <SwiperComponent />
         <MenuList />
         <SlidingMenu />

@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "permissions": [
+      "CAMERA",
+      "AUDIO_RECORDING",
+      "LOCATION",
+      "MEDIA_LIBRARY"
+    ]
   }
 }

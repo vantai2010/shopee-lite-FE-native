@@ -15,9 +15,13 @@ import { Link, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { AntDesign, EvilIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-
+import { Feather } from '@expo/vector-icons';
 import Avata from "../Avatar/Avata";
 import fontSize from "../../utils/constant/fontSize";
+import environment from "../../utils/constant/environment";
+import { useSelector } from "react-redux";
+import keyMap from "../../utils/constant/keyMap";
+import { setFollowShopService, setUnFollowShopService } from "../../service/appService";
 
 const DimensionsWidth = Dimensions.get("screen").width;
 const DimensionsHeight = Dimensions.get("screen").height;
@@ -62,13 +66,39 @@ const renderStar = (item) => {
   }
 };
 
-export default function HeaderShop() {
+export default function HeaderShop({ inforShop, getInforShop }) {
   const navigation = useNavigation();
-
+  const language = useSelector(state => state.app.language)
+  const isLogin = useSelector(state => state.app.isLogin)
+  const userData = useSelector(state => state.app.userData)
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage);
   };
   const [text, setText] = useState("");
+
+  const handleSetFollowShop = async () => {
+    if (!isLogin) {
+      return alert(language === keyMap.EN ? "You are not logged in" : "Bạn phải đăng nhập")
+    }
+    let response = await setFollowShopService({ followedId: inforShop.id })
+    if (response && response.errCode === 0) {
+      getInforShop()
+    } else {
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
+  }
+
+  const handleUnFollowShop = async () => {
+    if (!isLogin) {
+      return alert(language === keyMap.EN ? "You are not logged in" : "Bạn phải đăng nhập")
+    }
+    let response = await setUnFollowShopService({ followedId: inforShop.id })
+    if (response && response.errCode === 0) {
+      getInforShop()
+    } else {
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
+  }
 
   return (
     <SafeAreaView>
@@ -109,7 +139,7 @@ export default function HeaderShop() {
             <View style={styles.Avatar}>
               <Avata
                 avatarUrl={
-                  "https://cdn.oneesports.vn/cdn-data/sites/4/2022/03/fo4-beckham-team-color.jpg"
+                  inforShop.image ? environment.BASE_URL_BE_IMG + inforShop.image : null
                 }
                 style={{ width: "100%", height: "100%" }}
               />
@@ -122,7 +152,7 @@ export default function HeaderShop() {
                   numberOfLines={1}
                   style={{ fontSize: 15, flex: 1, fontWeight: "800" }}
                 >
-                  SYNTEE - Áo phông Syns
+                  {language === keyMap.EN ? `${inforShop.firstName} ${inforShop.lastName}` : `${inforShop.lastName} ${inforShop.firstName}`}
                 </Text>
               </View>
               <View
@@ -142,7 +172,7 @@ export default function HeaderShop() {
               <View style={styles.total}>
                 <View style={styles.number}>{renderStar(1)}</View>
                 <View>
-                  <Text style={{ fontSize: fontSize.h3 }}>4.9/5.0</Text>
+                  <Text style={{ fontSize: fontSize.h3 }}>{inforShop.starShop}/5.0</Text>
                 </View>
               </View>
 
@@ -151,24 +181,37 @@ export default function HeaderShop() {
                   style={{ fontSize: fontSize.h3, maxWidth: "95%" }}
                   numberOfLines={1}
                 >
-                  28,4k Người theo dõi
+                  {inforShop.followingNumber?.length} Người theo dõi
                 </Text>
               </View>
             </View>
           </View>
           <View style={{ flex: 1.5, justifyContent: "space-around" }}>
             <View style={styles.btnFollow}>
-              <Ionicons name="add" size={12} color="black" />
-              <Text style={{ fontSize: fontSize.h3 }}>Theo dõi</Text>
+              {
+                inforShop.followingNumber?.some(item => item.followerId === userData.id) ?
+                  <TouchableOpacity style={{ flexDirection: "row", width: 70 }}
+                    onPress={handleUnFollowShop}
+                  >
+                    <Feather name="x" size={20} color="black" />
+                    <Text style={{ fontSize: fontSize.h3 }}>Hủy theo dõi</Text>
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity style={{ flexDirection: "row" }} onPress={handleSetFollowShop}>
+                    <Ionicons name="add" size={12} color="black" />
+                    <Text style={{ fontSize: fontSize.h3 }}>Theo dõi</Text>
+                  </TouchableOpacity>
+              }
+
             </View>
-            <View style={styles.btnChat}>
+            <TouchableOpacity style={styles.btnChat}>
               <Ionicons
                 name="chatbubble-ellipses-outline"
                 size={12}
                 color="black"
               />
               <Text style={{ fontSize: fontSize.h3 }}>Chat</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

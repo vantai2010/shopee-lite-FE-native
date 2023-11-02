@@ -14,23 +14,30 @@ import fontSize from "../../../utils/constant/fontSize";
 import Vi from "../../../utils/language/vi";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import keyMap from "../../../utils/constant/keyMap";
 import moment from "moment"
 import { pushPorductToCartService } from "../../../service/appService";
+import environment from "../../../utils/constant/environment";
+import handleFormatMoney from "../../../utils/formatMoney"
+import { handleChangeNumberCart } from "../../../store/slices/appSlice";
 
-const ModalProduct = ({ isVisible, title, onClose, handle, product }) => {
+const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, product }) => {
+  const dispatch = useDispatch()
   const language = useSelector(state => state.app.language)
   const isLogin = useSelector(state => state.app.isLogin)
   const navigation = useNavigation();
   const [typeSelected, setTypeSelected] = useState("");
   const [quantityOfType, setQuantityOfType] = useState(null)
-  const idTypeSelected = useRef()
+  const productTypeSelected = useRef()
 
   const handleSelected = (item) => {
+    productTypeSelected.current = {
+      id: item.id,
+      quantity: item.quantity
+    }
     setTypeSelected(item.type + item.size);
     setQuantityOfType(item.quantity)
-    idTypeSelected.current = item.id
   };
   const [quantity, setQuantity] = useState(1);
 
@@ -51,30 +58,50 @@ const ModalProduct = ({ isVisible, title, onClose, handle, product }) => {
     if (quantity <= 0) {
       return alert(language === keyMap.EN ? "Please select product quantity" : "Vui lòng chọn số lượng sản phẩm")
     }
-    if (!idTypeSelected.current) {
+    if (product.productTypeData.length > 0 && !productTypeSelected.current) {
       return alert(language === keyMap.EN ? "Please select product type" : "Vui lòng chọn loại sản phẩm")
     }
-    if (title === "Them ngay") {
+    if (productTypeSelected.current.quantity < quantity) {
+      return alert(language === keyMap.EN ? "The quantity of products is not enough to satisfy" : "Số lượng sản phẩm không đủ để đáp ứng")
+    }
+    if (title === keyMap.THEMNGAY) {
       let response = await pushPorductToCartService({
         productId: product.id,
-        productTypeId: idTypeSelected.current,
+        productTypeId: productTypeSelected.current.id,
         quantity: quantity,
         supplierId: product.supplierId,
         statusId: keyMap.TRONGGIO,
-        totalPaid: product.price,
-        time: moment().format('DD/MM/YYYY')
+        productFee: product.price * quantity,
+        time: moment().format(environment.FORMAT_TIME)
       })
 
       if (response && response.errCode === 0) {
+        setModalVisible(false)
         navigation.navigate(namePage.CART);
+        dispatch(handleChangeNumberCart(response.numberCart))
       } else {
         alert(language === keyMap.EN ? response.messageEN : response.messageVI)
       }
 
     }
+    if (title === keyMap.MUANGAY) {
+      setModalVisible(false)
+      navigation.navigate(namePage.PAY, {
+        data: {
+          productId: product.id,
+          productTypeId: productTypeSelected.current.id,
+          quantity: quantity,
+          supplierId: product.supplierId,
+          productFee: product.price * quantity,
+          product: product
+        }
+      })
 
+    }
 
   };
+
+
 
   return (
     <Modal
@@ -91,10 +118,10 @@ const ModalProduct = ({ isVisible, title, onClose, handle, product }) => {
         <View style={styles.contentTop}>
           <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
             <View>
-              <Image source={bg10} style={{ width: 100, height: 100 }} />
+              <Image source={{ uri: product?.image ? environment.BASE_URL_BE_IMG + product.image[0] : null }} style={{ width: 100, height: 100 }} />
             </View>
             <View style={{ paddingLeft: 10 }}>
-              <Text style={{ fontSize: fontSize.h2 }}>{product.price}Đ</Text>
+              <Text style={{ fontSize: fontSize.h2 }}>{handleFormatMoney(product.price)}</Text>
               <Text style={{ color: "#ff7337", fontSize: fontSize.h2 }}>
                 Kho: {quantityOfType}
               </Text>
@@ -128,7 +155,7 @@ const ModalProduct = ({ isVisible, title, onClose, handle, product }) => {
                     onPress={() => handleSelected(item)}
                   >
                     {/* <Image style={{ width: 25, height: 25 }} source={bg10} /> */}
-                    <Text>{item.type + "-size: " + item.size}</Text>
+                    <Text>{item.type} {item.size ? `-size: ${item.size}` : ""}</Text>
                   </TouchableOpacity>
                 )
               })
@@ -161,7 +188,9 @@ const ModalProduct = ({ isVisible, title, onClose, handle, product }) => {
             onPress={handleBuyProduct}
           >
             <Text style={{ textAlign: "center", color: "#ffffff" }}>
-              {title}
+              {
+                title === keyMap.MUANGAY ? (language === keyMap.EN ? "BUY NOW" : "MUA NGAY") : (language === keyMap.EN ? "ADD NOW" : "THÊM NGAY")
+              }
             </Text>
           </TouchableOpacity>
         </View>

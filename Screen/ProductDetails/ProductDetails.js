@@ -17,29 +17,32 @@ export default function ProductDetails() {
   const route = useRoute()
   const productId = route.params?.productId
   const [product, setProduct] = useState({})
+  const [inforReview, setInforReview] = useState({})
   const getInforProduct = async () => {
     let response = await getInforProductByIdService(productId)
     if (response && response.errCode === 0) {
       setProduct(response.data)
+      setInforReview(response.star)
     } else {
       alert(language === keyMap.EN ? response?.messageEN : response?.messageVI)
     }
   }
+
   useEffect(() => {
     getInforProduct()
   }, [productId])
 
 
-
+  // console.log(product)
   return (
     <>
       <ScrollView style={styles.container}>
-        <SwiperProduct />
-        <ProductInformation product={product} />
+        <SwiperProduct product={product} />
+        <ProductInformation product={product} inforReview={inforReview} />
         <Transport />
         {/* <Describe /> */}
         <InfromationPro product={product} />
-        <Evaluate product={product} />
+        <Evaluate product={product} inforReview={inforReview} />
       </ScrollView>
       <NavMenu product={product} />
     </>

@@ -16,6 +16,7 @@ import { Image } from "expo-image";
 import { useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { Link, useNavigation } from "@react-navigation/native";
+
 // import {Avatar} from 'react-native-elements'
 
 export default function Avata({ avatarUrl }) {
@@ -57,10 +58,18 @@ export default function Avata({ avatarUrl }) {
             <TouchableOpacity onPress={() => null}>
               {/* Nút đóng modal */}
             </TouchableOpacity>
-            <Image
-              source={{ uri: avatarUrl || defaultAvatarUrl }} // Sử dụng avatar mặc định nếu avatarUrl là null
-              style={{ width: 300, height: 300 }}
-            />
+            {
+              avatarUrl ?
+                <Image
+                  source={{ uri: avatarUrl }}
+                  style={{ width: 300, height: 300 }}
+                /> :
+                <Image
+                  source={require("../../Image/default_avatar.png")}
+                  style={{ width: 300, height: 300 }}
+                />
+            }
+
           </View>
         </TouchableWithoutFeedback>
       </Modal>

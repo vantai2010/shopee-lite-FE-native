@@ -85,10 +85,9 @@ const LoginScreen = () => {
 
     let response = await dispatch(fetchLoginThunk({ email, password }));
     let data = unwrapResult(response);
-    // console.log("dada", data);
     if (data && data.errCode === 0) {
       AsyncStorage.setItem(environment.KEY_TOKEN_STORE, data.token)
-      navigation.navigate(namePage.HOME);
+      navigation.goBack();
     } else {
       setErrMess({
         email: "",
@@ -106,6 +105,8 @@ const LoginScreen = () => {
   const handleCreateAccount = () => {
     navigation.navigate(namePage.REGISTER);
   };
+
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.content}>

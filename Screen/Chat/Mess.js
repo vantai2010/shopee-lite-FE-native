@@ -9,66 +9,72 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard,
   Platform,
+  Keyboard
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import fontSize from "../../utils/constant/fontSize";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import color from "../../utils/constant/color";
 import TextFormatted from "../../Components/TextFormatted/TextFormatted";
+import { getListContentChatService, sendMessChatByUserService } from "../../service/appService";
+import { useSelector } from "react-redux";
+import { Toast } from "toastify-react-native"
+import keyMap from "../../utils/constant/keyMap";
+import environment from "../../utils/constant/environment";
 
-const dataChat = [
-  {
-    id: 0,
-    sender: "send",
-    content:
-      "Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) ",
-    time: "20:57",
-  },
-  {
-    id: 1,
-    sender: "send",
-    content:
-      "Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) ",
-    time: "20:57",
-  },
-  {
-    id: 2,
-    sender: "send",
-    content:
-      "Các HLV có thể sử dụng FC/MC để dễ dàng chinh phục mùa thẻ mới Century Club cùng nhiều siêu phẩm khác với vòng quay FECC Đặc Biệt. Chỉ với 50 lượt chơi, chắc chắn rinh ngay dàn sao BOE mạ vàng cùng HLV FW đặc biệt (6 sao) cực kỳ xịn sò. Đặc biệt khi chạm được mốc tích lũy cao nhất sẽ được sở hữu ngay siêu quà BTB 80 (+8) ",
-    time: "20:57",
-  },
-  {
-    id: 3,
-    sender: "receive",
-    content: "slkdas ",
-    time: "20:57",
-  },
-  {
-    id: 4,
-    sender: "receive",
-    content: "ksdka ",
-    time: "20:57",
-  },
-];
 
 export default function Mess() {
+  const language = useSelector(state => state.app.language)
+  const userData = useSelector(state => state.app.userData)
   const navigation = useNavigation();
-
+  const route = useRoute()
+  const contactUserId = route.params?.contactUserId
+  const dataContactUser = route.params?.dataContactUser
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage);
   };
+  const [listContentChat, setListContentChat] = useState([])
+  const getContentChat = async () => {
+    let response = await getListContentChatService(contactUserId)
+    if (response && response.errCode === 0) {
+      setListContentChat(response.data)
+    } else {
+      Toast.error(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
+  }
+
+  useEffect(() => {
+    getContentChat()
+  }, [contactUserId])
 
   const [text, setText] = useState("");
+
+  const handleSendMessage = async () => {
+    if (!text.trim()) {
+      return
+    }
+
+    let response = await sendMessChatByUserService({
+      contactUserId: contactUserId,
+      content: text
+    })
+    if (response && response.errCode === 0) {
+      getContentChat()
+      setText("")
+      Keyboard.dismiss();
+    } else {
+      Toast.error(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
+
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -92,7 +98,7 @@ export default function Mess() {
               >
                 <Image
                   style={styles.Image_Content}
-                  source="https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG"
+                  source={{ uri: environment.BASE_URL_BE_IMG + dataContactUser?.image }}
                 />
               </TouchableOpacity>
 
@@ -115,7 +121,7 @@ export default function Mess() {
                     onPress={() => handleNavigate(namePage.SHOP)}
                   >
                     <Text style={{ fontSize: fontSize.h2 }}>
-                      @datStore.TheBest
+                      {language === keyMap.EN ? `${dataContactUser.firstName} ${dataContactUser.lastName}` : `${dataContactUser.lastName} ${dataContactUser.firstName}`}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -138,7 +144,7 @@ export default function Mess() {
 
           <ScrollView style={styles.container_content}>
             <View style={styles.content}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{ padding: 10 }}
                 onPress={() => handleNavigate(namePage.ROWINFORMATION)}
               >
@@ -172,72 +178,37 @@ export default function Mess() {
                     </View>
                   </View>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {/* <View style={[styles.chat, dataChat.sender === 'send' ? styles.box_mess : styles.rebox_mess]}> */}
-              {dataChat.map((mess) => {
-                return (
-                  <View key={mess.id}>
-                    <View style={styles.date_chat}>
-                      <Text style={styles.text_date_chat}>08 thg 2 2022</Text>
-                    </View>
-
-                    <TouchableOpacity style={styles.box_mess}>
-                      <View style={styles.text_box_mess}>
-                        <Text style={{ fontSize: fontSize.h2 }}>
-                          {mess.content}
-                        </Text>
+              {
+                listContentChat.map((mess) => {
+                  return (
+                    <View key={mess.id} style={mess.senderId !== userData.id ? styles.chat : styles.rechat}>
+                      <View style={styles.date_chat}>
+                        <Text style={styles.text_date_chat}>{mess.time}</Text>
                       </View>
-                      <View style={styles.date_box_mess}>
-                        <Text
-                          style={{ fontSize: fontSize.h3, color: "#787878" }}
-                        >
-                          {mess.time}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
 
-                    <View style={styles.date_chat}>
-                      <Text style={styles.text_date_chat}>08 thg 2 2022</Text>
-                    </View>
-
-                    <TouchableOpacity style={styles.rechat}>
-                      <View style={styles.rebox_mess}>
-                        <View style={styles.retext_box_mess}>
+                      <TouchableOpacity style={styles.box_mess}>
+                        <View style={styles.text_box_mess}>
                           <Text style={{ fontSize: fontSize.h2 }}>
                             {mess.content}
                           </Text>
                         </View>
-                        <View style={styles.redate_box_mess}>
+                        {/* <View style={styles.date_box_mess}>
                           <Text
                             style={{ fontSize: fontSize.h3, color: "#787878" }}
                           >
                             {mess.time}
                           </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                );
-              })}
-              {/* </View> */}
-
-              {/* <TouchableOpacity style={styles.rechat}>
-                    <View style={styles.rebox_mess}>
-                      <View style={styles.retext_box_mess}>
-                        <Text style={{fontSize: fontSize.h2}}>
-                        Bạn cứ cho mình món đồ đắt nhất ở đây nhé! Càng đắt càng tốt
-                        </Text>
-                      </View>
-                      <View style={styles.redate_box_mess}>
-                        <Text style={{fontSize: fontSize.h3, color: '#787878'}}>
-                          20:57
-                        </Text>
-                      </View>
-
+                        </View> */}
+                      </TouchableOpacity>
                     </View>
+                  );
+                })
+              }
 
-                </TouchableOpacity> */}
+
             </View>
           </ScrollView>
 
@@ -257,7 +228,11 @@ export default function Mess() {
                 <TouchableOpacity style={styles.icon_footer}>
                   <FontAwesome5 name="smile" size={24} color="black" />
                 </TouchableOpacity>
+
               </View>
+              <TouchableOpacity onPress={handleSendMessage}>
+                <Text>Gửi</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -422,6 +397,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   content_footer: {
+    flexDirection: "row",
     justifyContent: "center",
   },
   footer_add: {

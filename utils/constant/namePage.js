@@ -26,4 +26,7 @@ export default namePage = {
   PRODUCTDETAILS: "ProductDetails",
   RECOMMEN: "Recommen",
   ROWINFORMATION: "Row_information",
+  VOUCHERS: "Vouchers",
+  SHOPPINGMETHOD: "ShoppingMethod",
+  TRANSACTION: "Transaction",
 };

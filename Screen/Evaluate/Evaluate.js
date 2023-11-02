@@ -12,13 +12,17 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { Link, useNavigation } from "@react-navigation/native";
 import fontSize from "../../utils/constant/fontSize";
 import color from "../../utils/constant/color";
 import { FontAwesome } from "@expo/vector-icons";
 import namePage from "../../utils/constant/namePage";
+import environment from "../../utils/constant/environment";
+import { useSelector } from "react-redux";
+import keyMap from "../../utils/constant/keyMap";
+
 
 const DimensionsWidth = Dimensions.get("screen").width;
 const DimensionsHeight = Dimensions.get("screen").height;
@@ -82,13 +86,46 @@ const item = [
 ];
 
 
-export default function Evaluate({ product }) {
-  const [star, setStar] = useState([1, 1, 1, 1, 0.5]);
+export default function Evaluate({ product, inforReview }) {
+  const language = useSelector(state => state.app.language)
+  const [star, setStar] = useState([]);
+
+  useEffect(() => {
+    function splitDecimal(number) {
+      if (!number) return
+      const integerPart = Math.floor(number);
+      const fractionalPart = number - integerPart;
+      return { integer: integerPart, fractional: fractionalPart };
+    }
+    let arr = []
+    if (inforReview && inforReview.averageRating) {
+      const { integer, fractional } = splitDecimal(inforReview?.averageRating);
+      let integerRating = integer
+      let addFractional = false
+      for (let i = 0; i < 5; i++) {
+        if (integerRating > 0) {
+          arr.push(1)
+        } else if (integerRating === 0 && addFractional === false) {
+          arr.push(fractional)
+          addFractional = true
+        } else {
+          arr.push(0)
+        }
+        integerRating = integerRating - 1
+      }
+    }
+    setStar(arr)
+  }, [inforReview])
 
   const navigation = useNavigation();
+  // const [listReview, setListReview] = useState([])
+
+  // const getListReview = async () => {
+  //   let response = await 
+  // }
 
   const handleNavigate = (namePage) => {
-    return navigation.navigate(namePage);
+    return navigation.navigate(namePage, { productId: product.id });
   };
 
 
@@ -116,7 +153,7 @@ export default function Evaluate({ product }) {
   const renderStar = (item) => {
     if (item === 1) {
       return (
-        <View>
+        <View key={item + Math.random(0, 1)}>
           <FontAwesome
             name="star"
             size={13}
@@ -126,15 +163,16 @@ export default function Evaluate({ product }) {
         </View>
       );
     } else if (item > 0 && item < 1) {
-      return <FontAwesome name="star-half-empty" size={13} color="#ffad27" />;
+      return <FontAwesome key={item + Math.random(0, 1)} name="star-half-empty" size={13} color="#ffad27" />;
     } else {
       return (
-        <View>
+        <View key={item + Math.random(0, 1)}>
           <FontAwesome name="star-o" size={13} color="#ffad27" />
         </View>
       );
     }
   };
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -153,12 +191,13 @@ export default function Evaluate({ product }) {
               </View>
               <View style={styles.total}>
                 <Text style={{ fontSize: fontSize.h3, color: "#f25220" }}>
-                  4.9/5.0
+                  {/* {inforReview?.averageRating}/5.0 */}
+                  {inforReview?.averageRating}/5.0
                 </Text>
               </View>
 
               <View style={styles.review}>
-                <Text style={{ fontSize: fontSize.h3 }}>({product.productReviewData?.length} đánh giá)</Text>
+                <Text style={{ fontSize: fontSize.h3 }}>({inforReview?.totalReviews} đánh giá)</Text>
               </View>
             </View>
           </View>
@@ -172,58 +211,63 @@ export default function Evaluate({ product }) {
         </View>
 
         <View style={styles.content}>
-          {item.map((item) => {
-            return (
-              <View key={item.id}>
-                <TouchableOpacity
-                  style={styles.titleContent}
-                  onPress={() => handleNavigate(namePage.ALLEVA)}
-                >
-                  <View style={styles.headerContent}>
-                    <View style={styles.Avatar}>
-                      <Image
-                        source={item.avatar}
-                        style={{ width: "100%", height: "100%" }}
-                      />
+          {product.productReviewData &&
+            product?.productReviewData?.map((item) => {
+              return (
+                <View key={item.id}>
+                  <View
+                    style={styles.titleContent}
+                    onPress={() => handleNavigate(namePage.ALLEVA)}
+                  >
+                    <View style={styles.headerContent}>
+                      <View style={styles.Avatar}>
+                        <Image
+                          source={item.userReviewData?.image ? { uri: environment.BASE_URL_BE_IMG + item.userReviewData?.image } : require("../../Image/default_avatar.png")}
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      </View>
+                      <View style={styles.Eva}>
+                        <View style={styles.nameHeader}>
+                          <Text style={{ color: "black" }}>{language === keyMap.EN ? `${item.userReviewData?.firstName} ${item.userReviewData?.lastName}` : `${item.userReviewData?.lastName} ${item.userReviewData?.firstName}`}</Text>
+                        </View>
+                        <View style={styles.StarHeader}>
+                          {transformStar(item.rating).map((stars) => {
+                            return renderStar(stars);
+                          })}
+                        </View>
+                        <View style={styles.Typecontent}>
+                          <Text style={{ color: "grey", fontSize: fontSize.h3 }}>
+                            {item.productTypeReviewData?.type ? `Phân loại: ${item.productTypeReviewData?.type}` : ``} {item.productTypeReviewData?.size ? `-${item.productTypeReviewData?.size}` : ``}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
-                    <View style={styles.Eva}>
-                      <View style={styles.nameHeader}>
-                        <Text style={{ color: "black" }}>{item.name}</Text>
-                      </View>
-                      <View style={styles.StarHeader}>
-                        {transformStar(item.star).map((stars) => {
-                          return renderStar(stars);
-                        })}
-                      </View>
-                      <View style={styles.Typecontent}>
-                        <Text style={{ color: "grey", fontSize: fontSize.h3 }}>
-                          Phân loại: {item.type}
+                    {
+                      item.comment &&
+                      <View style={styles.TextContent}>
+                        <Text style={{ fontSize: fontSize.h3 }}>
+                          {item.comment}
                         </Text>
                       </View>
+                    }
+
+                    <View style={styles.dateContent}>
+                      <Text style={{ color: "grey", fontSize: fontSize.h3 }}>
+                        {item.time}
+                      </Text>
                     </View>
                   </View>
-
-                  <View style={styles.TextContent}>
-                    <Text style={{ fontSize: fontSize.h3 }}>
-                      {item.content}
-                    </Text>
-                  </View>
-                  <View style={styles.dateContent}>
-                    <Text style={{ color: "grey", fontSize: fontSize.h3 }}>
-                      {item.date}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+                </View>
+              );
+            })}
         </View>
+
         <TouchableOpacity
           style={styles.Footer}
           onPress={() => handleNavigate(namePage.ALLEVA)}
         >
           <View style={styles.seeAll}>
-            <Text style={{ color: "#f25220" }}>Xem Tất Cả (39)</Text>
+            <Text style={{ color: "#f25220" }}>Xem Tất Cả ({inforReview?.totalReviews})</Text>
           </View>
         </TouchableOpacity>
       </ScrollView>

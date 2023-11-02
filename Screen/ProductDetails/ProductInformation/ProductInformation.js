@@ -1,12 +1,74 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   Ionicons,
   Entypo,
   AntDesign,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import environment from "../../../utils/constant/environment";
+import { useSelector } from "react-redux";
+import keyMap from "../../../utils/constant/keyMap";
+import { useNavigation } from "@react-navigation/native";
+import namePage from "../../../utils/constant/namePage";
+import { FontAwesome } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
+import handleFormatMoney from "../../../utils/formatMoney"
 
-export default function ProductInformation({ product }) {
+export default function ProductInformation({ product, inforReview }) {
+  const navigation = useNavigation()
+  const language = useSelector(state => state.app.language)
+  const [star, setStar] = useState([]);
+
+  useEffect(() => {
+    function splitDecimal(number) {
+      if (!number) return
+      const integerPart = Math.floor(number);
+      const fractionalPart = number - integerPart;
+      return { integer: integerPart, fractional: fractionalPart };
+    }
+    let arr = []
+    if (inforReview && inforReview.averageRating) {
+      const { integer, fractional } = splitDecimal(inforReview?.averageRating);
+      let integerRating = integer
+      let addFractional = false
+      for (let i = 0; i < 5; i++) {
+        if (integerRating > 0) {
+          arr.push(1)
+        } else if (integerRating === 0 && addFractional === false) {
+          arr.push(fractional)
+          addFractional = true
+        } else {
+          arr.push(0)
+        }
+        integerRating = integerRating - 1
+      }
+    }
+    setStar(arr)
+  }, [inforReview])
+
+
+  const renderStar = (item) => {
+    if (item === 1) {
+      return (
+        <View key={item + Math.random(0, 1)}>
+          <FontAwesome
+            name="star"
+            size={20}
+            color="#ffad27"
+            style={{ paddingHorizontal: 2 }}
+          />
+        </View>
+      );
+    } else if (item > 0 && item < 1) {
+      return <FontAwesome key={item + Math.random(0, 1)} name="star-half-empty" size={20} color="#ffad27" />;
+    } else {
+      return (
+        <View key={item + Math.random(0, 1)}>
+          <FontAwesome name="star-o" size={20} color="#ffad27" />
+        </View>
+      );
+    }
+  };
 
   return (
     <>
@@ -26,19 +88,24 @@ export default function ProductInformation({ product }) {
         </View>
 
         <View style={styles.contentCenter}>
-          <Text style={styles.price}>Giá: {product.price}đ</Text>
+          <Text style={styles.price}>Giá: {handleFormatMoney(product.price)}</Text>
           <View style={styles.love}>
             <Text style={{ color: "#ffffff" }}>Yêu Thích + </Text>
           </View>
         </View>
 
         <View style={styles.contentDown}>
+
           <View style={styles.starRate}>
+            {star.map((item) => {
+              return renderStar(item);
+            })}
+
+            {/* <Entypo name="star" size={20} color="#ffce3d" />
             <Entypo name="star" size={20} color="#ffce3d" />
             <Entypo name="star" size={20} color="#ffce3d" />
             <Entypo name="star" size={20} color="#ffce3d" />
-            <Entypo name="star" size={20} color="#ffce3d" />
-            <Entypo name="star" size={20} color="#ffce3d" />
+            <Entypo name="star" size={20} color="#ffce3d" /> */}
           </View>
           <View style={{ paddingLeft: 55 }}>
             <Text>Đã bán : {product.bought}</Text>
@@ -63,10 +130,46 @@ export default function ProductInformation({ product }) {
           <Text style={styles.buyProduct}>mua 2 & giảm 3%</Text>
         </View>
       </View>
+
+      <View style={{ flexDirection: "row", backgroundColor: 'white', marginVertical: 10, padding: 5 }}>
+        <View style={{ width: 100, height: 100, marginRight: 30 }}>
+          {
+            product.productSupplierData?.image ?
+              <Image style={styles.imageAvatar} source={{ uri: environment.BASE_URL_BE_IMG + product.productSupplierData.image }} />
+              :
+              <Image style={styles.imageAvatar} source={require("../../../Image/default_avatar.png")} />
+          }
+        </View>
+        <View style={{ flexDirection: "column", justifyContent: "space-between", padding: 15 }}>
+          <Text>
+            {language === keyMap.EN ? product.productSupplierData?.firstName + " " + product.productSupplierData?.lastName : product.productSupplierData?.lastName + " " + product.productSupplierData?.firstName}
+          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity style={{ flexDirection: "row", borderColor: "red", borderWidth: 1, height: 30, width: 120, justifyContent: "center", alignItems: "center", marginRight: 10 }}
+              onPress={() => { }}
+            >
+              <Entypo name="chat" size={20} color="red" style={{ marginRight: 4 }} />
+              <Text>Chat ngay</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flexDirection: "row", borderColor: "grey", borderWidth: 1, height: 30, width: 120, justifyContent: "center", alignItems: "center" }}
+              onPress={() => { navigation.navigate(namePage.SHOP, { supplierId: product.supplierId }) }}
+            >
+              <Entypo name="shop" size={20} color="black" style={{ marginRight: 4 }} />
+              <Text>Xem shop</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     </>
   );
 }
 const styles = StyleSheet.create({
+  imageAvatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  },
+
   container: {
     marginTop: 10,
     backgroundColor: "#ffffff",

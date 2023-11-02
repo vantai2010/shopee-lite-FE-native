@@ -6,6 +6,7 @@ import ModalProduct from "../Modal/ModalProduct";
 import ModalNotification from "../Modal/ModalNotification";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
+import keyMap from "../../../utils/constant/keyMap";
 
 export default function NavMenu({ product }) {
   const navigation = useNavigation();
@@ -13,11 +14,11 @@ export default function NavMenu({ product }) {
   const [title, setTitle] = useState("");
   const handleModalProduct = (item) => {
     if (item === "cart") {
-      setTitle("Them ngay")
+      setTitle(keyMap.THEMNGAY)
       setModalVisible(!isModalVisible);
     }
     if (item === "buy") {
-      setTitle("Mua ngay")
+      setTitle(keyMap.MUANGAY)
       setModalVisible(!isModalVisible);
     }
   };
@@ -30,6 +31,9 @@ export default function NavMenu({ product }) {
   const handleMess = () => {
     navigation.navigate(namePage.MESS);
   };
+
+
+
   return (
     <>
       <View style={styles.container}>
@@ -44,7 +48,7 @@ export default function NavMenu({ product }) {
         <TouchableOpacity style={styles.buyNow} onPress={() => handleModalProduct("buy")}>
           <Text style={styles.buyNowText}>Mua ngay</Text>
         </TouchableOpacity>
-        <ModalProduct isVisible={isModalVisible} title={title} onClose={handleModalProduct} handle={handleClose} product={product} />
+        <ModalProduct isVisible={isModalVisible} setModalVisible={setModalVisible} title={title} onClose={handleModalProduct} handle={handleClose} product={product} />
       </View>
     </>
   );

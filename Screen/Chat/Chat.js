@@ -11,94 +11,56 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { Link, useNavigation } from "@react-navigation/native";
 import fontSize from "../../utils/constant/fontSize";
 import color from "../../utils/constant/color";
 import TextFormatted from "../../Components/TextFormatted/TextFormatted";
-
-const mess = [
-  {
-    id: 0,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-  {
-    id: 1,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-  {
-    id: 2,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-  {
-    id: 3,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-  {
-    id: 4,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-  {
-    id: 5,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-  {
-    id: 6,
-    image:
-      "https://www.al.com/resizer/KsZaj46Thx9ARTCiYaMEfX6kHiw=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/NSDL77J3KJFZXCK3MFWAV7HMUE.JPG",
-    name: "jogger.offical",
-    discription:
-      "Nhằm đồng hành các đội tuyển Việt Nam thi đấu quốc tế ở giải đấu FECC. Sự kiện mang đến hàng loạt những siêu phẩm ICONS, Century Club miễn phí đang chờ đón các HLV tại sự kiện ingame trong bản cập nhật lần này.",
-    date: <TextFormatted id="chat.date" />,
-    quantity: "3",
-  },
-];
+import { getListInteracChatService } from "../../service/appService";
+import { Toast } from "toastify-react-native";
+import { useSelector } from "react-redux";
+import keyMap from "../../utils/constant/keyMap";
+import environment from "../../utils/constant/environment";
 
 export default function Chat() {
   const navigation = useNavigation();
-
-  const handleNavigate = (namePage) => {
-    return navigation.navigate(namePage);
+  const language = useSelector(state => state.app.language)
+  const idTime = useRef()
+  const handleNavigate = (namePage, option) => {
+    return navigation.navigate(namePage, option);
   };
+  const [listUserChat, setListUserChat] = useState([])
+
+  const getListUserChat = async () => {
+    let response = await getListInteracChatService()
+    if (response && response.errCode === 0) {
+      setListUserChat(response.data)
+    } else {
+      Toast(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
+  }
+
+  useEffect(() => {
+    getListUserChat()
+  }, [])
 
   const [text, setText] = useState("");
+
+  const handleSearch = async (value) => {
+    setText(value)
+    if (idTime.current) {
+      clearTimeout(idTime.current)
+    }
+    idTime.current = setTimeout(async () => {
+      let response = await getListInteracChatService(value)
+      if (response && response.errCode === 0) {
+        setListUserChat(response.data)
+      } else {
+        Toast(language === keyMap.EN ? response.messageEN : response.messageVI)
+      }
+    }, 650)
+  }
 
   return (
     <SafeAreaView style={{ flex: 2 }}>
@@ -129,51 +91,56 @@ export default function Chat() {
             <TextInput
               style={styles.input}
               placeholder="Search"
-              onChangeText={(value) => setText(value)}
+              onChangeText={(value) => handleSearch(value)}
               value={text}
             />
           </View>
 
           <ScrollView>
-            {mess.map((chat) => {
-              return (
-                <View style={styles.padding_content} key={chat.id}>
-                  <TouchableOpacity
-                    style={styles.content}
-                    onPress={() => handleNavigate(namePage.MESS)}
-                  >
-                    <View style={styles.image_chat}>
-                      <Image style={styles.Image_Content} source={chat.image} />
+            {
+              listUserChat.length > 0 ?
+                listUserChat.map((chat) => {
+                  return (
+                    <View style={styles.padding_content} key={chat.id}>
+                      <TouchableOpacity
+                        style={styles.content}
+                        onPress={() => handleNavigate(namePage.MESS, { contactUserId: chat.id, dataContactUser: { image: chat.image, firstName: chat.firstName, lastName: chat.lastName } })}
+                      >
+                        <View style={styles.image_chat}>
+                          <Image style={styles.Image_Content} source={{ uri: environment.BASE_URL_BE_IMG + chat.image }} />
+                        </View>
+                        <View style={styles.box_content}>
+                          <View style={styles.header_content}>
+                            <View style={styles.name_chat}>
+                              <Text style={styles.text_name_chat}>{language === keyMap.EN ? `${chat.firstName} ${chat.lastName}` : `${chat.lastName} ${chat.firstName}`}</Text>
+                            </View>
+                            <View style={styles.date_chat}>
+                              <Text style={styles.text_date_chat}>{chat.time}</Text>
+                            </View>
+                          </View>
+                          <View style={styles.header_content}>
+                            <View style={styles.content_chat}>
+                              <Text
+                                style={styles.text_content_chat}
+                                numberOfLines={1}
+                              >
+                                {chat.content}
+                              </Text>
+                            </View>
+                            <View style={styles.number_chat}>
+                              <Text style={styles.text_number_chat}>
+                                {chat.quantity}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
                     </View>
-                    <View style={styles.box_content}>
-                      <View style={styles.header_content}>
-                        <View style={styles.name_chat}>
-                          <Text style={styles.text_name_chat}>{chat.name}</Text>
-                        </View>
-                        <View style={styles.date_chat}>
-                          <Text style={styles.text_date_chat}>{chat.date}</Text>
-                        </View>
-                      </View>
-                      <View style={styles.header_content}>
-                        <View style={styles.content_chat}>
-                          <Text
-                            style={styles.text_content_chat}
-                            numberOfLines={1}
-                          >
-                            {chat.discription}
-                          </Text>
-                        </View>
-                        <View style={styles.number_chat}>
-                          <Text style={styles.text_number_chat}>
-                            {chat.quantity}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
+                  );
+                })
+                :
+                <Text>Chưa có tương tác nào</Text>
+            }
           </ScrollView>
         </View>
 

@@ -1,170 +1,227 @@
-import { ScrollView, View , Text, TouchableOpacity, Button} from "react-native";
+import { ScrollView, View, Text, TouchableOpacity, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeLanguage, handleLogout } from "../../../store/slices/appSlice";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import namePage from "../../../utils/constant/namePage";
+import environment from "../../../utils/constant/environment";
+import keyMap, { roleId } from "../../../utils/constant/keyMap";
+import Modal from "react-native-modal";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted"
 
-export default function Setting () {
+export default function Setting() {
+    const dispatch = useDispatch()
+    const navigation = useNavigation()
+    const isLogin = useSelector(state => state.app.isLogin)
+    const language = useSelector(state => state.app.language)
+    const notifySocket = useSelector(state => state.app.notifySocket)
+    const userData = useSelector(state => state.app.userData)
+    const [isModalVisible, setModalVisible] = useState(false);
 
-    const [isLogin, setIsLogin] = useState(true)
 
-    return(
-        <ScrollView style={{flex:1, backgroundColor:'rgba(0, 0, 0, .04)'}}>
-           {isLogin
-                ?
-                <View>
-                    <View style={{marginVertical:10, marginLeft: 10}}>
-                        <Text style={{color:'rgba(0, 0, 0, .4)', fontSize:12 }}>Tài khoản của tôi</Text>
-                    </View>
+    const handleLogoutAccount = () => {
+        dispatch(handleLogout())
+        AsyncStorage.removeItem(environment.KEY_TOKEN_STORE)
+        navigation.navigate(namePage.IDENTITY)
+    }
 
-                    <View style={{backgroundColor:'#fff'}}>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16, }}>
-                                <Text>Tài khoản và Bảo mật</Text>
+    const handleRegisterVendor = () => {
+        notifySocket?.emit("request-register-vendor", {
+            email: userData.email,
+            senderId: userData.id
+        })
 
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16,}}>
-                                <Text>Địa chỉ</Text>
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                                <Text>Tài khoản / Thẻ ngân hàng</Text>
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-                        </TouchableOpacity>
-                    </View>
+        alert(language === keyMap.EN ? "The request has been sent, please wait for the administrator to confirm" : "Yêu cầu đã được gửi đi vui lòng chờ quản trị viên xác nhận")
+    }
+
+    const handleShowModalChoiseLanguage = () => {
+        setModalVisible(true)
+    }
+
+    const handleChangeLanguage = (language) => {
+        dispatch(changeLanguage(language))
+        setModalVisible(false)
+    }
+    // console.log(userData)
+    return (
+        <>
+            <Modal isVisible={isModalVisible}>
+                <View style={{ flex: 1 }}>
+                    <TouchableOpacity onPress={() => handleChangeLanguage(keyMap.VI)}><Text><TextFormatted id="setting.vn" /></Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleChangeLanguage(keyMap.EN)}><Text><TextFormatted id="setting.en" /></Text></TouchableOpacity>
                 </View>
-                :
-                <></>
-           }
+            </Modal>
 
-           <View style={{marginVertical:10, marginLeft: 10}}>
-                <Text style={{color:'rgba(0, 0, 0, .4)', fontSize:12 }}>Cài đặt</Text>
-           </View>
-
-           <View style={{backgroundColor:'#fff'}}>
+            <ScrollView style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, .04)' }}>
                 {isLogin
                     ?
                     <View>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                                <Text>Cài đặt Chat</Text>
+                        <View style={{ marginVertical: 10, marginLeft: 10 }}>
+                            <Text style={{ color: 'rgba(0, 0, 0, .4)', fontSize: 12 }}><TextFormatted id="setting.myAccount" /></Text>
+                        </View>
 
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
+                        <View style={{ backgroundColor: '#fff' }}>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16, }}>
+                                    <Text><TextFormatted id="setting.security" /></Text>
 
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16, }}>
-                                <Text>Cài đặt thông báo</Text>
-
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                                <Text>Cài đặt riêng tư</Text>
-
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                            <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                                <Text>Người dùng đã bị chặn</Text>
-
-                            </View>
-                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                        </TouchableOpacity>
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16, }}>
+                                    <Text><TextFormatted id="setting.address" /></Text>
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                                    <Text><TextFormatted id="setting.bank" /></Text>
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     :
                     <></>
                 }
-                <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}}>
-                    <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
+
+                <View style={{ marginVertical: 10, marginLeft: 10 }}>
+                    <Text style={{ color: 'rgba(0, 0, 0, .4)', fontSize: 12 }}><TextFormatted id="setting.set" /></Text>
+                </View>
+
+                <View style={{ backgroundColor: '#fff' }}>
+                    {isLogin
+                        ?
                         <View>
-                            <Text>Ngôn ngữ / Language</Text>
-                            <Text style={{marginTop:4, fontSize:12, color:'rgba(0, 0, 0, .4)'}}>Tiếng Việt</Text>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                                    <Text><TextFormatted id="setting.setChat" /></Text>
+
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16, }}>
+                                    <Text><TextFormatted id="setting.setNot" /></Text>
+
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                                    <Text><TextFormatted id="setting.setMe" /></Text>
+
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                                    <Text><TextFormatted id="setting.userBlock" /></Text>
+
+                                </View>
+                                <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                            </TouchableOpacity>
                         </View>
+                        :
+                        <></>
+                    }
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }} onPress={() => handleShowModalChoiseLanguage()}>
+                            <View>
+                                <Text><TextFormatted id="setting.language" /></Text>
+                                {/* <Text style={{ marginTop: 4, fontSize: 12, color: 'rgba(0, 0, 0, .4)' }}>Tiếng Việt</Text> */}
+                            </View>
 
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                </TouchableOpacity>
-            </View>
-           <View style={{marginVertical:10, marginLeft: 10}}>
-                <Text style={{color:'rgba(0, 0, 0, .4)', fontSize:12 }}>Hỗ trợ</Text>
-           </View>
-
-           <View style={{backgroundColor:'#fff'}}>
-                <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                    <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16, }}>
-                        <Text>Trung tâm hỗ trợ</Text>
-
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                </TouchableOpacity>
-                <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between',borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                    <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                        <Text>Tiêu chuẩn cộng đồng</Text>
-
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                </TouchableOpacity>
-                <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                    <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16,}}>
-                        <Text>Điều khoản Shopee</Text>
-
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                </TouchableOpacity>
-                <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                    <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                        <Text>Hài lòng với Shopee? Hãy đánh giá ngay!</Text>
-
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                </TouchableOpacity>
-                <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', borderBottomColor:'rgba(0, 0, 0, .04)', borderBottomWidth:1}}>
-                    <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                        <Text>Giới thiệu</Text>
-
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
-
-                </TouchableOpacity>
-                {isLogin
-                    ?
-                    <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between', }}>
-                        <View style={{ flexDirection:'row', justifyContent:'space-between',padding:16}}>
-                            <Text>Yêu cầu hủy tài khoản</Text>
-
-                        </View>
-                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{  color:'rgba(0, 0, 0, .4)', margin:14}} />
+                        </TouchableOpacity>
+                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
 
                     </TouchableOpacity>
+                </View>
+                <View style={{ marginVertical: 10, marginLeft: 10 }}>
+                    <Text style={{ color: 'rgba(0, 0, 0, .4)', fontSize: 12 }}><TextFormatted id="setting.center" /></Text>
+                </View>
+
+                <View style={{ backgroundColor: '#fff' }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16, }}>
+                            <Text><TextFormatted id="setting.centerSup" /></Text>
+
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                            <Text><TextFormatted id="setting.comuti" /></Text>
+
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16, }}>
+                            <Text><TextFormatted id="setting.rule" /></Text>
+
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                            <Text><TextFormatted id="setting.title" /></Text>
+
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: 'rgba(0, 0, 0, .04)', borderBottomWidth: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                            <Text><TextFormatted id="setting.descrip" /></Text>
+
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                    </TouchableOpacity>
+                    {isLogin
+                        ?
+                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}>
+                                <Text><TextFormatted id="setting.request" /></Text>
+
+                            </View>
+                            <MaterialIcons name="keyboard-arrow-right" size={24} style={{ color: 'rgba(0, 0, 0, .4)', margin: 14 }} />
+
+                        </TouchableOpacity>
+                        :
+                        <></>
+                    }
+                </View>
+
+                {isLogin
+                    ?
+                    <>
+                        {
+                            userData.roleId === roleId.USER &&
+                            <View style={{ backgroundColor: '#ee4d2d', margin: 10 }}>
+                                <Button title={language === keyMap.EN ? "Register Vendor Account" : 'Đăng ký bán hàng'} color='#fff' onPress={handleRegisterVendor} />
+                            </View>
+                        }
+
+                        <View style={{ backgroundColor: '#ee4d2d', margin: 10 }}>
+                            <Button title={language === keyMap.EN ? "Logout" : 'Đăng xuất'} color='#fff' onPress={handleLogoutAccount} />
+                        </View>
+                    </>
                     :
                     <></>
                 }
-           </View>
-
-           {isLogin
-                ?
-                <View style={{backgroundColor:'#ee4d2d', margin:10}}>
-                    <Button title='Đăng xuất' color='#fff' />
-                </View>
-                :
-                <></>
-           }
-        </ScrollView>
+            </ScrollView>
+        </>
     )
 }

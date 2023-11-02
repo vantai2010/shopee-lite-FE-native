@@ -18,78 +18,69 @@ import { TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import colors from "../../utils/constant/color";
 import fontSize from "../../utils/constant/fontSize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Chat from "../Chat/Chat";
 import UI from "./UI";
 import namePage from "../../utils/constant/namePage";
 import TextFormatted from "../../Components/TextFormatted/TextFormatted";
-
-const item = [
-  {
-    id: 0,
-    image:
-      "https://cdn.xtmobile.vn/vnt_upload/product/Hinh_DT/Iphone/thumbs/(600x600)_crop_iphone-12-pro-128-gb-xtmobile.jpg",
-    title: "Giao hàng thành công",
-    discription:
-      "When true, indicates that the view is an accessibility element. When a view is an accessibility element, it groups its children into a single selectable component.",
-    date: "Hom qua luc 16:14",
-  },
-  {
-    id: 1,
-    image:
-      "https://cdn.xtmobile.vn/vnt_upload/product/Hinh_DT/Iphone/thumbs/(600x600)_crop_iphone-12-pro-128-gb-xtmobile.jpg",
-    title: "Giao hàng thành công",
-    discription:
-      "When true, indicates that the view is an accessibility element. When a view is an accessibility element, it groups its children into a single selectable component.",
-    date: "Hom qua luc 16:14",
-  },
-  {
-    id: 2,
-    image:
-      "https://cdn.xtmobile.vn/vnt_upload/product/Hinh_DT/Iphone/thumbs/(600x600)_crop_iphone-12-pro-128-gb-xtmobile.jpg",
-    title: "Giao hàng thành công",
-    discription:
-      "When true, indicates that the view is an accessibility element. When a view is an accessibility element, it groups its children into a single selectable component.",
-    date: "Hom qua luc 16:14",
-  },
-  {
-    id: 3,
-    image:
-      "https://cdn.xtmobile.vn/vnt_upload/product/Hinh_DT/Iphone/thumbs/(600x600)_crop_iphone-12-pro-128-gb-xtmobile.jpg",
-    title: "Giao hàng thành công",
-    discription:
-      "When true, indicates that the view is an accessibility element. When a view is an accessibility element, it groups its children into a single selectable component.",
-    date: "Hom qua luc 16:14",
-  },
-  {
-    id: 4,
-    image:
-      "https://cdn.xtmobile.vn/vnt_upload/product/Hinh_DT/Iphone/thumbs/(600x600)_crop_iphone-12-pro-128-gb-xtmobile.jpg",
-    title: "Giao hàng thành công",
-    discription:
-      "When true, indicates that the view is an accessibility element. When a view is an accessibility element, it groups its children into a single selectable component.",
-    date: "Hom qua luc 16:14",
-  },
-  {
-    id: 5,
-    image:
-      "https://cdn.xtmobile.vn/vnt_upload/product/Hinh_DT/Iphone/thumbs/(600x600)_crop_iphone-12-pro-128-gb-xtmobile.jpg",
-    title: "Giao hàng thành công",
-    discription:
-      "When true, indicates that the view is an accessibility element. When a view is an accessibility element, it groups its children into a single selectable component.",
-    date: "Hom qua luc 16:14",
-  },
-];
+import { useSelector, useDispatch } from "react-redux";
+import { deleteNotifyByIdService, getListNotifyService } from "../../service/appService";
+import { Toast } from "toastify-react-native";
+import keyMap, { notifyTitleId } from "../../utils/constant/keyMap";
+import environment from "../../utils/constant/environment";
+import { handleChangeNumberNotify } from "../../store/slices/appSlice";
 
 export default function Information() {
+  const dispatch = useDispatch()
+  const isLogin = useSelector(state => state.app.isLogin)
+  const numberCart = useSelector(state => state.app.numberCart)
+  const language = useSelector(state => state.app.language)
+  const notifySocket = useSelector(state => state.app.notifySocket)
   const navigation = useNavigation();
+  const [listNotify, setListNotify] = useState([])
+  const getListNotify = async () => {
+    let response = await getListNotifyService()
+    if (response && response.errCode === 0) {
+      setListNotify(response.data)
+    } else {
+      Toast.error(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
+  }
 
-  const handleNavigate = (namePage) => {
-    return navigation.navigate(namePage);
+  const notifyTitle = [
+    { labelEN: "Successful delivery", labelVI: "Giao hàng thành công", value: notifyTitleId.GIAO_HANG_THANH_CONG },
+    { labelEN: "Order has been confirmed", labelVI: "Đơn hàng đã được xác nhận", value: notifyTitleId.DON_HANG_DUOC_XAC_NHAN },
+    { labelEN: "Order is being delivered", labelVI: "Đơn hàng đang được giao", value: notifyTitleId.DON_HANG_DANG_DUOC_GIAO },
+    { labelEN: "Order was cancelled", labelVI: "Đơn hàng bị hủy", value: notifyTitleId.DON_HANG_BI_HUY },
+    { labelEN: "System", labelVI: "Hệ thống", value: notifyTitleId.HE_THONG },
+  ]
+
+  useEffect(() => {
+    getListNotify()
+  }, [])
+
+  useEffect(() => {
+    notifySocket?.on("update-notification", () => {
+      Toast.info(language === keyMap.EN ? "You have a new notification" : "Bạn có thông báo mới")
+      getListNotify()
+    })
+  }, [notifySocket])
+
+  const handleNavigateNotify = async (location, notifyId) => {
+    let [namePage, pageType] = location.split("_")
+    let response = await deleteNotifyByIdService(notifyId)
+    if (response && response.errCode === 0) {
+      getListNotify()
+      dispatch(handleChangeNumberNotify(response.numberNotify))
+      navigation.navigate(namePage, { page: pageType });
+    } else {
+      Toast.error(language === keyMap.EN ? response.messageEN : response.messageVI)
+    }
   };
 
-  const [isLogin, setIsLogin] = useState(true);
+
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -104,13 +95,31 @@ export default function Information() {
 
               <View style={styles.icon}>
                 <TouchableOpacity>
-                  <FontAwesome5
+                  <Feather
                     style={styles.icHeader}
                     name="shopping-cart"
                     size={24}
                     color="white"
-                    onPress={() => handleNavigate(namePage.CART)}
+                    onPress={() => navigation.navigate(namePage.CART)}
                   />
+                  {
+                    numberCart !== 0 &&
+                    <View style={{
+                      position: "absolute",
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      borderStyle: "solid",
+                      borderWidth: 1,
+                      borderColor: "#ee4d2d",
+                      alignItems: "center",
+                      top: 0,
+                      right: 0,
+                      backgroundColor: "#ffffff",
+                    }}>
+                      <Text style={{ color: "#ee4d2d" }}>{numberCart}</Text>
+                    </View>
+                  }
                 </TouchableOpacity>
                 <TouchableOpacity>
                   <Ionicons
@@ -118,8 +127,23 @@ export default function Information() {
                     name="chatbox-ellipses"
                     size={24}
                     color="white"
-                    onPress={() => handleNavigate(namePage.CHAT)}
+                    onPress={() => handleNavigateNotify(namePage.CHAT)}
                   />
+                  <View style={{
+                    position: "absolute",
+                    width: 20,
+                    height: 20,
+                    borderRadius: 10,
+                    borderStyle: "solid",
+                    borderWidth: 1,
+                    borderColor: "#ee4d2d",
+                    alignItems: "center",
+                    top: 0,
+                    right: 0,
+                    backgroundColor: "#ffffff",
+                  }}>
+                    <Text style={{ color: "#ee4d2d" }}>5</Text>
+                  </View>
                 </TouchableOpacity>
               </View>
             </View>
@@ -241,34 +265,38 @@ export default function Information() {
             </View>
 
             <View style={styles.Content_Container}>
-              {item.map((noti) => {
+
+
+              {listNotify.map((noti) => {
                 return (
-                  <TouchableOpacity
-                    onPress={() => handleNavigate(namePage.ROWINFORMATION)}
+                  <TouchableOpacity key={noti.id}
+                    onPress={() => handleNavigateNotify(noti.location, noti.id)}
                   >
-                    <View style={styles.Content} key={noti.id}>
+                    <View style={styles.Content} >
                       <View style={styles.Image}>
                         <Image
                           style={styles.Image_Content}
-                          source={noti.image}
+                          source={{ uri: environment.BASE_URL_BE_IMG + noti.notifyProductData?.image[0] }}
                         />
                       </View>
                       <View style={styles.TextContent}>
                         <View style={styles.Results}>
-                          <Text style={styles.Text1}>{noti.title}</Text>
+                          <Text style={styles.Text1}>{language === keyMap.EN ? notifyTitle.find(item => item.value === noti.titleId).labelEN : notifyTitle.find(item => item.value === noti.titleId).labelVI}</Text>
                         </View>
                         <View style={styles.Info}>
-                          <Text style={styles.Text2}>{noti.discription}</Text>
+                          <Text style={styles.Text2}>{language === keyMap.EN ? noti.messageEn : noti.messageVi}</Text>
                         </View>
 
                         <View style={styles.Time}>
-                          <Text style={styles.TextTime}>{noti.date}</Text>
+                          <Text style={styles.TextTime}>{noti.time}</Text>
                         </View>
                       </View>
                     </View>
                   </TouchableOpacity>
                 );
               })}
+
+
             </View>
 
             <StatusBar style="auto" />

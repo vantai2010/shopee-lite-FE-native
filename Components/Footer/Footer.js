@@ -6,9 +6,45 @@ import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import namePage from "../../utils/constant/namePage";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import { getNumberNotifyService } from "../../service/appService";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux"
+import { Toast } from "toastify-react-native";
+import keyMap from "../../utils/constant/keyMap";
+import { handleChangeNumberNotify } from "../../store/slices/appSlice";
+import TextFormatted from "../TextFormatted/TextFormatted";
 
 export default function Footer() {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
+  const numberNotify = useSelector(state => state.app.numberNotify)
+  const notifySocket = useSelector(state => state.app.notifySocket)
+  const language = useSelector(state => state.app.language)
+
+  const getNumberNotify = async () => {
+    let response = await getNumberNotifyService()
+    if (response && response.errCode === 0) {
+      dispatch(handleChangeNumberNotify(response.data))
+    }
+  }
+
+  useEffect(() => {
+    getNumberNotify()
+  }, [])
+
+
+  useEffect(() => {
+    const handleSocket = () => {
+      Toast.info(language === keyMap.EN ? "You have a new notification" : "Bạn có thông báo mới")
+      getNumberNotify()
+    }
+    notifySocket?.on("update-notification", handleSocket)
+
+    return () => {
+      notifySocket?.off("update-notification", handleSocket);
+    };
+  }, [notifySocket])
 
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage);
@@ -19,56 +55,59 @@ export default function Footer() {
       <View style={styles.Footer}>
         <TouchableOpacity onPress={() => handleNavigate(namePage.HOME)}>
           <View style={styles.Footer_Button}>
-            <View style={styles.positionHome}>
+            {/* <View style={styles.positionHome}>
               <Text style={styles.textPositionHome}>9</Text>
-            </View>
+            </View> */}
             <AntDesign name="home" size={24} color="black" />
-            <Text style={styles.TextFooter}>Home</Text>
+            <Text style={styles.TextFooter}><TextFormatted id="footer.home" /></Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleNavigate(namePage.SHOP)}>
+        <TouchableOpacity onPress={() => handleNavigate(namePage.CART)}>
           <View style={styles.Footer_Button}>
-            <View style={styles.positionMail}>
+            {/* <View style={styles.positionMail}>
               <Text style={styles.textPositionMail}>9</Text>
-            </View>
+            </View> */}
             <SimpleLineIcons name="handbag" size={24} color="black" />
-            <Text style={styles.TextFooter}>Mall</Text>
+            <Text style={styles.TextFooter}><TextFormatted id="footer.mall" /></Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleNavigate(namePage.SHIPPER)}>
+        <TouchableOpacity onPress={() => handleNavigate(namePage.PAY)}>
           <View style={styles.Footer_Button}>
-            <View style={styles.positionLive}>
+            {/* <View style={styles.positionLive}>
               <Text style={styles.textPositionLive}>9</Text>
-            </View>
+            </View> */}
             <MaterialIcons name="live-tv" size={24} color="black" />
-            <Text style={styles.TextFooter}>Live</Text>
+            <Text style={styles.TextFooter}><TextFormatted id="footer.live" /></Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleNavigate(namePage.SETTING)}>
+        <TouchableOpacity onPress={() => handleNavigate(namePage.REGISTER_INFORMATION)}>
           <View style={styles.Footer_Button}>
-            <View style={styles.positionVideo}>
+            {/* <View style={styles.positionVideo}>
               <Text style={styles.textPositionVideo}>9</Text>
-            </View>
+            </View> */}
             <Feather name="video" size={24} color="black" />
-            <Text style={styles.TextFooter}>Video</Text>
+            <Text style={styles.TextFooter}><TextFormatted id="footer.video" /></Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleNavigate(namePage.INFORMATION)}>
           <View style={styles.Footer_Button}>
-            <View style={styles.positionNotification}>
-              <Text style={styles.textPositionNotification}>9</Text>
-            </View>
+            {
+              numberNotify !== 0 &&
+              <View style={styles.positionNotification}>
+                <Text style={styles.textPositionNotification}>{numberNotify}</Text>
+              </View>
+            }
             <AntDesign name="notification" size={24} color="black" />
-            <Text style={styles.TextFooter}>Thông báo</Text>
+            <Text style={styles.TextFooter}><TextFormatted id="footer.notify" /></Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleNavigate(namePage.IDENTITY)}>
           <View style={styles.Footer_Button}>
-            <View style={styles.positionMe}>
+            {/* <View style={styles.positionMe}>
               <Text style={styles.textPositionMe}>9</Text>
-            </View>
+            </View> */}
             <Ionicons name="person-outline" size={24} color="black" />
-            <Text style={styles.TextFooter}>Tôi</Text>
+            <Text style={styles.TextFooter}><TextFormatted id="footer.me" /></Text>
           </View>
         </TouchableOpacity>
       </View>
