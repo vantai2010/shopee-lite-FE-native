@@ -9,16 +9,15 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../utils/constant/namePage";
-import bg7 from "../../Image/background7.png"
+import bg7 from "../../Image/background7.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import environment from "../../utils/constant/environment";
 import { FontAwesome } from "@expo/vector-icons";
-import handleFormatMoney from "../../utils/formatMoney"
+import handleFormatMoney from "../../utils/formatMoney";
 
 export default function ProductOfShop({ products }) {
-
-  const language = useSelector(state => state.app.language)
+  const language = useSelector((state) => state.app.language);
 
   const navigation = useNavigation();
   const handleDetailsProduct = (productId) => {
@@ -70,22 +69,24 @@ export default function ProductOfShop({ products }) {
                   <Text style={styles.textSale}>{item.sale}</Text>
                 </View>
                 <View style={styles.triangleUp}></View>
-                <Image style={styles.image} source={{ uri: environment.BASE_URL_BE_IMG + item.image[0] }} />
+                <Image
+                  style={styles.image}
+                  source={{ uri: environment.BASE_URL_BE_IMG + item.image[0] }}
+                />
                 <Text style={styles.mail}>Mall</Text>
                 <Text style={styles.textProduct}>{item.name}</Text>
               </View>
 
-              <Text style={styles.textPrice}>Giá: {handleFormatMoney(item.price)}</Text>
+              <Text style={styles.textPrice}>
+                Giá: {handleFormatMoney(item.price)}
+              </Text>
 
               <View style={{ paddingHorizontal: 5 }}>
                 <View style={styles.starRate}>
-                  {
-                    item.star &&
-                    item.star.map(star => {
+                  {item.star &&
+                    item.star.map((star) => {
                       return renderStar(star);
-                    })
-                  }
-
+                    })}
                 </View>
                 <Text style={styles.textProduct}>Đã bán: {item.bought}</Text>
               </View>
@@ -104,17 +105,19 @@ export default function ProductOfShop({ products }) {
 const styles = StyleSheet.create({
   // container: {
   //   flex: 1,
-  //   width: "100%"
+  //   width: "100%",
+  //   marginBottom: 10,
   // },
 
   InformationItem: {
     width: "50%",
     margin: 5,
+    marginBottom: 200,
+    // fix
     flex: 1,
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#e8e8e8",
-    paddingBottom: 5,
     backgroundColor: "white",
   },
   imageProduct: {

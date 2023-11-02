@@ -1,65 +1,83 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import fontSize from "../../utils/constant/fontSize";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import namePage from "../../utils/constant/namePage";
-import { getBanksForUserService, verifyPassBankForUserService } from "../../service/appService";
+import {
+  getBanksForUserService,
+  verifyPassBankForUserService,
+} from "../../service/appService";
 import { useSelector } from "react-redux";
 import keyMap from "../../utils/constant/keyMap";
 const PayMethod = () => {
-  const language = useSelector(state => state.app.language)
+  const language = useSelector((state) => state.app.language);
   const navigation = useNavigation();
-  const route = useRoute()
-  const dataNavSend = route.params
+  const route = useRoute();
+  const dataNavSend = route.params;
   const [showPay, setShowPay] = useState(false);
   const [showCheck, setShowCheck] = useState(false);
   const [showCheckPay, setShowCheckPay] = useState(false);
   const [showPayHome, setShowPayHome] = useState(false);
   const [colorBtn, setColorBtn] = useState(false);
-  const [listBanks, setListBanks] = useState([])
-  const [bankSelected, setBankSelected] = useState()
+  const [listBanks, setListBanks] = useState([]);
+  const [bankSelected, setBankSelected] = useState();
   const [passVerify, setPassVerify] = useState();
 
   const getListBanks = async () => {
-    let response = await getBanksForUserService()
+    let response = await getBanksForUserService();
     if (response && response.errCode === 0) {
-      setListBanks(response.data)
+      setListBanks(response.data);
     } else {
-      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI);
     }
-  }
+  };
 
   const handleAgree = async () => {
     if (!showPayHome && !bankSelected) {
-      return alert(language === keyMap.EN ? "Please select method" : "Vui lòng chọn phương thức")
+      return alert(
+        language === keyMap.EN
+          ? "Please select method"
+          : "Vui lòng chọn phương thức"
+      );
     }
     if (showPayHome && !bankSelected) {
       dataNavSend.setMethodPay({
         nameEN: "Wait for the goods when paying",
         nameVI: "Chờ lấy hàng khi thanh toán",
-        value: keyMap.CHOXACNHAN_CHUATHANHTOAN
-      })
-      return navigation.goBack()
+        value: keyMap.CHOXACNHAN_CHUATHANHTOAN,
+      });
+      return navigation.goBack();
     }
     if (bankSelected && !passVerify) {
-      return alert(language === keyMap.EN ? "Please enter the confirmation code" : "Vui lòng nhập mã xác nhận")
+      return alert(
+        language === keyMap.EN
+          ? "Please enter the confirmation code"
+          : "Vui lòng nhập mã xác nhận"
+      );
     }
     let response = await verifyPassBankForUserService({
       passVerify: passVerify,
-      bankId: bankSelected.id
-    })
+      bankId: bankSelected.id,
+    });
     if (response && response.errCode === 0) {
       dataNavSend.setMethodPay({
         nameEN: "Online payment",
         nameVI: "Thanh toán online",
-        value: keyMap.CHOXACNHAN_DATHANHTOAN
-      })
-      return navigation.goBack()
+        value: keyMap.CHOXACNHAN_DATHANHTOAN,
+      });
+      return navigation.goBack();
     } else {
-      return alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      return alert(
+        language === keyMap.EN ? response.messageEN : response.messageVI
+      );
     }
-
   };
 
   const handleAddBank = () => {
@@ -82,15 +100,13 @@ const PayMethod = () => {
   // }, [showPayHome, showCheckPay]);
 
   useEffect(() => {
-    getListBanks()
-  }, [])
+    getListBanks();
+  }, []);
 
   const handleSelectBank = (item) => {
-    setBankSelected(item)
-    setShowPayHome(false)
-
-  }
-
+    setBankSelected(item);
+    setShowPayHome(false);
+  };
 
   return (
     <>
@@ -118,34 +134,33 @@ const PayMethod = () => {
         </TouchableOpacity>
         {showPay && (
           <View style={styles.showPay}>
-            {
-              listBanks &&
-              listBanks.map(item => {
+            {listBanks &&
+              listBanks.map((item) => {
                 return (
                   <>
                     <TouchableOpacity
-                      onPress={() => { handleSelectBank(item) }}
+                      onPress={() => {
+                        handleSelectBank(item);
+                      }}
                       style={styles.namePay}
                     >
-                      <Text>{item.nameBank} {item.numberBank}</Text>
+                      <Text>
+                        {item.nameBank} {item.numberBank}
+                      </Text>
                       {bankSelected?.id === item.id && (
                         <AntDesign name="check" size={24} color="#ff7337" />
                       )}
                     </TouchableOpacity>
-                    {
-                      bankSelected?.id === item.id &&
+                    {bankSelected?.id === item.id && (
                       <TextInput
                         style={styles.input}
                         placeholder="Nhập mã xác nhận"
-                        onChangeText={text => setPassVerify(text)}
+                        onChangeText={(text) => setPassVerify(text)}
                       />
-                    }
-
+                    )}
                   </>
-
-                )
-              })
-            }
+                );
+              })}
 
             <TouchableOpacity style={styles.addPay} onPress={handleAddBank}>
               <View style={styles.add}>
@@ -161,7 +176,7 @@ const PayMethod = () => {
         <TouchableOpacity
           onPress={() => {
             setShowPayHome(!showPayHome);
-            setBankSelected(null)
+            setBankSelected(null);
           }}
           style={styles.bankPay}
         >
@@ -174,7 +189,9 @@ const PayMethod = () => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleAgree}
-          style={showPayHome || bankSelected ? styles.confirmOn : styles.confirmOff}
+          style={
+            showPayHome || bankSelected ? styles.confirmOn : styles.confirmOff
+          }
         >
           <Text style={{ color: "#ffffff", fontSize: fontSize.h2 }}>
             Đồng ý
@@ -250,9 +267,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
+    borderColor: "#ccc",
+    borderBottomWidth: 1,
     marginBottom: 16,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
 });
