@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import environment from "../../utils/constant/environment";
 import { FontAwesome } from "@expo/vector-icons";
 import handleFormatMoney from "../../utils/formatMoney";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 export default function ProductOfShop({ products }) {
   const language = useSelector((state) => state.app.language);
@@ -78,7 +79,8 @@ export default function ProductOfShop({ products }) {
               </View>
 
               <Text style={styles.textPrice}>
-                Giá: {handleFormatMoney(item.price)}
+                <TextFormatted id="mall.price" />:{" "}
+                {handleFormatMoney(item.price)}
               </Text>
 
               <View style={{ paddingHorizontal: 5 }}>
@@ -88,7 +90,9 @@ export default function ProductOfShop({ products }) {
                       return renderStar(star);
                     })}
                 </View>
-                <Text style={styles.textProduct}>Đã bán: {item.bought}</Text>
+                <Text style={styles.textProduct}>
+                  <TextFormatted id="mall.vendu" />: {item.bought}
+                </Text>
               </View>
               {/* <View style={styles.address}>
                 <AntDesign name="enviromento" size={15} color="gray" />

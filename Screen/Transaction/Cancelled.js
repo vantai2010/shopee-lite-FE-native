@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import bg5 from "../../Image/background5.png";
 import handleFormatMoney from "../../utils/formatMoney";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 const Cancelled = () => {
   return (
@@ -34,14 +35,16 @@ const Cancelled = () => {
             <Text style={{ marginLeft: 10, color: "#a19f9f" }}>
               Vàng Bò, Size(67-79kg)
             </Text>
-            <Text style={styles.goods}>7 ngày trả hàng</Text>
+            <Text style={styles.goods}>
+              <TextFormatted id="transaction.day" />
+            </Text>
           </View>
         </View>
 
         <View style={styles.payComplete}>
           <Text style={{ color: "#a19f9f", fontSize: 16 }}>Sản phẩm</Text>
           <Text style={{ color: "#a19f9f", fontSize: 16 }}>
-            Thành tiền:
+            <TextFormatted id="transaction.money" />:
             <Text style={{ color: "red", fontWeight: "500", fontSize: 16 }}>
               159000
             </Text>
@@ -67,7 +70,7 @@ const Cancelled = () => {
               paddingVertical: 10,
             }}
           >
-            Đã hủy bởi bạn
+            <TextFormatted id="transaction.cancel" />
           </Text>
           <Text
             style={{
@@ -84,7 +87,7 @@ const Cancelled = () => {
               color: "#ffffff",
             }}
           >
-            Mua lại
+            <TextFormatted id="transaction.repurchase" />
           </Text>
         </View>
       </TouchableOpacity>

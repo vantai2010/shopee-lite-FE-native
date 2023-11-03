@@ -15,6 +15,7 @@ import { Entypo } from "@expo/vector-icons";
 import fontSize from "../../utils/constant/fontSize";
 import { FontAwesome } from "@expo/vector-icons";
 import image from "../../Image/background11.png";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 function SlideShop() {
   const transformStar = (numberStar) => {
@@ -132,7 +133,7 @@ function SlideShop() {
       <View style={styles.boxTips}>
         <View style={styles.Tip}>
           <Text style={{ fontSize: fontSize.h3, fontWeight: 700 }}>
-            Gợi ý cho bạn
+            <TextFormatted id="mall.you" />
           </Text>
         </View>
         <TouchableOpacity style={styles.all}>
@@ -140,7 +141,7 @@ function SlideShop() {
             style={{ fontSize: fontSize.h3, color: "#fc5a32" }}
             onPress={() => handleNavigate(namePage.RECOMMEN)}
           >
-            Xem tất cả
+            <TextFormatted id="mall.all" />
           </Text>
           <Entypo
             name="chevron-small-right"
@@ -192,7 +193,7 @@ function SlideShop() {
                     </View>
                     <View style={styles.Sold}>
                       <Text style={{ fontSize: fontSize.h4 }}>
-                        Đã bán: {item.sold}
+                        <TextFormatted id="mall.vendu" />: {item.sold}
                       </Text>
                     </View>
                   </View>
@@ -215,7 +216,7 @@ function SlideShop() {
           </View>
           <TouchableOpacity style={styles.seeAll}>
             <Text style={{ fontSize: fontSize.h2, color: "#fc5a32" }}>
-              Xem tất cả
+              <TextFormatted id="mall.all" />
             </Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -223,7 +224,7 @@ function SlideShop() {
 
       <View style={styles.product}>
         <Text style={{ fontSize: fontSize.h2, fontWeight: 600 }}>
-          Những sản phẩm của chúng tôi
+          <TextFormatted id="mall.our" />
         </Text>
       </View>
     </View>

@@ -14,27 +14,27 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { getProductService } from "../../../service/appService";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import keyMap from "../../../utils/constant/keyMap";
 import environment from "../../../utils/constant/environment";
-import handleFormatMoney from "../../../utils/formatMoney"
+import handleFormatMoney from "../../../utils/formatMoney";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 
 export default function Product() {
-  const language = useSelector(state => state.app.language)
-  const [products, setProducts] = useState([])
+  const language = useSelector((state) => state.app.language);
+  const [products, setProducts] = useState([]);
   const getListProducts = async () => {
-    let response = await getProductService()
+    let response = await getProductService();
     if (response && response.errCode === 0) {
-      setProducts(response.data)
+      setProducts(response.data);
     } else {
-      alert(language === keyMap.EN ? response?.messageEN : response?.messageVI)
+      alert(language === keyMap.EN ? response?.messageEN : response?.messageVI);
     }
-  }
+  };
 
   useEffect(() => {
-    getListProducts()
-  }, [])
-
+    getListProducts();
+  }, []);
 
   // useEffect(() => {
   //   function splitDecimal(number) {
@@ -89,7 +89,14 @@ export default function Product() {
         </View>
       );
     } else if (item > 0 && item < 1) {
-      return <FontAwesome key={item + Math.random(0, 1)} name="star-half-empty" size={20} color="#ffad27" />;
+      return (
+        <FontAwesome
+          key={item + Math.random(0, 1)}
+          name="star-half-empty"
+          size={20}
+          color="#ffad27"
+        />
+      );
     } else {
       return (
         <View key={item + Math.random(0, 1)}>
@@ -121,17 +128,22 @@ export default function Product() {
                   <Text style={styles.textSale}>{item.sale}</Text>
                 </View>
                 <View style={styles.triangleUp}></View>
-                <Image style={styles.image} source={{ uri: environment.BASE_URL_BE_IMG + item.image[0] }} />
+                <Image
+                  style={styles.image}
+                  source={{ uri: environment.BASE_URL_BE_IMG + item.image[0] }}
+                />
                 <Text style={styles.mail}>Mall</Text>
                 <Text style={styles.textProduct}>{item.name}</Text>
               </View>
 
-              <Text style={styles.textPrice}>Giá: {handleFormatMoney(item.price)}</Text>
+              <Text style={styles.textPrice}>
+                <TextFormatted id="mall.price" />:
+                {handleFormatMoney(item.price)}
+              </Text>
 
               <View style={{ paddingHorizontal: 5 }}>
                 <View style={styles.starRate}>
-                  {
-                    item.star &&
+                  {item.star &&
                     item.star.map((item) => {
                       return renderStar(item);
                     })}
@@ -142,7 +154,9 @@ export default function Product() {
                   <Entypo name="star" size={24} color="#ffce3d" />
                   <Entypo name="star" size={24} color="#ffce3d" /> */}
                 </View>
-                <Text style={styles.textProduct}>Đã bán: {item.bought}</Text>
+                <Text style={styles.textProduct}>
+                  <TextFormatted id="mall.vendu" />: {item.bought}
+                </Text>
               </View>
               {/* <View style={styles.address}>
                 <AntDesign name="enviromento" size={15} color="gray" />

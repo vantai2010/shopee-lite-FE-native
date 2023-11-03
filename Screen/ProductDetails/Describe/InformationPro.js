@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 
 export default function InfromationPro({ product }) {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Mô tả chi tiết sản phẩm</Text>
-        <Text style={styles.description}>
-          {product.description}
+        <Text style={styles.title}>
+          <TextFormatted id="mall.details" />
         </Text>
+        <Text style={styles.description}>{product.description}</Text>
       </View>
     </>
   );

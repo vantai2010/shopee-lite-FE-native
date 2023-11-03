@@ -12,40 +12,40 @@ import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
 import { FontAwesome } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
-import handleFormatMoney from "../../../utils/formatMoney"
+import handleFormatMoney from "../../../utils/formatMoney";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 
 export default function ProductInformation({ product, inforReview }) {
-  const navigation = useNavigation()
-  const language = useSelector(state => state.app.language)
+  const navigation = useNavigation();
+  const language = useSelector((state) => state.app.language);
   const [star, setStar] = useState([]);
 
   useEffect(() => {
     function splitDecimal(number) {
-      if (!number) return
+      if (!number) return;
       const integerPart = Math.floor(number);
       const fractionalPart = number - integerPart;
       return { integer: integerPart, fractional: fractionalPart };
     }
-    let arr = []
+    let arr = [];
     if (inforReview && inforReview.averageRating) {
       const { integer, fractional } = splitDecimal(inforReview?.averageRating);
-      let integerRating = integer
-      let addFractional = false
+      let integerRating = integer;
+      let addFractional = false;
       for (let i = 0; i < 5; i++) {
         if (integerRating > 0) {
-          arr.push(1)
+          arr.push(1);
         } else if (integerRating === 0 && addFractional === false) {
-          arr.push(fractional)
-          addFractional = true
+          arr.push(fractional);
+          addFractional = true;
         } else {
-          arr.push(0)
+          arr.push(0);
         }
-        integerRating = integerRating - 1
+        integerRating = integerRating - 1;
       }
     }
-    setStar(arr)
-  }, [inforReview])
-
+    setStar(arr);
+  }, [inforReview]);
 
   const renderStar = (item) => {
     if (item === 1) {
@@ -60,7 +60,14 @@ export default function ProductInformation({ product, inforReview }) {
         </View>
       );
     } else if (item > 0 && item < 1) {
-      return <FontAwesome key={item + Math.random(0, 1)} name="star-half-empty" size={20} color="#ffad27" />;
+      return (
+        <FontAwesome
+          key={item + Math.random(0, 1)}
+          name="star-half-empty"
+          size={20}
+          color="#ffad27"
+        />
+      );
     } else {
       return (
         <View key={item + Math.random(0, 1)}>
@@ -82,20 +89,25 @@ export default function ProductInformation({ product, inforReview }) {
           <View style={styles.contentUpRight}>
             <View style={styles.triangleUp}></View>
             <View style={styles.rectangle}>
-              <Text style={styles.textSale}>Giảm 35%</Text>
+              <Text style={styles.textSale}>
+                <TextFormatted id="mall.off" />
+              </Text>
             </View>
           </View>
         </View>
 
         <View style={styles.contentCenter}>
-          <Text style={styles.price}>Giá: {handleFormatMoney(product.price)}</Text>
+          <Text style={styles.price}>
+            <TextFormatted id="mall.price" />:{handleFormatMoney(product.price)}
+          </Text>
           <View style={styles.love}>
-            <Text style={{ color: "#ffffff" }}>Yêu Thích + </Text>
+            <Text style={{ color: "#ffffff" }}>
+              <TextFormatted id="mall.favorite" />
+            </Text>
           </View>
         </View>
 
         <View style={styles.contentDown}>
-
           <View style={styles.starRate}>
             {star.map((item) => {
               return renderStar(item);
@@ -108,7 +120,9 @@ export default function ProductInformation({ product, inforReview }) {
             <Entypo name="star" size={20} color="#ffce3d" /> */}
           </View>
           <View style={{ paddingLeft: 55 }}>
-            <Text>Đã bán : {product.bought}</Text>
+            <Text>
+              <TextFormatted id="mall.vendu" />: {product.bought}
+            </Text>
           </View>
           {/* <View style={styles.iconShare}>
             <AntDesign name="hearto" size={24} color="gray" />
@@ -123,39 +137,108 @@ export default function ProductInformation({ product, inforReview }) {
 
         <View style={styles.voucher}>
           <Text style={styles.voucherShop}>
-            Voucher của Shop
+            <TextFormatted id="mall.voucher" />
             <AntDesign name="arrowright" size={15} color="gray" />
           </Text>
-          <Text style={styles.productReduce}>Sản phẩm được giảm 10k</Text>
-          <Text style={styles.buyProduct}>mua 2 & giảm 3%</Text>
+          <Text style={styles.productReduce}>
+            <TextFormatted id="mall.discounted" />
+          </Text>
+          <Text style={styles.buyProduct}>
+            <TextFormatted id="mall.buy" />
+          </Text>
         </View>
       </View>
 
-      <View style={{ flexDirection: "row", backgroundColor: 'white', marginVertical: 10, padding: 5 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          backgroundColor: "white",
+          marginVertical: 10,
+          padding: 5,
+        }}
+      >
         <View style={{ width: 100, height: 100, marginRight: 30 }}>
-          {
-            product.productSupplierData?.image ?
-              <Image style={styles.imageAvatar} source={{ uri: environment.BASE_URL_BE_IMG + product.productSupplierData.image }} />
-              :
-              <Image style={styles.imageAvatar} source={require("../../../Image/default_avatar.png")} />
-          }
+          {product.productSupplierData?.image ? (
+            <Image
+              style={styles.imageAvatar}
+              source={{
+                uri:
+                  environment.BASE_URL_BE_IMG +
+                  product.productSupplierData.image,
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.imageAvatar}
+              source={require("../../../Image/default_avatar.png")}
+            />
+          )}
         </View>
-        <View style={{ flexDirection: "column", justifyContent: "space-between", padding: 15 }}>
+        <View
+          style={{
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: 15,
+          }}
+        >
           <Text>
-            {language === keyMap.EN ? product.productSupplierData?.firstName + " " + product.productSupplierData?.lastName : product.productSupplierData?.lastName + " " + product.productSupplierData?.firstName}
+            {language === keyMap.EN
+              ? product.productSupplierData?.firstName +
+                " " +
+                product.productSupplierData?.lastName
+              : product.productSupplierData?.lastName +
+                " " +
+                product.productSupplierData?.firstName}
           </Text>
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity style={{ flexDirection: "row", borderColor: "red", borderWidth: 1, height: 30, width: 120, justifyContent: "center", alignItems: "center", marginRight: 10 }}
-              onPress={() => { }}
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                borderColor: "red",
+                borderWidth: 1,
+                height: 30,
+                width: 120,
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: 10,
+              }}
+              onPress={() => {}}
             >
-              <Entypo name="chat" size={20} color="red" style={{ marginRight: 4 }} />
-              <Text>Chat ngay</Text>
+              <Entypo
+                name="chat"
+                size={20}
+                color="red"
+                style={{ marginRight: 4 }}
+              />
+              <Text>
+                <TextFormatted id="mall.chat" />
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ flexDirection: "row", borderColor: "grey", borderWidth: 1, height: 30, width: 120, justifyContent: "center", alignItems: "center" }}
-              onPress={() => { navigation.navigate(namePage.SHOP, { supplierId: product.supplierId }) }}
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                borderColor: "grey",
+                borderWidth: 1,
+                height: 30,
+                width: 120,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                navigation.navigate(namePage.SHOP, {
+                  supplierId: product.supplierId,
+                });
+              }}
             >
-              <Entypo name="shop" size={20} color="black" style={{ marginRight: 4 }} />
-              <Text>Xem shop</Text>
+              <Entypo
+                name="shop"
+                size={20}
+                color="black"
+                style={{ marginRight: 4 }}
+              />
+              <Text>
+                <TextFormatted id="mall.view" />
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -167,7 +250,7 @@ const styles = StyleSheet.create({
   imageAvatar: {
     width: 100,
     height: 100,
-    borderRadius: 50
+    borderRadius: 50,
   },
 
   container: {

@@ -16,28 +16,36 @@ import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
 import { useSelector, useDispatch } from "react-redux";
 import keyMap from "../../../utils/constant/keyMap";
-import moment from "moment"
+import moment from "moment";
 import { pushPorductToCartService } from "../../../service/appService";
 import environment from "../../../utils/constant/environment";
-import handleFormatMoney from "../../../utils/formatMoney"
+import handleFormatMoney from "../../../utils/formatMoney";
 import { handleChangeNumberCart } from "../../../store/slices/appSlice";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 
-const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, product }) => {
-  const dispatch = useDispatch()
-  const language = useSelector(state => state.app.language)
-  const isLogin = useSelector(state => state.app.isLogin)
+const ModalProduct = ({
+  isVisible,
+  setModalVisible,
+  title,
+  onClose,
+  handle,
+  product,
+}) => {
+  const dispatch = useDispatch();
+  const language = useSelector((state) => state.app.language);
+  const isLogin = useSelector((state) => state.app.isLogin);
   const navigation = useNavigation();
   const [typeSelected, setTypeSelected] = useState("");
-  const [quantityOfType, setQuantityOfType] = useState(null)
-  const productTypeSelected = useRef()
+  const [quantityOfType, setQuantityOfType] = useState(null);
+  const productTypeSelected = useRef();
 
   const handleSelected = (item) => {
     productTypeSelected.current = {
       id: item.id,
-      quantity: item.quantity
-    }
+      quantity: item.quantity,
+    };
     setTypeSelected(item.type + item.size);
-    setQuantityOfType(item.quantity)
+    setQuantityOfType(item.quantity);
   };
   const [quantity, setQuantity] = useState(1);
 
@@ -53,16 +61,30 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
 
   const handleBuyProduct = async () => {
     if (!isLogin) {
-      return alert(language === keyMap.EN ? 'You are not logged in' : "Bạn chưa đăng nhập")
+      return alert(
+        language === keyMap.EN ? "You are not logged in" : "Bạn chưa đăng nhập"
+      );
     }
     if (quantity <= 0) {
-      return alert(language === keyMap.EN ? "Please select product quantity" : "Vui lòng chọn số lượng sản phẩm")
+      return alert(
+        language === keyMap.EN
+          ? "Please select product quantity"
+          : "Vui lòng chọn số lượng sản phẩm"
+      );
     }
     if (product.productTypeData.length > 0 && !productTypeSelected.current) {
-      return alert(language === keyMap.EN ? "Please select product type" : "Vui lòng chọn loại sản phẩm")
+      return alert(
+        language === keyMap.EN
+          ? "Please select product type"
+          : "Vui lòng chọn loại sản phẩm"
+      );
     }
     if (productTypeSelected.current.quantity < quantity) {
-      return alert(language === keyMap.EN ? "The quantity of products is not enough to satisfy" : "Số lượng sản phẩm không đủ để đáp ứng")
+      return alert(
+        language === keyMap.EN
+          ? "The quantity of products is not enough to satisfy"
+          : "Số lượng sản phẩm không đủ để đáp ứng"
+      );
     }
     if (title === keyMap.THEMNGAY) {
       let response = await pushPorductToCartService({
@@ -72,20 +94,19 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
         supplierId: product.supplierId,
         statusId: keyMap.TRONGGIO,
         productFee: product.price * quantity,
-        time: moment().format(environment.FORMAT_TIME)
-      })
+        time: moment().format(environment.FORMAT_TIME),
+      });
 
       if (response && response.errCode === 0) {
-        setModalVisible(false)
+        setModalVisible(false);
         navigation.navigate(namePage.CART);
-        dispatch(handleChangeNumberCart(response.numberCart))
+        dispatch(handleChangeNumberCart(response.numberCart));
       } else {
-        alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+        alert(language === keyMap.EN ? response.messageEN : response.messageVI);
       }
-
     }
     if (title === keyMap.MUANGAY) {
-      setModalVisible(false)
+      setModalVisible(false);
       navigation.navigate(namePage.PAY, {
         data: {
           productId: product.id,
@@ -93,15 +114,11 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
           quantity: quantity,
           supplierId: product.supplierId,
           productFee: product.price * quantity,
-          product: product
-        }
-      })
-
+          product: product,
+        },
+      });
     }
-
   };
-
-
 
   return (
     <Modal
@@ -118,12 +135,21 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
         <View style={styles.contentTop}>
           <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
             <View>
-              <Image source={{ uri: product?.image ? environment.BASE_URL_BE_IMG + product.image[0] : null }} style={{ width: 100, height: 100 }} />
+              <Image
+                source={{
+                  uri: product?.image
+                    ? environment.BASE_URL_BE_IMG + product.image[0]
+                    : null,
+                }}
+                style={{ width: 100, height: 100 }}
+              />
             </View>
             <View style={{ paddingLeft: 10 }}>
-              <Text style={{ fontSize: fontSize.h2 }}>{handleFormatMoney(product.price)}</Text>
+              <Text style={{ fontSize: fontSize.h2 }}>
+                {handleFormatMoney(product.price)}
+              </Text>
               <Text style={{ color: "#ff7337", fontSize: fontSize.h2 }}>
-                Kho: {quantityOfType}
+                <TextFormatted id="modal.store" />: {quantityOfType}
               </Text>
             </View>
           </View>
@@ -133,7 +159,9 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
         </View>
         <View style={styles.contentCenter}>
           <View>
-            <Text style={{ fontSize: fontSize.h2 }}>Màu Sắc</Text>
+            <Text style={{ fontSize: fontSize.h2 }}>
+              <TextFormatted id="modal.color" />
+            </Text>
           </View>
           <View
             style={{
@@ -143,28 +171,28 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
               justifyContent: "space-between",
             }}
           >
-            {
-              product.productTypeData && product.productTypeData?.map(item => {
+            {product.productTypeData &&
+              product.productTypeData?.map((item) => {
                 return (
                   <TouchableOpacity
                     key={item.type + item.size}
                     style={[
                       styles.itemOption,
-                      typeSelected === item.type + item.size ? styles.typeSelected : null,
+                      typeSelected === item.type + item.size
+                        ? styles.typeSelected
+                        : null,
                     ]}
                     onPress={() => handleSelected(item)}
                   >
                     {/* <Image style={{ width: 25, height: 25 }} source={bg10} /> */}
-                    <Text>{item.type} {item.size ? `-size: ${item.size}` : ""}</Text>
+                    <Text>
+                      {item.type} {item.size ? `-size: ${item.size}` : ""}
+                    </Text>
                   </TouchableOpacity>
-                )
-              })
-            }
-
+                );
+              })}
           </View>
         </View>
-
-
 
         <View style={styles.contentBottom}>
           <View
@@ -188,9 +216,13 @@ const ModalProduct = ({ isVisible, setModalVisible, title, onClose, handle, prod
             onPress={handleBuyProduct}
           >
             <Text style={{ textAlign: "center", color: "#ffffff" }}>
-              {
-                title === keyMap.MUANGAY ? (language === keyMap.EN ? "BUY NOW" : "MUA NGAY") : (language === keyMap.EN ? "ADD NOW" : "THÊM NGAY")
-              }
+              {title === keyMap.MUANGAY
+                ? language === keyMap.EN
+                  ? "BUY NOW"
+                  : "MUA NGAY"
+                : language === keyMap.EN
+                ? "ADD NOW"
+                : "THÊM NGAY"}
             </Text>
           </TouchableOpacity>
         </View>

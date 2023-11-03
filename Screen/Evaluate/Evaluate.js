@@ -22,7 +22,7 @@ import namePage from "../../utils/constant/namePage";
 import environment from "../../utils/constant/environment";
 import { useSelector } from "react-redux";
 import keyMap from "../../utils/constant/keyMap";
-
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 const DimensionsWidth = Dimensions.get("screen").width;
 const DimensionsHeight = Dimensions.get("screen").height;
@@ -85,49 +85,47 @@ const item = [
   },
 ];
 
-
 export default function Evaluate({ product, inforReview }) {
-  const language = useSelector(state => state.app.language)
+  const language = useSelector((state) => state.app.language);
   const [star, setStar] = useState([]);
 
   useEffect(() => {
     function splitDecimal(number) {
-      if (!number) return
+      if (!number) return;
       const integerPart = Math.floor(number);
       const fractionalPart = number - integerPart;
       return { integer: integerPart, fractional: fractionalPart };
     }
-    let arr = []
+    let arr = [];
     if (inforReview && inforReview.averageRating) {
       const { integer, fractional } = splitDecimal(inforReview?.averageRating);
-      let integerRating = integer
-      let addFractional = false
+      let integerRating = integer;
+      let addFractional = false;
       for (let i = 0; i < 5; i++) {
         if (integerRating > 0) {
-          arr.push(1)
+          arr.push(1);
         } else if (integerRating === 0 && addFractional === false) {
-          arr.push(fractional)
-          addFractional = true
+          arr.push(fractional);
+          addFractional = true;
         } else {
-          arr.push(0)
+          arr.push(0);
         }
-        integerRating = integerRating - 1
+        integerRating = integerRating - 1;
       }
     }
-    setStar(arr)
-  }, [inforReview])
+    setStar(arr);
+  }, [inforReview]);
 
   const navigation = useNavigation();
   // const [listReview, setListReview] = useState([])
 
   // const getListReview = async () => {
-  //   let response = await 
+  //   let response = await
   // }
 
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage, { productId: product.id });
   };
-
 
   const transformStar = (numberStar) => {
     if (numberStar === 5) {
@@ -163,7 +161,14 @@ export default function Evaluate({ product, inforReview }) {
         </View>
       );
     } else if (item > 0 && item < 1) {
-      return <FontAwesome key={item + Math.random(0, 1)} name="star-half-empty" size={13} color="#ffad27" />;
+      return (
+        <FontAwesome
+          key={item + Math.random(0, 1)}
+          name="star-half-empty"
+          size={13}
+          color="#ffad27"
+        />
+      );
     } else {
       return (
         <View key={item + Math.random(0, 1)}>
@@ -173,14 +178,15 @@ export default function Evaluate({ product, inforReview }) {
     }
   };
 
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={styles.wrapper}>
         <View style={styles.HeaderContainer}>
           <View style={styles.EvaluateAndStar}>
             <View style={styles.Evaluate}>
-              <Text style={{ fontSize: fontSize.h2 }}>Đánh giá sản phẩm</Text>
+              <Text style={{ fontSize: fontSize.h2 }}>
+                <TextFormatted id="mall.review" />
+              </Text>
             </View>
 
             <View style={styles.boxStar}>
@@ -197,7 +203,10 @@ export default function Evaluate({ product, inforReview }) {
               </View>
 
               <View style={styles.review}>
-                <Text style={{ fontSize: fontSize.h3 }}>({inforReview?.totalReviews} đánh giá)</Text>
+                <Text style={{ fontSize: fontSize.h3 }}>
+                  ({inforReview?.totalReviews}{" "}
+                  <TextFormatted id="mall.evaluate" />)
+                </Text>
               </View>
             </View>
           </View>
@@ -205,7 +214,9 @@ export default function Evaluate({ product, inforReview }) {
             style={styles.All}
             onPress={() => handleNavigate(namePage.ALLEVA)}
           >
-            <Text style={styles.TextAll}>Xem tất cả</Text>
+            <Text style={styles.TextAll}>
+              <TextFormatted id="mall.all" />
+            </Text>
             <AntDesign name="right" size={18} color="#f25220" />
           </TouchableOpacity>
         </View>
@@ -222,13 +233,25 @@ export default function Evaluate({ product, inforReview }) {
                     <View style={styles.headerContent}>
                       <View style={styles.Avatar}>
                         <Image
-                          source={item.userReviewData?.image ? { uri: environment.BASE_URL_BE_IMG + item.userReviewData?.image } : require("../../Image/default_avatar.png")}
+                          source={
+                            item.userReviewData?.image
+                              ? {
+                                  uri:
+                                    environment.BASE_URL_BE_IMG +
+                                    item.userReviewData?.image,
+                                }
+                              : require("../../Image/default_avatar.png")
+                          }
                           style={{ width: "100%", height: "100%" }}
                         />
                       </View>
                       <View style={styles.Eva}>
                         <View style={styles.nameHeader}>
-                          <Text style={{ color: "black" }}>{language === keyMap.EN ? `${item.userReviewData?.firstName} ${item.userReviewData?.lastName}` : `${item.userReviewData?.lastName} ${item.userReviewData?.firstName}`}</Text>
+                          <Text style={{ color: "black" }}>
+                            {language === keyMap.EN
+                              ? `${item.userReviewData?.firstName} ${item.userReviewData?.lastName}`
+                              : `${item.userReviewData?.lastName} ${item.userReviewData?.firstName}`}
+                          </Text>
                         </View>
                         <View style={styles.StarHeader}>
                           {transformStar(item.rating).map((stars) => {
@@ -236,20 +259,26 @@ export default function Evaluate({ product, inforReview }) {
                           })}
                         </View>
                         <View style={styles.Typecontent}>
-                          <Text style={{ color: "grey", fontSize: fontSize.h3 }}>
-                            {item.productTypeReviewData?.type ? `Phân loại: ${item.productTypeReviewData?.type}` : ``} {item.productTypeReviewData?.size ? `-${item.productTypeReviewData?.size}` : ``}
+                          <Text
+                            style={{ color: "grey", fontSize: fontSize.h3 }}
+                          >
+                            {item.productTypeReviewData?.type
+                              ? `Phân loại: ${item.productTypeReviewData?.type}`
+                              : ``}{" "}
+                            {item.productTypeReviewData?.size
+                              ? `-${item.productTypeReviewData?.size}`
+                              : ``}
                           </Text>
                         </View>
                       </View>
                     </View>
-                    {
-                      item.comment &&
+                    {item.comment && (
                       <View style={styles.TextContent}>
                         <Text style={{ fontSize: fontSize.h3 }}>
                           {item.comment}
                         </Text>
                       </View>
-                    }
+                    )}
 
                     <View style={styles.dateContent}>
                       <Text style={{ color: "grey", fontSize: fontSize.h3 }}>
@@ -267,7 +296,9 @@ export default function Evaluate({ product, inforReview }) {
           onPress={() => handleNavigate(namePage.ALLEVA)}
         >
           <View style={styles.seeAll}>
-            <Text style={{ color: "#f25220" }}>Xem Tất Cả ({inforReview?.totalReviews})</Text>
+            <Text style={{ color: "#f25220" }}>
+              <TextFormatted id="mall.all" /> ({inforReview?.totalReviews})
+            </Text>
           </View>
         </TouchableOpacity>
       </ScrollView>

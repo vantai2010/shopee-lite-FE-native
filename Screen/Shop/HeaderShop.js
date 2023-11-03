@@ -15,14 +15,17 @@ import { Link, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { AntDesign, EvilIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 import Avata from "../Avatar/Avata";
 import fontSize from "../../utils/constant/fontSize";
 import environment from "../../utils/constant/environment";
 import { useSelector } from "react-redux";
 import keyMap from "../../utils/constant/keyMap";
-import { setFollowShopService, setUnFollowShopService } from "../../service/appService";
-
+import {
+  setFollowShopService,
+  setUnFollowShopService,
+} from "../../service/appService";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 const DimensionsWidth = Dimensions.get("screen").width;
 const DimensionsHeight = Dimensions.get("screen").height;
 
@@ -68,9 +71,9 @@ const renderStar = (item) => {
 
 export default function HeaderShop({ inforShop, getInforShop }) {
   const navigation = useNavigation();
-  const language = useSelector(state => state.app.language)
-  const isLogin = useSelector(state => state.app.isLogin)
-  const userData = useSelector(state => state.app.userData)
+  const language = useSelector((state) => state.app.language);
+  const isLogin = useSelector((state) => state.app.isLogin);
+  const userData = useSelector((state) => state.app.userData);
   const handleNavigate = (namePage) => {
     return navigation.navigate(namePage);
   };
@@ -78,27 +81,31 @@ export default function HeaderShop({ inforShop, getInforShop }) {
 
   const handleSetFollowShop = async () => {
     if (!isLogin) {
-      return alert(language === keyMap.EN ? "You are not logged in" : "Bạn phải đăng nhập")
+      return alert(
+        language === keyMap.EN ? "You are not logged in" : "Bạn phải đăng nhập"
+      );
     }
-    let response = await setFollowShopService({ followedId: inforShop.id })
+    let response = await setFollowShopService({ followedId: inforShop.id });
     if (response && response.errCode === 0) {
-      getInforShop()
+      getInforShop();
     } else {
-      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI);
     }
-  }
+  };
 
   const handleUnFollowShop = async () => {
     if (!isLogin) {
-      return alert(language === keyMap.EN ? "You are not logged in" : "Bạn phải đăng nhập")
+      return alert(
+        language === keyMap.EN ? "You are not logged in" : "Bạn phải đăng nhập"
+      );
     }
-    let response = await setUnFollowShopService({ followedId: inforShop.id })
+    let response = await setUnFollowShopService({ followedId: inforShop.id });
     if (response && response.errCode === 0) {
-      getInforShop()
+      getInforShop();
     } else {
-      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI);
     }
-  }
+  };
 
   return (
     <SafeAreaView>
@@ -139,7 +146,9 @@ export default function HeaderShop({ inforShop, getInforShop }) {
             <View style={styles.Avatar}>
               <Avata
                 avatarUrl={
-                  inforShop.image ? environment.BASE_URL_BE_IMG + inforShop.image : null
+                  inforShop.image
+                    ? environment.BASE_URL_BE_IMG + inforShop.image
+                    : null
                 }
                 style={{ width: "100%", height: "100%" }}
               />
@@ -152,7 +161,9 @@ export default function HeaderShop({ inforShop, getInforShop }) {
                   numberOfLines={1}
                   style={{ fontSize: 15, flex: 1, fontWeight: "800" }}
                 >
-                  {language === keyMap.EN ? `${inforShop.firstName} ${inforShop.lastName}` : `${inforShop.lastName} ${inforShop.firstName}`}
+                  {language === keyMap.EN
+                    ? `${inforShop.firstName} ${inforShop.lastName}`
+                    : `${inforShop.lastName} ${inforShop.firstName}`}
                 </Text>
               </View>
               <View
@@ -166,13 +177,17 @@ export default function HeaderShop({ inforShop, getInforShop }) {
               </View>
             </View>
             <View style={styles.offLine}>
-              <Text style={{ fontSize: fontSize.h3 }}>Online 2 giờ trước</Text>
+              <Text style={{ fontSize: fontSize.h3 }}>
+                Online 2 <TextFormatted id="mall.time" />
+              </Text>
             </View>
             <View style={styles.Evaluate}>
               <View style={styles.total}>
                 <View style={styles.number}>{renderStar(1)}</View>
                 <View>
-                  <Text style={{ fontSize: fontSize.h3 }}>{inforShop.starShop}/5.0</Text>
+                  <Text style={{ fontSize: fontSize.h3 }}>
+                    {inforShop.starShop}/5.0
+                  </Text>
                 </View>
               </View>
 
@@ -181,28 +196,37 @@ export default function HeaderShop({ inforShop, getInforShop }) {
                   style={{ fontSize: fontSize.h3, maxWidth: "95%" }}
                   numberOfLines={1}
                 >
-                  {inforShop.followingNumber?.length} Người theo dõi
+                  {inforShop.followingNumber?.length}
+                  <TextFormatted id="mall.followers" />
                 </Text>
               </View>
             </View>
           </View>
           <View style={{ flex: 1.5, justifyContent: "space-around" }}>
             <View style={styles.btnFollow}>
-              {
-                inforShop.followingNumber?.some(item => item.followerId === userData.id) ?
-                  <TouchableOpacity style={{ flexDirection: "row", width: 70 }}
-                    onPress={handleUnFollowShop}
-                  >
-                    <Feather name="x" size={20} color="black" />
-                    <Text style={{ fontSize: fontSize.h3 }}>Hủy theo dõi</Text>
-                  </TouchableOpacity>
-                  :
-                  <TouchableOpacity style={{ flexDirection: "row" }} onPress={handleSetFollowShop}>
-                    <Ionicons name="add" size={12} color="black" />
-                    <Text style={{ fontSize: fontSize.h3 }}>Theo dõi</Text>
-                  </TouchableOpacity>
-              }
-
+              {inforShop.followingNumber?.some(
+                (item) => item.followerId === userData.id
+              ) ? (
+                <TouchableOpacity
+                  style={{ flexDirection: "row", width: 70 }}
+                  onPress={handleUnFollowShop}
+                >
+                  <Feather name="x" size={20} color="black" />
+                  <Text style={{ fontSize: fontSize.h3 }}>
+                    <TextFormatted id="mall.unfollow" />
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{ flexDirection: "row" }}
+                  onPress={handleSetFollowShop}
+                >
+                  <Ionicons name="add" size={12} color="black" />
+                  <Text style={{ fontSize: fontSize.h3 }}>
+                    <TextFormatted id="mall.monitor" />
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
             <TouchableOpacity style={styles.btnChat}>
               <Ionicons
@@ -210,7 +234,9 @@ export default function HeaderShop({ inforShop, getInforShop }) {
                 size={12}
                 color="black"
               />
-              <Text style={{ fontSize: fontSize.h3 }}>Chat</Text>
+              <Text style={{ fontSize: fontSize.h3 }}>
+                <TextFormatted id="mall.chat" />
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

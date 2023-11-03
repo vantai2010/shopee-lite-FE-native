@@ -13,99 +13,121 @@ import keyMap from "../../utils/constant/keyMap";
 import { useSelector } from "react-redux";
 import environment from "../../utils/constant/environment";
 import handleFormatMoney from "../../utils/formatMoney";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 const WaitDelivery = () => {
-  const language = useSelector(state => state.app.language)
-  const [listData, setListData] = useState([])
+  const language = useSelector((state) => state.app.language);
+  const [listData, setListData] = useState([]);
   const getListData = async () => {
-    let response = await getTransactionByUserService(keyMap.CHOLAYHANG)
+    let response = await getTransactionByUserService(keyMap.CHOLAYHANG);
     if (response && response.errCode === 0) {
-      setListData(response.data)
+      setListData(response.data);
     } else {
-      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI);
     }
-  }
+  };
 
   useEffect(() => {
-    getListData()
-  }, [])
+    getListData();
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
-      {
-        listData.length > 0 ?
-          listData.map(item => {
-            return (
-              <TouchableOpacity key={item.id} style={styles.infoProduct}>
-                <View style={styles.nameShop}>
-                  <Text style={styles.textName}>Shopee Mall</Text>
-                  <Text style={{ marginLeft: 20, fontWeight: "600" }}>{language === keyMap.EN ? `${item.userSupplierCartData?.firstName} ${item.userSupplierCartData?.lastName}` : `${item.userSupplierCartData?.lastName} ${item.userSupplierCartData?.firstName}`}</Text>
-                </View>
+      {listData.length > 0 ? (
+        listData.map((item) => {
+          return (
+            <TouchableOpacity key={item.id} style={styles.infoProduct}>
+              <View style={styles.nameShop}>
+                <Text style={styles.textName}>Shopee Mall</Text>
+                <Text style={{ marginLeft: 20, fontWeight: "600" }}>
+                  {language === keyMap.EN
+                    ? `${item.userSupplierCartData?.firstName} ${item.userSupplierCartData?.lastName}`
+                    : `${item.userSupplierCartData?.lastName} ${item.userSupplierCartData?.firstName}`}
+                </Text>
+              </View>
 
-                <View style={styles.product}>
-                  <View>
-                    <Image style={{ width: 70, height: 50 }} source={{ uri: environment.BASE_URL_BE_IMG + item.productCartData?.image[0] }} />
-                  </View>
-                  <View>
-                    <Text
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                      style={{ fontSize: 17, maxWidth: "80%", marginLeft: 10 }}
-                    >
-                      {item.productCartData?.name}
-                    </Text>
-                    <Text style={{ marginLeft: 10, color: "#a19f9f" }}>
-                      {item.productTypeCartData?.type}{item.productTypeCartData?.size ? `- ${item.productTypeCartData.size}` : ""}
-                    </Text>
-                    <Text style={styles.goods}>7 ngày trả hàng</Text>
-                  </View>
+              <View style={styles.product}>
+                <View>
+                  <Image
+                    style={{ width: 70, height: 50 }}
+                    source={{
+                      uri:
+                        environment.BASE_URL_BE_IMG +
+                        item.productCartData?.image[0],
+                    }}
+                  />
                 </View>
-
-                <View style={styles.payComplete}>
-                  <Text style={{ color: "#a19f9f", fontSize: 16 }}>Sản phẩm</Text>
-                  <Text style={{ color: "#a19f9f", fontSize: 16 }}>
-                    Thành tiền:
-                    <Text style={{ color: "red", fontWeight: "500", fontSize: 16 }}>
-                      {handleFormatMoney(item.productFee + item.shipFee)}
-                    </Text>
+                <View>
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={{ fontSize: 17, maxWidth: "80%", marginLeft: 10 }}
+                  >
+                    {item.productCartData?.name}
+                  </Text>
+                  <Text style={{ marginLeft: 10, color: "#a19f9f" }}>
+                    {item.productTypeCartData?.type}
+                    {item.productTypeCartData?.size
+                      ? `- ${item.productTypeCartData.size}`
+                      : ""}
+                  </Text>
+                  <Text style={styles.goods}>
+                    <TextFormatted id="transaction.day" />
                   </Text>
                 </View>
+              </View>
 
-                <View style={styles.statusNew}>
-                  <Text style={{ color: "#0f9483" }}>Đơn hàng đang được chờ lấy</Text>
-                </View>
+              <View style={styles.payComplete}>
+                <Text style={{ color: "#a19f9f", fontSize: 16 }}>Sản phẩm</Text>
+                <Text style={{ color: "#a19f9f", fontSize: 16 }}>
+                  <TextFormatted id="transaction.money" />:
+                  <Text
+                    style={{ color: "red", fontWeight: "500", fontSize: 16 }}
+                  >
+                    {handleFormatMoney(item.productFee + item.shipFee)}
+                  </Text>
+                </Text>
+              </View>
 
-                <View
+              <View style={styles.statusNew}>
+                <Text style={{ color: "#0f9483" }}>
+                  <TextFormatted id="transaction.status" />
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  backgroundColor: "#ffffff",
+                  padding: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  borderTopWidth: 0.3,
+                }}
+              >
+                <Text style={{ width: "50%", color: "#a19f9f" }}>
+                  <TextFormatted id="transaction.ordership" />
+                </Text>
+                <Text
                   style={{
-                    backgroundColor: "#ffffff",
-                    padding: 10,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    borderTopWidth: 0.3,
+                    backgroundColor: "grey",
+                    width: "40%",
+                    paddingVertical: 10,
+                    textAlign: "center",
+                    fontWeight: "500",
+                    color: "#ffffff",
                   }}
                 >
-                  <Text style={{ width: "50%", color: "#a19f9f" }}>
-                    Đơn hàng của bạn sắp được chuyển đi
-                  </Text>
-                  <Text
-                    style={{
-                      backgroundColor: "grey",
-                      width: "40%",
-                      paddingVertical: 10,
-                      textAlign: "center",
-                      fontWeight: "500",
-                      color: "#ffffff",
-                    }}
-                  >
-                    Đã nhận được hàng
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )
-          })
-          :
-          <Text>Không có đơn hàng nào</Text>
-      }
+                  <TextFormatted id="transaction.goodreceive" />
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })
+      ) : (
+        <Text>
+          <TextFormatted id="transaction.order" />
+        </Text>
+      )}
 
       {/* <TouchableOpacity style={styles.infoProduct}>
         <View style={styles.nameShop}>
@@ -183,7 +205,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     backgroundColor: "#cccccc",
     height: "auto",
-    marginBottom: 100
+    marginBottom: 100,
   },
   infoProduct: {
     marginTop: 10,

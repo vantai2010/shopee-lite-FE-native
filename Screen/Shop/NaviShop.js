@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Link, useNavigation } from "@react-navigation/native";
 import fontSize from "../../utils/constant/fontSize";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 function NaviShop() {
   const navigation = useNavigation();
@@ -31,10 +32,14 @@ function NaviShop() {
         </Text>
       </View>
       <View style={styles.boxContainer}>
-        <Text style={styles.textbox}>Sản phẩm</Text>
+        <Text style={styles.textbox}>
+          <TextFormatted id="mall.product" />
+        </Text>
       </View>
       <View style={styles.boxContainer}>
-        <Text style={styles.textbox}>Danh mục hàng</Text>
+        <Text style={styles.textbox}>
+          <TextFormatted id="mall.menu" />
+        </Text>
       </View>
     </View>
   );

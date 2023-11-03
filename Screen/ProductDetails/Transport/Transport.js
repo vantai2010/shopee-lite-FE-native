@@ -3,6 +3,7 @@ import icon2 from "../../../Image/icon2.png";
 import icon3 from "../../../Image/icon3.png";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { SimpleLineIcons, AntDesign } from "@expo/vector-icons";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 export default function Transport() {
   return (
     <>
@@ -17,7 +18,9 @@ export default function Transport() {
         >
           <Image source={icon1} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={{ paddingRight: 10 }}> Xử lý đơn hàng bởi Shopee</Text>
+            <Text style={{ paddingRight: 10 }}>
+              <TextFormatted id="mall.order" />
+            </Text>
             <SimpleLineIcons name="question" size={12} color="gray" />
           </View>
         </View>
@@ -32,7 +35,7 @@ export default function Transport() {
           <Image source={icon2} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={{ paddingRight: 10, paddingLeft: 5 }}>
-              Miễn phí vận chuyển
+              <TextFormatted id="mall.ship" />
             </Text>
             <AntDesign name="infocirlceo" size={12} color="gray" />
           </View>
@@ -49,7 +52,7 @@ export default function Transport() {
           <Image source={icon3} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={{ paddingRight: 10, paddingLeft: 5 }}>
-              Phí vận chuyển
+              <TextFormatted id="mall.transport" />
             </Text>
             <AntDesign name="pluscircleo" size={12} color="gray" />
           </View>

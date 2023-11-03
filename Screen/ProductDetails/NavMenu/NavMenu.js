@@ -7,6 +7,7 @@ import ModalNotification from "../Modal/ModalNotification";
 import { useNavigation } from "@react-navigation/native";
 import namePage from "../../../utils/constant/namePage";
 import keyMap from "../../../utils/constant/keyMap";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 
 export default function NavMenu({ product }) {
   const navigation = useNavigation();
@@ -14,41 +15,57 @@ export default function NavMenu({ product }) {
   const [title, setTitle] = useState("");
   const handleModalProduct = (item) => {
     if (item === "cart") {
-      setTitle(keyMap.THEMNGAY)
+      setTitle(keyMap.THEMNGAY);
       setModalVisible(!isModalVisible);
     }
     if (item === "buy") {
-      setTitle(keyMap.MUANGAY)
+      setTitle(keyMap.MUANGAY);
       setModalVisible(!isModalVisible);
     }
   };
 
   const handleClose = () => {
-    setModalVisible(false)
-
-  }
+    setModalVisible(false);
+  };
 
   const handleMess = () => {
     navigation.navigate(namePage.MESS);
   };
-
-
 
   return (
     <>
       <View style={styles.container}>
         <TouchableOpacity style={styles.menuItem} onPress={handleMess}>
           <FontAwesome name="wechat" size={30} color="red" />
-          <Text style={styles.menuItemText}>Chat ngay</Text>
+          <Text style={styles.menuItemText}>
+            <TextFormatted id="mall.chat" />
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleModalProduct("cart")} style={styles.menuItem}>
+        <TouchableOpacity
+          onPress={() => handleModalProduct("cart")}
+          style={styles.menuItem}
+        >
           <AntDesign name="shoppingcart" size={30} color="red" />
-          <Text style={styles.menuItemText}>Thêm vào giỏ hàng</Text>
+          <Text style={styles.menuItemText}>
+            <TextFormatted id="mall.add" />
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buyNow} onPress={() => handleModalProduct("buy")}>
-          <Text style={styles.buyNowText}>Mua ngay</Text>
+        <TouchableOpacity
+          style={styles.buyNow}
+          onPress={() => handleModalProduct("buy")}
+        >
+          <Text style={styles.buyNowText}>
+            <TextFormatted id="mall.buynow" />
+          </Text>
         </TouchableOpacity>
-        <ModalProduct isVisible={isModalVisible} setModalVisible={setModalVisible} title={title} onClose={handleModalProduct} handle={handleClose} product={product} />
+        <ModalProduct
+          isVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          title={title}
+          onClose={handleModalProduct}
+          handle={handleClose}
+          product={product}
+        />
       </View>
     </>
   );

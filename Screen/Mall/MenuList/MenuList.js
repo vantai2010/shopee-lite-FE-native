@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 export default function MenuList() {
   return (
     <>
@@ -8,7 +9,9 @@ export default function MenuList() {
           <View style={styles.iconBack}>
             <AntDesign name="back" size={13} color="#ffffff" />
           </View>
-          <Text style={styles.textLeft}>Miễn phí trả hàng</Text>
+          <Text style={styles.textLeft}>
+            <TextFormatted id="mall.returns" />
+          </Text>
         </View>
         <View style={styles.contentCenter}>
           <View style={styles.iconShield}>
@@ -18,13 +21,17 @@ export default function MenuList() {
               color="#ffffff"
             />
           </View>
-          <Text style={styles.textCenter}>Chính hãng 100%</Text>
+          <Text style={styles.textCenter}>
+            <TextFormatted id="mall.genuine" />
+          </Text>
         </View>
         <View style={styles.contentRight}>
           <View style={styles.iconCart}>
             <Ionicons name="ios-cart-outline" size={13} color="#ffffff" />
           </View>
-          <Text style={styles.textRight}>Giao hàng miễn phí</Text>
+          <Text style={styles.textRight}>
+            <TextFormatted id="mall.delivery" />
+          </Text>
         </View>
       </View>
     </>

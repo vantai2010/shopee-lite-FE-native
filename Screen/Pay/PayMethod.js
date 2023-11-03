@@ -16,6 +16,7 @@ import {
 } from "../../service/appService";
 import { useSelector } from "react-redux";
 import keyMap from "../../utils/constant/keyMap";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 const PayMethod = () => {
   const language = useSelector((state) => state.app.language);
   const navigation = useNavigation();
@@ -118,7 +119,7 @@ const PayMethod = () => {
           <Text
             style={{ fontSize: fontSize.h2, color: "red", fontWeight: "600" }}
           >
-            Thẻ tín dụng
+            <TextFormatted id="pay.credit" />
           </Text>
           <View style={{ flexDirection: "row" }}>
             {showCheckPay && showCheck && (
@@ -167,7 +168,7 @@ const PayMethod = () => {
                 <AntDesign name="pluscircleo" size={24} color="black" />
               </View>
               <Text style={{ paddingLeft: 10, fontSize: fontSize.h2 }}>
-                Thêm thẻ tín dụng mới
+                <TextFormatted id="pay.addcredit" />
               </Text>
             </TouchableOpacity>
           </View>
@@ -183,7 +184,7 @@ const PayMethod = () => {
           <Text
             style={{ fontSize: fontSize.h2, color: "red", fontWeight: "600" }}
           >
-            Thanh toán khi nhận được hàng
+            <TextFormatted id="pay.receipt" />
           </Text>
           {showPayHome && <AntDesign name="check" size={24} color="#ff7337" />}
         </TouchableOpacity>
@@ -194,7 +195,7 @@ const PayMethod = () => {
           }
         >
           <Text style={{ color: "#ffffff", fontSize: fontSize.h2 }}>
-            Đồng ý
+            <TextFormatted id="pay.confirm" />
           </Text>
         </TouchableOpacity>
       </View>

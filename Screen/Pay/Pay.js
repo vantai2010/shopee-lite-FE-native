@@ -17,59 +17,70 @@ import fontSize from "../../utils/constant/fontSize";
 import ModalNotification from "../ProductDetails/Modal/ModalNotification";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import namePage from "../../utils/constant/namePage";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import keyMap from "../../utils/constant/keyMap";
 import ShoppingMethod from "./ShoppingMethod";
-import { buyProductService, pushPorductToCartService } from "../../service/appService";
-import moment from "moment"
+import {
+  buyProductService,
+  pushPorductToCartService,
+} from "../../service/appService";
+import moment from "moment";
 import environment from "../../utils/constant/environment";
-import handleFormatMoney from "../../utils/formatMoney"
+import handleFormatMoney from "../../utils/formatMoney";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 
 const Pay = () => {
-  const route = useRoute()
-  const data = route.params?.data
-  const language = useSelector(state => state.app.language)
-  const userData = useSelector(state => state.app.userData)
-  const notifySocket = useSelector(state => state.app.notifySocket)
+  const route = useRoute();
+  const data = route.params?.data;
+  const language = useSelector((state) => state.app.language);
+  const userData = useSelector((state) => state.app.userData);
+  const notifySocket = useSelector((state) => state.app.notifySocket);
   const navigation = useNavigation();
-  const [vouchers, setVouchers] = useState({})
-  const [productPrice, setProductPrice] = useState(data?.productFee)
-  const [shipMethod, setShipMethod] = useState()
-  const [methodPay, setMethodPay] = useState({})
-
+  const [vouchers, setVouchers] = useState({});
+  const [productPrice, setProductPrice] = useState(data?.productFee);
+  const [shipMethod, setShipMethod] = useState();
+  const [methodPay, setMethodPay] = useState({});
 
   useEffect(() => {
-    let totalPrice = data?.productFee
+    let totalPrice = data?.productFee;
     if (vouchers.giamgia === null) {
-      totalPrice = data?.productFee
+      totalPrice = data?.productFee;
     } else if (Object.keys(vouchers).includes("giamgia")) {
       if (vouchers.giamgia?.discount.includes("%")) {
-        let discountPrice = data?.productFee * (vouchers.giamgia?.discount.split("%")[0] / 100)
-        totalPrice = data?.productFee - discountPrice
+        let discountPrice =
+          data?.productFee * (vouchers.giamgia?.discount.split("%")[0] / 100);
+        totalPrice = data?.productFee - discountPrice;
         if (totalPrice < 0) {
-          totalPrice = 0
+          totalPrice = 0;
         }
       } else {
-        totalPrice = data?.productFee - vouchers.giamgia?.discount.split("đ")[0]
+        totalPrice =
+          data?.productFee - vouchers.giamgia?.discount.split("đ")[0];
         if (totalPrice < 0) {
-          totalPrice = 0
+          totalPrice = 0;
         }
       }
     }
-    setProductPrice(totalPrice)
-  }, [vouchers])
-
-
+    setProductPrice(totalPrice);
+  }, [vouchers]);
 
   const handleBuyProduct = async () => {
     if (!shipMethod) {
-      return alert(language === keyMap.EN ? "You must choose a shipping method" : "Bạn phải chọn phương thức vận chuyển")
+      return alert(
+        language === keyMap.EN
+          ? "You must choose a shipping method"
+          : "Bạn phải chọn phương thức vận chuyển"
+      );
     }
     if (!methodPay) {
-      return alert(language === keyMap.EN ? "You must choose a payment method" : "Bạn phải chọn phương thức thanh toán")
+      return alert(
+        language === keyMap.EN
+          ? "You must choose a payment method"
+          : "Bạn phải chọn phương thức thanh toán"
+      );
     }
 
-    let shipFee = calShipPrice(shipMethod, vouchers)
+    let shipFee = calShipPrice(shipMethod, vouchers);
     let response = await buyProductService({
       productId: data.productId,
       productTypeId: data.productTypeId,
@@ -79,23 +90,23 @@ const Pay = () => {
       shipFee: shipFee,
       time: moment().format(environment.FORMAT_TIME),
       statusId: methodPay.value,
-      cartId: data?.cartId
-    })
+      cartId: data?.cartId,
+    });
     if (response && response.errCode === 0) {
-      navigation.navigate(namePage.TRANSACTION, { page: keyMap.CHOXACNHAN })
+      navigation.navigate(namePage.TRANSACTION, { page: keyMap.CHOXACNHAN });
       notifySocket?.emit("user-buy-product", {
         productId: data.productId,
         receiverId: data.supplierId,
         senderId: userData.id,
-      })
+      });
     } else {
-      alert(language === keyMap.EN ? response.messageEN : response.messageVI)
+      alert(language === keyMap.EN ? response.messageEN : response.messageVI);
     }
   };
 
   const handlePayMethods = () => {
     navigation.navigate(namePage.PAYMETHOD, {
-      setMethodPay: setMethodPay
+      setMethodPay: setMethodPay,
     });
   };
 
@@ -103,26 +114,31 @@ const Pay = () => {
     navigation.navigate(namePage.VOUCHERS, {
       productFee: data.productFee,
       productId: data.productId,
-      setVouchers: setVouchers
-    })
+      setVouchers: setVouchers,
+    });
   };
 
   const handleOptionTransport = () => {
     navigation.navigate(namePage.SHOPPINGMETHOD, {
       addressUser: userData.address,
       addressShop: data.product.productSupplierData.address,
-      setShipMethod: setShipMethod
-    })
-  }
+      setShipMethod: setShipMethod,
+    });
+  };
 
-  const productTypeSelected = data.product?.productTypeData.find(item => item.id === data.productTypeId)
+  const productTypeSelected = data.product?.productTypeData.find(
+    (item) => item.id === data.productTypeId
+  );
 
   const calShipPrice = (shipMethod, vouchers) => {
-    let shipPrice = 0, discount = 0
-    shipPrice = shipMethod?.cost ? shipMethod?.cost : 0
-    discount = vouchers.vanchuyen?.discount ? vouchers.vanchuyen?.discount.split("đ")[0] : 0
-    return shipPrice - discount < 0 ? 0 : shipPrice - discount
-  }
+    let shipPrice = 0,
+      discount = 0;
+    shipPrice = shipMethod?.cost ? shipMethod?.cost : 0;
+    discount = vouchers.vanchuyen?.discount
+      ? vouchers.vanchuyen?.discount.split("đ")[0]
+      : 0;
+    return shipPrice - discount < 0 ? 0 : shipPrice - discount;
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -131,11 +147,16 @@ const Pay = () => {
           <AntDesign name="enviromento" size={20} color="#ff7337" />
         </View>
         <View style={styles.addressText}>
-          <Text>Địa chỉ nhận hàng</Text>
-          <Text>{language === keyMap.EN ? `${userData.firstName} ${userData.lastName}` : `${userData.lastName} ${userData.firstName}`} (+84) {userData.phoneNumber}</Text>
           <Text>
-            {userData.address}
+            <TextFormatted id="pay.address" />
           </Text>
+          <Text>
+            {language === keyMap.EN
+              ? `${userData.firstName} ${userData.lastName}`
+              : `${userData.lastName} ${userData.firstName}`}{" "}
+            (+84) {userData.phoneNumber}
+          </Text>
+          <Text>{userData.address}</Text>
         </View>
       </View>
       <View style={styles.product}>
@@ -148,14 +169,19 @@ const Pay = () => {
               backgroundColor: "#ff7337",
             }}
           >
-            Yêu thích
+            <TextFormatted id="mall.favorite" />
           </Text>
           <Text style={{ marginLeft: 5, fontWeight: "600" }}>aibao1.vn</Text>
         </View>
 
         <View style={styles.inforProduct}>
           <View style={styles.image}>
-            <Image style={{ width: 70, height: 70 }} source={{ uri: environment.BASE_URL_BE_IMG + data.product?.image[0] }} />
+            <Image
+              style={{ width: 70, height: 70 }}
+              source={{
+                uri: environment.BASE_URL_BE_IMG + data.product?.image[0],
+              }}
+            />
           </View>
           <View style={styles.inforText}>
             <Text
@@ -170,76 +196,115 @@ const Pay = () => {
             >
               {data.product.name}
             </Text>
-            <Text style={{ paddingLeft: 10, paddingTop: 5 }}>Số lượng: {data.quantity}</Text>
             <Text style={{ paddingLeft: 10, paddingTop: 5 }}>
-              Phân loại: {productTypeSelected.type} {productTypeSelected.size}
+              <TextFormatted id="pay.quantity" /> : {data.quantity}
             </Text>
-            <Text style={{ paddingLeft: 10, paddingTop: 5 }}>{handleFormatMoney(data.productFee)}</Text>
+            <Text style={{ paddingLeft: 10, paddingTop: 5 }}>
+              <TextFormatted id="pay.classify" />: {productTypeSelected.type}{" "}
+              {productTypeSelected.size}
+            </Text>
+            <Text style={{ paddingLeft: 10, paddingTop: 5 }}>
+              {handleFormatMoney(data.productFee)}
+            </Text>
           </View>
         </View>
       </View>
 
       <View style={styles.voucher}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text>Hình thức vận chuyển</Text>
+          <Text>
+            <TextFormatted id="pay.transport" />
+          </Text>
         </View>
-      </View >
+      </View>
 
-      <TouchableOpacity TouchableOpacity onPress={handleOptionTransport} style={styles.transport} >
-        {
-          shipMethod ?
-            <>
-              <View style={styles.shipping}>
-                <Text style={{ fontWeight: 600 }}>{shipMethod.method}</Text>
-                <Text style={{ paddingLeft: 150 }}>{handleFormatMoney(shipMethod.cost)}</Text>
-              </View>
-              <View>
-                <Text style={{ paddingVertical: 10, fontWeight: 300 }}>
-                  Stand Express
-                </Text>
-                <Text style={{ fontWeight: 300 }}>
-                  Nhận trả ngày {shipMethod.date}
-                </Text>
-              </View>
-            </>
-            :
-            <View style={{ justifyContent: "center" }}>
-              <Text >Chọn</Text>
+      <TouchableOpacity
+        TouchableOpacity
+        onPress={handleOptionTransport}
+        style={styles.transport}
+      >
+        {shipMethod ? (
+          <>
+            <View style={styles.shipping}>
+              <Text style={{ fontWeight: 600 }}>{shipMethod.method}</Text>
+              <Text style={{ paddingLeft: 150 }}>
+                {handleFormatMoney(shipMethod.cost)}
+              </Text>
             </View>
-        }
-
+            <View>
+              <Text style={{ paddingVertical: 10, fontWeight: 300 }}>
+                Stand Express
+              </Text>
+              <Text style={{ fontWeight: 300 }}>
+                <TextFormatted id="pay.receive" /> {shipMethod.date}
+              </Text>
+            </View>
+          </>
+        ) : (
+          <View style={{ justifyContent: "center" }}>
+            <Text>
+              <TextFormatted id="pay.select" />
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
       <View style={styles.voucher}>
         <View style={styles.pay}>
           <Fontisto name="paypal" size={20} color="#ff7337" />
-          <TouchableOpacity onPress={handleOptionVouchers} style={styles.optionVoucher}>
-            <Text style={{ color: "red" }}>Chọn voucher</Text>
+          <TouchableOpacity
+            onPress={handleOptionVouchers}
+            style={styles.optionVoucher}
+          >
+            <Text style={{ color: "red" }}>
+              <TextFormatted id="pay.voucher" />
+            </Text>
             <AntDesign name="right" size={20} color="red" />
           </TouchableOpacity>
         </View>
-        {
-          Object.keys(vouchers).map(item => {
-            if (vouchers[item]?.discount !== undefined) {
-              return (
-                <View style={styles.method}>
-                  <Text>{item === "vanchuyen" ? (language === keyMap.EN ? "Ship" : "Vận chuyển") : (language === keyMap.EN ? "Discount" : "Giảm giá")}</Text>
-                  <Text
-                    style={{ fontSize: fontSize.h2, color: "red", fontWeight: 500 }}
-                  >
-                    {language === keyMap.EN ? `Discount ${vouchers[item]?.discount} with minimum order ${handleFormatMoney(vouchers[item]?.conditionsPrice)}` : `Giảm ${vouchers[item]?.discount} với đơn tối thiểu ${handleFormatMoney(vouchers[item]?.conditionsPrice)}`}
-                  </Text>
-                </View>
-              )
-            }
-          })
-        }
-
+        {Object.keys(vouchers).map((item) => {
+          if (vouchers[item]?.discount !== undefined) {
+            return (
+              <View style={styles.method}>
+                <Text>
+                  {item === "vanchuyen"
+                    ? language === keyMap.EN
+                      ? "Ship"
+                      : "Vận chuyển"
+                    : language === keyMap.EN
+                    ? "Discount"
+                    : "Giảm giá"}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: fontSize.h2,
+                    color: "red",
+                    fontWeight: 500,
+                  }}
+                >
+                  {language === keyMap.EN
+                    ? `Discount ${
+                        vouchers[item]?.discount
+                      } with minimum order ${handleFormatMoney(
+                        vouchers[item]?.conditionsPrice
+                      )}`
+                    : `Giảm ${
+                        vouchers[item]?.discount
+                      } với đơn tối thiểu ${handleFormatMoney(
+                        vouchers[item]?.conditionsPrice
+                      )}`}
+                </Text>
+              </View>
+            );
+          }
+        })}
       </View>
       <View style={styles.payLoad}>
         <View style={styles.pay}>
           <Fontisto name="paypal" size={20} color="#ff7337" />
           <TouchableOpacity style={styles.optionPay} onPress={handlePayMethods}>
-            <Text style={{ color: "red" }}>Chọn phương thức thanh toán</Text>
+            <Text style={{ color: "red" }}>
+              <TextFormatted id="pay.payment" />
+            </Text>
             <AntDesign name="right" size={20} color="red" />
           </TouchableOpacity>
         </View>
@@ -247,39 +312,54 @@ const Pay = () => {
           <Text
             style={{ fontSize: fontSize.h2, color: "red", fontWeight: 500 }}
           >
-            {
-              language === keyMap.EN ? methodPay.nameEN : methodPay.nameVI
-            }
+            {language === keyMap.EN ? methodPay.nameEN : methodPay.nameVI}
           </Text>
         </View>
       </View>
 
       <View style={styles.receipt}>
         <Text style={{ fontSize: fontSize.h2, fontWeight: 600 }}>
-          Chi tiết thanh toán
+          <TextFormatted id="pay.details" />
         </Text>
         <View style={styles.sum}>
-          <Text>Tổng tiền hàng</Text>
+          <Text>
+            <TextFormatted id="pay.total" />
+          </Text>
           <Text style={{ paddingRight: 30 }}>
-            <Text style={{ textDecorationLine: 'line-through' }}>{productPrice !== data?.productFee ? handleFormatMoney(data?.productFee) : ''}</Text> {handleFormatMoney(productPrice)}
+            <Text style={{ textDecorationLine: "line-through" }}>
+              {productPrice !== data?.productFee
+                ? handleFormatMoney(data?.productFee)
+                : ""}
+            </Text>{" "}
+            {handleFormatMoney(productPrice)}
           </Text>
         </View>
         <View style={styles.sum}>
-          <Text>Tổng tiền phí vận chuyển</Text>
-          <Text style={{ paddingRight: 30 }}><Text style={{ textDecorationLine: 'line-through' }}>{vouchers.vanchuyen ? handleFormatMoney(shipMethod?.cost) : ""}</Text>  {handleFormatMoney(calShipPrice(shipMethod, vouchers))}</Text>
+          <Text>
+            <TextFormatted id="pay.ship" />
+          </Text>
+          <Text style={{ paddingRight: 30 }}>
+            <Text style={{ textDecorationLine: "line-through" }}>
+              {vouchers.vanchuyen ? handleFormatMoney(shipMethod?.cost) : ""}
+            </Text>{" "}
+            {handleFormatMoney(calShipPrice(shipMethod, vouchers))}
+          </Text>
         </View>
         <View style={styles.sum}>
           <Text style={{ fontSize: fontSize.h2, fontWeight: 500 }}>
-            Tổng thanh toán
+            <TextFormatted id="pay.totalpay" />
           </Text>
-          <Text style={{ paddingRight: 30 }}>{handleFormatMoney(productPrice + calShipPrice(shipMethod, vouchers))}</Text>
+          <Text style={{ paddingRight: 30 }}>
+            {handleFormatMoney(
+              productPrice + calShipPrice(shipMethod, vouchers)
+            )}
+          </Text>
         </View>
       </View>
       <TouchableOpacity style={styles.buyProduct} onPress={handleBuyProduct}>
         <Text style={{ textAlign: "center", color: "#ffffff" }}>Mua ngay</Text>
       </TouchableOpacity>
-
-    </ScrollView >
+    </ScrollView>
   );
 };
 
@@ -383,7 +463,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ff7337",
     borderRadius: 10,
   },
-
 });
 
 export default Pay;

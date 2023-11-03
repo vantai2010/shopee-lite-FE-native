@@ -13,9 +13,10 @@ import { useSelector } from "react-redux";
 import keyMap from "../../utils/constant/keyMap";
 import { createBankForUserService } from "../../service/appService";
 import { useNavigation } from "@react-navigation/native";
+import TextFormatted from "../../Components/TextFormatted/TextFormatted";
 const ChooseBank = () => {
-  const navigation = useNavigation()
-  const language = useSelector(state => state.app.language)
+  const navigation = useNavigation();
+  const language = useSelector((state) => state.app.language);
   const [accountNumber, setAccountNumber] = useState("");
   const [selectedBank, setSelectedBank] = useState("");
   const [passVerify, setPassVerify] = useState("");
@@ -25,8 +26,8 @@ const ChooseBank = () => {
     selectedBank: "",
     passVerify: "",
     rePassVerify: "",
-    result: ""
-  })
+    result: "",
+  });
   const banks = [
     "Ngân hàng ACB",
     "Ngân hàng TPBank",
@@ -44,63 +45,81 @@ const ChooseBank = () => {
   const handleCreateBank = async () => {
     if (!accountNumber) {
       setErrMess({
-        accountNumber: language === keyMap.EN ? "Please enter this field" : "Vui lòng nhập trường này",
+        accountNumber:
+          language === keyMap.EN
+            ? "Please enter this field"
+            : "Vui lòng nhập trường này",
         selectedBank: "",
         passVerify: "",
         rePassVerify: "",
-        result: ""
-      })
-      return
+        result: "",
+      });
+      return;
     }
     if (!passVerify) {
       setErrMess({
         accountNumber: "",
         selectedBank: "",
-        passVerify: language === keyMap.EN ? "Please enter this field" : "Vui lòng nhập trường này",
+        passVerify:
+          language === keyMap.EN
+            ? "Please enter this field"
+            : "Vui lòng nhập trường này",
         rePassVerify: "",
-        result: ""
-      })
-      return
+        result: "",
+      });
+      return;
     }
     if (!rePassVerify) {
       setErrMess({
         accountNumber: "",
         selectedBank: "",
         passVerify: "",
-        rePassVerify: language === keyMap.EN ? "Please enter this field" : "Vui lòng nhập trường này",
-        result: ""
-      })
-      return
+        rePassVerify:
+          language === keyMap.EN
+            ? "Please enter this field"
+            : "Vui lòng nhập trường này",
+        result: "",
+      });
+      return;
     }
     if (!selectedBank) {
       setErrMess({
         accountNumber: "",
-        selectedBank: language === keyMap.EN ? "Please enter this field" : "Vui lòng nhập trường này",
+        selectedBank:
+          language === keyMap.EN
+            ? "Please enter this field"
+            : "Vui lòng nhập trường này",
         passVerify: "",
         rePassVerify: "",
-        result: ""
-      })
-      return
+        result: "",
+      });
+      return;
     }
     if (isNaN(accountNumber)) {
       setErrMess({
-        accountNumber: language === keyMap.EN ? "This field is numberic" : "Trường này phải là số",
+        accountNumber:
+          language === keyMap.EN
+            ? "This field is numberic"
+            : "Trường này phải là số",
         selectedBank: "",
         passVerify: "",
         rePassVerify: "",
-        result: ""
-      })
-      return
+        result: "",
+      });
+      return;
     }
     if (!(accountNumber % 1 === 0)) {
       setErrMess({
-        accountNumber: language === keyMap.EN ? "This field is integer" : "Trường này phải là số nguyên",
+        accountNumber:
+          language === keyMap.EN
+            ? "This field is integer"
+            : "Trường này phải là số nguyên",
         selectedBank: "",
         passVerify: "",
         rePassVerify: "",
-        result: ""
-      })
-      return
+        result: "",
+      });
+      return;
     }
     if (passVerify !== rePassVerify) {
       if (isNaN(accountNumber)) {
@@ -108,10 +127,13 @@ const ChooseBank = () => {
           accountNumber: "",
           selectedBank: "",
           passVerify: "",
-          rePassVerify: language === keyMap.EN ? "The code entered is incorrect" : "Mã nhập lại không chính xác",
-          result: ""
-        })
-        return
+          rePassVerify:
+            language === keyMap.EN
+              ? "The code entered is incorrect"
+              : "Mã nhập lại không chính xác",
+          result: "",
+        });
+        return;
       }
     }
 
@@ -119,25 +141,26 @@ const ChooseBank = () => {
       numberBank: accountNumber,
       nameBank: selectedBank,
       passVerify: passVerify,
-    })
+    });
     if (response && response.errCode === 0) {
-      navigation.goBack()
+      navigation.goBack();
     } else {
       setErrMess({
         accountNumber: "",
         selectedBank: "",
         passVerify: "",
         rePassVerify: "",
-        result: language === keyMap.EN ? response.messageEN : response.messageVI
-      })
+        result:
+          language === keyMap.EN ? response.messageEN : response.messageVI,
+      });
     }
-
-  }
-
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Số Tài Khoản Ngân Hàng</Text>
+      <Text style={styles.label}>
+        <TextFormatted id="pay.bank" />
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Nhập số tài khoản ngân hàng"
@@ -147,7 +170,9 @@ const ChooseBank = () => {
       />
       <Text style={{ color: "red" }}>{errMess.accountNumber}</Text>
 
-      <Text style={styles.label}>Chọn Ngân Hàng</Text>
+      <Text style={styles.label}>
+        <TextFormatted id="pay.select" />
+      </Text>
       <Picker
         style={styles.input}
         selectedValue={selectedBank} // selectedBank giá trị được chọn hiện tại trong Picker
@@ -159,7 +184,9 @@ const ChooseBank = () => {
       </Picker>
       <Text style={{ color: "red" }}>{errMess.selectedBank}</Text>
 
-      <Text style={styles.label}>Mã xác nhận</Text>
+      <Text style={styles.label}>
+        <TextFormatted id="pay.verification" />
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Nhập mã xác nhận"
@@ -169,7 +196,9 @@ const ChooseBank = () => {
       />
       <Text style={{ color: "red" }}>{errMess.passVerify}</Text>
 
-      <Text style={styles.label}>Nhập lại Mã xác nhận</Text>
+      <Text style={styles.label}>
+        <TextFormatted id="pay.renter" />
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Nhập mã xác nhận"
@@ -182,7 +211,9 @@ const ChooseBank = () => {
       <View style={{ height: 150 }}></View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleCreateBank}>
-        <Text style={styles.buttonText}>Lưu</Text>
+        <Text style={styles.buttonText}>
+          <TextFormatted id="pay.save" />
+        </Text>
       </TouchableOpacity>
       {/* <ModalNotification
         isVisible={isModalVisibleCart}
@@ -214,7 +245,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ff7337",
     padding: 10,
     alignItems: "center",
-
   },
   buttonText: {
     color: "white",

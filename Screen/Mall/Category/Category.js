@@ -1,5 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import BackgroundIntro from "../Introduce/BackgroundIntro";
+import TextFormatted from "../../../Components/TextFormatted/TextFormatted";
 import {
   View,
   Text,
@@ -78,10 +79,14 @@ export default function Category() {
       <View style={styles.container}>
         <View style={styles.contentUp}>
           <View>
-            <Text style={styles.contentUpLeft}>Danh mục</Text>
+            <Text style={styles.contentUpLeft}>
+              <TextFormatted id="mall.category" />
+            </Text>
           </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.contentUpRight}>Tìm hiểu ngay</Text>
+            <Text style={styles.contentUpRight}>
+              <TextFormatted id="mall.find" />
+            </Text>
             <AntDesign name="right" size={13} color="black" />
           </View>
         </View>
@@ -112,8 +117,6 @@ export default function Category() {
     </>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {},
